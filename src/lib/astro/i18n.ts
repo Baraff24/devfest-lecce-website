@@ -1,456 +1,542 @@
-export const defaultLang = 'it'
+export const languages = ['it', 'en'] as const;
 
-export const languages = {
+export type Lang = (typeof languages)[number];
+
+export const defaultLang: Lang = 'it';
+
+export const langLabels: Record<Lang, string> = {
     it: 'Italiano',
     en: 'English',
-} as const
-
-export type Lang = keyof typeof languages
+};
 
 export const eventLinks = {
-    cfp: 'https://sessionize.com/devfest-lecce-2026/',
     gdg: 'https://gdg.community.dev/gdg-lecce/',
-    linkedin: 'https://www.linkedin.com/company/gdg-lecce',
+    cfp: 'https://sessionize.com/devfest-lecce-2026',
+    tickets: '#tickets',
+    calendar: 'https://gdg.community.dev/events/details/google-gdg-lecce-presents-devfest-lecce-2026/',
+    sponsorEmail: 'mailto:info@gdglecce.it?subject=Sponsor%20DevFest%20Lecce%202026',
     email: 'mailto:info@gdglecce.it',
-    devfest: 'https://developers.google.com/community/devfest',
-    gdgGlobal: 'https://developers.google.com/groups/',
-    wtm: 'https://developers.google.com/womentechmakers',
-}
-
-export function isLang(value: string | undefined): value is Lang {
-    return !!value && Object.keys(languages).includes(value)
-}
-
-export function getLangFromUrl(url: URL): Lang {
-    const [, lang] = url.pathname.split('/')
-    return isLang(lang) ? lang : defaultLang
-}
-
-export function localizedStaticPaths() {
-    return Object.keys(languages).map(lang => ({ params: { lang } }))
-}
-
-export function routePath(lang: Lang, path = '') {
-    const cleanPath = path.replace(/^\/+|\/+$/g, '')
-    return cleanPath ? `/${lang}/${cleanPath}` : `/${lang}/`
-}
-
-export function switchLangPath(pathname: string, nextLang: Lang) {
-    const segments = pathname.split('/').filter(Boolean)
-
-    if (isLang(segments[0])) {
-        segments.shift()
-    }
-
-    return routePath(nextLang, segments.join('/'))
-}
+    phone: 'tel:+393394311707',
+    linkedin: 'https://www.linkedin.com/company/gdg-lecce',
+    instagram: 'https://www.instagram.com/gdg_lecce',
+    directions: 'https://www.google.com/maps/dir//Studium+2000,+Via+di+Valesio,+Lecce',
+};
 
 export const content = {
     it: {
-        site: {
+        meta: {
             title: 'DevFest Lecce 2026',
             description:
-                'DevFest Lecce 2026 è la conferenza tech community-driven organizzata da GDG Lecce: una giornata di talk, workshop e networking il 17 ottobre 2026 a Lecce.',
+                'DevFest Lecce 2026, la conferenza tech GDG Lecce dedicata ad AI, Web, Mobile, Cloud, Cybersecurity, Data Science e community.',
         },
         nav: {
+            home: 'Home',
             speakers: 'Speaker',
             schedule: 'Agenda',
             news: 'News',
             iwd: 'Inclusione',
             location: 'Dove',
-            team: 'Team',
-        },
-        common: {
-            comingSoon: 'In arrivo',
-            learnMore: 'Scopri di più',
-            viewCfp: 'Vedi la Call for Speakers',
-            contactUs: 'Contattaci',
-            newsletter: 'Segui GDG Lecce',
+            about: 'Chi siamo',
+            cta: 'Biglietti',
         },
         footer: {
-            social: 'Social',
-            about: 'Info',
+            description:
+                'DevFest Lecce 2026 è organizzata da GDG Lecce: una giornata per imparare, condividere e creare relazioni nella community tech salentina.',
             community: 'Community',
             resources: 'Risorse',
-            gdgLecce: 'GDG Lecce',
-            gdg: 'Google Developer Groups',
-            devfest: 'DevFest',
-            gdgPlatform: 'Pagina community GDG Lecce',
-            codeOfConduct: 'Codice di condotta',
-            faq: 'FAQ',
-            madeBy: 'Realizzato dalla community GDG Lecce',
-            copyright: 'GDG Lecce 2026',
+            follow: 'Seguici',
+            about: 'Chi siamo',
+            contact: 'Contatti',
         },
         home: {
-            hero: {
-                title: 'DevFest Lecce 2026',
-                subtitle: '17 ottobre 2026 - Lecce, Italia',
-                motto: '// Community, codice e futuro nel Salento',
-                primaryCta: 'Segui gli aggiornamenti',
-                secondaryCta: 'Call for Speakers',
-                logoAlt: 'Logo DevFest Lecce 2026',
-            },
+            heroEyebrow: 'GDG Lecce presenta',
+            heroTitle: 'DevFest Lecce 2026',
+            heroSubtitle:
+                'Una giornata intera dedicata a sviluppatori, designer, studenti e professionisti tech che vogliono imparare, confrontarsi e costruire relazioni reali.',
+            heroDate: 'Sabato 17 ottobre 2026',
+            heroLocation: 'Studium 2000, Universita del Salento',
+            primaryCta: 'Prenota il tuo posto',
+            secondaryCta: 'Proponi un talk',
+            announcementTitle: 'DevFest Lecce sta arrivando',
+            announcementText:
+                'Il programma ruotera intorno a Intelligenza Artificiale, Web & Mobile Development, Cloud, Cybersecurity, Data Science e Soft Skills.',
+            statsIntro: 'Nell edizione precedente',
+            stats: [
+                { value: '350', label: 'Partecipanti' },
+                { value: '26', label: 'Speaker' },
+                { value: '8', label: 'Sponsor' },
+                { value: '9', label: 'Partner' },
+                { value: '1542', label: 'Challenge completate' },
+            ],
             tickets: {
-                title: 'Registrazioni',
-                body: "I biglietti non sono ancora pubblicati. Segui GDG Lecce per ricevere l'annuncio appena le registrazioni saranno aperte.",
-                cta: 'Segui GDG Lecce',
+                title: 'Biglietti',
+                subtitle:
+                    'L ingresso sara gratuito. Le registrazioni apriranno qui non appena finalizzeremo programma e capienza.',
+                badge: 'Coming soon',
+                cta: 'Seguici su GDG Lecce',
             },
             cfp: {
-                title: 'Call for Speakers',
-                badge: 'Chiusa',
-                body: [
-                    'La Call for Speakers di DevFest Lecce 2026 si è chiusa il 31 luglio 2026. Il team sta lavorando alla selezione del programma.',
-                    'Le sessioni possono essere in italiano o in inglese, con talk da 45 minuti, workshop hands-on e lightning talk.',
-                ],
-                cta: 'Pagina Sessionize',
+                title: 'Call for Speaker aperta',
+                subtitle:
+                    'Hai un esperienza, una demo o una storia utile alla community? Invia la tua proposta per DevFest Lecce 2026.',
+                cta: 'Invia proposta',
             },
-            intro: {
-                title: 'DevFest Lecce sta arrivando',
-                body: [
-                    'Una giornata intera dedicata a sviluppatori, designer, studenti e professionisti tech che vogliono imparare, confrontarsi e costruire relazioni reali.',
-                    'Il programma ruoterà intorno a Intelligenza Artificiale, Web & Mobile Development, Cloud, Cybersecurity, Data Science e Soft Skills.',
+            sponsors: {
+                title: 'Call for Sponsor',
+                intro: [
+                    'Sostenere DevFest Lecce significa investire nella crescita tech del territorio e posizionare il proprio brand davanti a una platea qualificata di sviluppatori, studenti e professionisti.',
+                    "Offriamo quattro livelli di sponsorizzazione, pensati per esigenze e budget diversi, oltre a un'opzione dedicata al recruiting: TalentConnect.",
+                    "Tutti i contributi coprono esclusivamente i costi dell'evento: location, catering, materiali e ospitalita speaker, permettendoci di mantenere l ingresso gratuito ai partecipanti.",
                 ],
-                cta: 'Scopri la community',
+                cta: 'Diventa sponsor',
+                logoTitle: 'Sponsor',
+                logoEmpty: 'Sponsor in arrivo',
+                tierLabels: {
+                    platinum: 'Platinum',
+                    gold: 'Gold',
+                    silver: 'Silver',
+                    bronze: 'Bronze',
+                },
+                tiers: [
+                    {
+                        name: 'Bronze',
+                        contribution: '250 euro',
+                        description: 'Supporto semplice e visibilita base.',
+                        perks: ['Logo sul sito ufficiale', 'Logo sui social GDG Lecce', 'Menzione nel post di ringraziamento'],
+                    },
+                    {
+                        name: 'Silver',
+                        contribution: '500 euro',
+                        description: "Visibilita dedicata prima e durante l'evento.",
+                        perks: ['Tutti i benefit Bronze', 'Post social dedicato', 'Materiale promozionale nella welcome bag'],
+                    },
+                    {
+                        name: 'Gold',
+                        contribution: '1.000 euro',
+                        description: 'Presenza fisica e brand sui materiali ufficiali.',
+                        perks: ['Tutti i benefit Silver', "Stand per tutta la durata dell'evento", 'Accesso a TalentConnect'],
+                    },
+                    {
+                        name: 'Platinum',
+                        contribution: '2.000 euro',
+                        description: 'Massima visibilita.',
+                        perks: [
+                            'Tutti i benefit Gold',
+                            'Logo su magliette, welcome bag e materiali stampati',
+                            'Keynote di chiusura in plenaria',
+                            'After party brandizzato',
+                        ],
+                    },
+                ],
+                talentConnectTitle: 'TalentConnect',
+                talentConnectText:
+                    'TalentConnect facilita il contatto tra aziende e professionisti tech. I partecipanti potranno inviare il CV tramite form e, durante DevFest, sara attivo un desk dedicato. I CV saranno riservati agli sponsor Gold e Platinum.',
             },
-            stats: [
-                { value: '1', label: 'giornata community' },
-                { value: '6', label: 'aree tematiche' },
-                { value: 'IT/EN', label: 'lingue benvenute' },
-                { value: '100%', label: 'energia GDG' },
+        },
+        about: {
+            title: 'Chi siamo',
+            intro:
+                'GDG Lecce e DevFest Lecce nascono per far crescere l ecosistema tecnologico del territorio e connetterlo con il resto d Italia.',
+            sections: [
+                {
+                    title: 'Google Developer Group Lecce',
+                    text: 'Google Developer Group Lecce e una community indipendente e no-profit di sviluppatori, studenti e professionisti del tech. Organizziamo talk, workshop e momenti di networking aperti a tutti, con l obiettivo di far crescere l ecosistema tecnologico del territorio e connetterlo con il resto d Italia. Siamo parte del network globale dei Google Developer Groups, presente in oltre 100 paesi.',
+                },
+                {
+                    title: "Cos'e DevFest",
+                    text: "DevFest e il piu grande festival tech organizzato dalle community GDG in tutto il mondo. DevFest Lecce ne e l edizione salentina: una giornata di talk, workshop e hackathon su AI, Web & Mobile, Cloud, Cybersecurity, Data Science e Soft Skills. Un occasione unica nel Sud Italia per imparare dai migliori speaker nazionali e internazionali, fare networking e incontrare le aziende del settore.",
+                },
+                {
+                    title: 'DevFest Lecce 2026',
+                    text: 'DevFest Lecce 2026 si terra sabato 17 ottobre 2026 a Lecce, presso Studium 2000, Universita del Salento. Sono attesi oltre 20 talk e piu di 500 partecipanti.',
+                },
             ],
-            topicsTitle: 'Aree tematiche',
-            topics: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
-            partners: {
-                title: 'Partner e sponsor',
-                body: 'Le partnership per DevFest Lecce 2026 sono in definizione. Per collaborazioni, sponsorship o community partnership puoi scrivere al team GDG Lecce.',
-                cta: 'Scrivi a GDG Lecce',
-            },
+            facts: [
+                { label: 'Quando', value: 'Sabato 17 ottobre 2026' },
+                { label: 'Dove', value: 'Studium 2000, Lecce' },
+                { label: 'Talk attesi', value: '20+' },
+                { label: 'Partecipanti attesi', value: '500+' },
+            ],
+            activitiesTitle: 'Attivita previste',
+            activities: [
+                { title: 'Talk', text: 'Sessioni frontali con speaker esperti sui temi piu attuali del tech.' },
+                { title: 'Workshop', text: 'Sessioni pratiche hands-on in gruppi ristretti.' },
+                { title: 'Lightning Talk', text: 'Interventi rapidi e ad alta densita.' },
+                { title: 'Hackathon', text: 'Una sfida a squadre per mettere in pratica le competenze.' },
+                { title: 'Area Networking', text: 'Momenti di scambio tra partecipanti, speaker e aziende.' },
+                { title: 'Area svago', text: "Spazi relax e gaming per staccare tra una sessione e l'altra." },
+                { title: 'After party', text: 'Chiusura in festa per continuare il networking in un contesto informale.' },
+            ],
         },
         speakers: {
             title: 'Speaker',
-            body: 'La selezione degli speaker è in corso dopo la chiusura della Call for Speakers. Pubblicheremo qui il lineup appena il programma sarà confermato.',
-            cards: ['Talk tecnici e casi reali', 'Workshop pratici da 60-90 minuti', 'Lightning talk da 10-15 minuti'],
+            subtitle:
+                'La line-up di DevFest Lecce 2026 sara pubblicata dopo la selezione della Call for Speaker.',
+            emptyTitle: 'Speaker in arrivo',
+            emptyText:
+                'Stiamo costruendo un programma con voci nazionali e internazionali su AI, sviluppo, cloud, sicurezza, dati e competenze trasversali.',
+            cfpTitle: 'Vuoi salire sul palco?',
+            cfpText: 'La Call for Speaker e aperta su Sessionize.',
+            cfpCta: 'Invia la tua proposta',
         },
         schedule: {
             title: 'Agenda',
-            body: "L'agenda ufficiale di DevFest Lecce 2026 sarà pubblicata dopo la review delle proposte. Per ora puoi tenere libero il 17 ottobre 2026: sarà una giornata piena di sessioni tecniche, workshop e networking.",
-            cards: ['Talk da 45 minuti', 'Workshop hands-on', 'Networking e momenti community'],
+            subtitle:
+                'Il programma completo sara pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attivita.',
+            emptyTitle: 'Agenda in preparazione',
+            emptyText:
+                'Aspettati una giornata piena di sessioni tecniche, workshop pratici, networking e momenti community.',
+            cfpCta: 'Proponi un talk',
         },
         news: {
             title: 'News',
-            shareText: 'Leggi questa news su DevFest Lecce 2026.',
+            subtitle:
+                'Aggiornamenti, annunci e storie dalla community arriveranno qui durante il percorso verso DevFest Lecce 2026.',
+            emptyTitle: 'Nessuna news pubblicata',
+            emptyText: 'Torna presto per novita su biglietti, programma e sponsor.',
+        },
+        iwd: {
+            title: 'Inclusione',
+            subtitle:
+                'DevFest Lecce vuole essere uno spazio aperto, accogliente e rispettoso per tutte le persone.',
+            cards: [
+                {
+                    title: 'Community aperta',
+                    text: 'Talk, workshop e networking sono pensati per studenti, professionisti, designer, developer e persone curiose di tecnologia.',
+                },
+                {
+                    title: 'Relazioni reali',
+                    text: 'L evento mette al centro confronto, mentoring e connessioni che continuano oltre la giornata della conferenza.',
+                },
+                {
+                    title: 'Codice di condotta',
+                    text: 'Ogni partecipante, speaker, volontario e sponsor e tenuto a rispettare il nostro codice di condotta.',
+                },
+            ],
         },
         location: {
             title: 'Dove',
-            heroTitle: 'Lecce, Italia',
-            venueName: 'Venue in arrivo',
-            venueAddress: 'La sede definitiva sarà annunciata da GDG Lecce.',
-            mapCta: 'Apri la mappa',
-            infoTitle: 'Informazioni sulla sede',
-            info: [
-                'DevFest Lecce 2026 si terrà a Lecce il 17 ottobre 2026. La venue ufficiale non è ancora stata pubblicata, quindi il sito mostra la città senza indicare un indirizzo non confermato.',
-                "Appena la sede sarà annunciata, questa pagina potrà includere indirizzo, mappa precisa, accessibilità e indicazioni per raggiungere l'evento.",
-            ],
-            findUs: 'Trova Lecce',
-            mapTitle: 'Lecce',
+            heroTitle: 'Studium 2000, Universita del Salento',
+            subtitle:
+                'DevFest Lecce 2026 si terra sabato 17 ottobre 2026 nel complesso Studium 2000 dell Universita del Salento.',
+            venueName: 'Studium 2000 - Universita del Salento',
+            venueAddress: 'Via di Valesio, angolo Viale San Nicola, 73100 Lecce',
+            mapTitle: 'Studium 2000',
             mapText:
-                'La mappa punta al centro di Lecce come riferimento temporaneo fino alla pubblicazione della venue ufficiale.',
-            directionsTitle: 'Come arrivare',
-            trainTitle: 'In treno',
-            train: 'Lecce è servita da collegamenti ferroviari regionali e nazionali. Una volta annunciata la sede, aggiungeremo il percorso più comodo dalla stazione.',
-            planeTitle: 'In aereo',
-            plane: "L'aeroporto più vicino è Brindisi, collegato a Lecce tramite servizi bus e transfer. I dettagli saranno raffinati quando la venue sarà ufficiale.",
-            carTitle: 'In auto',
-            car: 'Lecce è raggiungibile dalle principali direttrici stradali del Salento. Le indicazioni parcheggio saranno aggiunte insieme alla sede.',
-        },
-        team: {
-            title: 'Team',
-            body: 'DevFest Lecce 2026 è organizzato da GDG Lecce, la community locale dei Google Developer Groups.',
-            organizers: [
-                { name: 'Martino Scarcia', role: 'GDG Organizer' },
-                { name: 'Raffaele Grieco', role: 'GDG Organizer' },
+                'Il complesso si trova in Via di Valesio, vicino al centro storico di Lecce e raggiungibile dalla stazione e dalle principali direttrici cittadine.',
+            mapCta: 'Apri indicazioni',
+            directions: [
+                {
+                    title: 'In treno',
+                    text: 'La stazione di Lecce collega la citta con Bari, Brindisi e le principali destinazioni nazionali.',
+                },
+                {
+                    title: 'In aereo',
+                    text: "L'aeroporto di Brindisi e lo scalo piu vicino, con collegamenti shuttle e treno verso Lecce.",
+                },
+                {
+                    title: 'In citta',
+                    text: 'Studium 2000 e vicino al centro storico e puo essere raggiunto con mezzi pubblici, taxi o percorsi pedonali.',
+                },
             ],
-        },
-        iwd: {
-            title: 'Inclusione e community',
-            introTitle: 'Una community aperta',
-            intro: [
-                'DevFest è uno spazio per imparare e crescere insieme. Inclusione, rispetto e rappresentazione sono parte del modo in cui vogliamo costruire la community tech locale.',
-                "L'ecosistema Women Techmakers ispira molte iniziative GDG nel mondo: visibilità, community e risorse per rendere il settore tech più accessibile.",
-            ],
-            themeTitle: 'Break the Pattern',
-            theme: [
-                'Rompere il pattern significa smettere di accettare le cose solo perché sono sempre state così.',
-                'Anche a DevFest Lecce vogliamo portare questo spirito: più voci, più percorsi, più possibilità per chi costruisce tecnologia.',
-            ],
-            cta: 'Scopri Women Techmakers',
         },
         faq: {
             title: 'FAQ',
-            intro: 'Alcune risposte rapide su DevFest Lecce 2026. Aggiorneremo questa pagina man mano che programma, biglietti e venue saranno confermati.',
             items: [
                 {
-                    q: 'Quando si terrà DevFest Lecce 2026?',
-                    a: 'DevFest Lecce 2026 si terrà il 17 ottobre 2026 a Lecce, Italia.',
+                    question: 'Quando si terra DevFest Lecce 2026?',
+                    answer: 'Sabato 17 ottobre 2026 a Lecce, presso Studium 2000, Universita del Salento.',
                 },
                 {
-                    q: 'Le registrazioni sono aperte?',
-                    a: "Non ancora. Segui GDG Lecce per ricevere l'annuncio appena i biglietti saranno disponibili.",
+                    question: 'I biglietti sono disponibili?',
+                    answer: "Non ancora. L ingresso sara gratuito e le registrazioni apriranno piu avanti.",
                 },
                 {
-                    q: 'La Call for Speakers è aperta?',
-                    a: 'No. La Call for Speakers si è chiusa il 31 luglio 2026 su Sessionize.',
-                },
-                {
-                    q: 'Le sessioni saranno in italiano o inglese?',
-                    a: 'Entrambe le lingue sono benvenute. Le sessioni saranno indicate chiaramente nel programma.',
-                },
-                {
-                    q: "Dove si svolgerà l'evento?",
-                    a: 'La venue ufficiale non è ancora pubblicata. Questa pagina verrà aggiornata appena GDG Lecce confermerà la sede.',
+                    question: 'Posso candidarmi come speaker?',
+                    answer: 'Si. La Call for Speaker e aperta su Sessionize.',
                 },
             ],
         },
         coc: {
             title: 'Codice di condotta',
-            sections: [
-                {
-                    title: 'Introduzione',
-                    body: [
-                        "GDG Lecce DevFest 2026 si impegna a offrire un'esperienza inclusiva e libera da molestie per ogni partecipante, indipendentemente da identità o espressione di genere, orientamento sessuale, disabilità, neurodiversità, aspetto fisico, corporatura, etnia, nazionalità, età, religione o altre caratteristiche personali.",
-                        'Non tolleriamo molestie in alcuna forma. Le violazioni saranno prese seriamente e gestite in modo appropriato dal team organizzatore.',
-                    ],
-                },
-                {
-                    title: 'Policy',
-                    body: [
-                        "Trattiamo ogni persona con rispetto. Partecipiamo riconoscendo che tutte e tutti hanno diritto a vivere l'evento senza molestie, discriminazioni o comportamenti condiscendenti.",
-                        "Se noti o subisci un comportamento non appropriato, contatta subito una persona dello staff. Il team potrà prendere le misure necessarie, incluso l'allontanamento dall'evento.",
-                    ],
-                },
-                {
-                    title: 'Segnalazioni',
-                    body: [
-                        "Per segnalare un incidente cerca una persona dello staff durante l'evento oppure contatta GDG Lecce tramite i canali ufficiali.",
-                    ],
-                },
-                {
-                    title: 'Attribuzione',
-                    body: [
-                        'Questa policy è basata su linee guida di community internazionali, tra cui ConfCodeofConduct.com, Geek Feminism Wiki e altri codici di condotta open community.',
-                    ],
-                },
-            ],
+            description:
+                'Tutti gli eventi GDG seguono linee guida pensate per garantire un ambiente rispettoso e sicuro.',
+            cta: 'Leggi il codice GDG',
         },
         notFound: {
-            title: '404 - Pagina non trovata',
-            subtitle: 'Route non trovata',
-            home: 'Torna alla home',
+            title: 'Pagina non trovata',
+            text: 'Questa pagina non esiste o e stata spostata.',
+            cta: 'Torna alla home',
         },
     },
     en: {
-        site: {
+        meta: {
             title: 'DevFest Lecce 2026',
             description:
-                'DevFest Lecce 2026 is the community-driven tech conference organized by GDG Lecce: one day of talks, workshops, and networking on October 17, 2026 in Lecce, Italy.',
+                'DevFest Lecce 2026, the GDG Lecce tech conference for AI, Web, Mobile, Cloud, Cybersecurity, Data Science and community.',
         },
         nav: {
+            home: 'Home',
             speakers: 'Speakers',
             schedule: 'Schedule',
             news: 'News',
             iwd: 'Inclusion',
-            location: 'Location',
-            team: 'Team',
-        },
-        common: {
-            comingSoon: 'Coming soon',
-            learnMore: 'Learn more',
-            viewCfp: 'View Call for Speakers',
-            contactUs: 'Contact us',
-            newsletter: 'Follow GDG Lecce',
+            location: 'Venue',
+            about: 'About',
+            cta: 'Tickets',
         },
         footer: {
-            social: 'Social',
-            about: 'About',
+            description:
+                'DevFest Lecce 2026 is organized by GDG Lecce: a full day to learn, share and build relationships in the local tech community.',
             community: 'Community',
             resources: 'Resources',
-            gdgLecce: 'GDG Lecce',
-            gdg: 'Google Developer Groups',
-            devfest: 'DevFest',
-            gdgPlatform: 'GDG Lecce community page',
-            codeOfConduct: 'Code of Conduct',
-            faq: 'FAQs',
-            madeBy: 'Made by the GDG Lecce community',
-            copyright: 'GDG Lecce 2026',
+            follow: 'Follow us',
+            about: 'About',
+            contact: 'Contact',
         },
         home: {
-            hero: {
-                title: 'DevFest Lecce 2026',
-                subtitle: 'October 17, 2026 - Lecce, Italy',
-                motto: '// Community, code, and future in Salento',
-                primaryCta: 'Follow updates',
-                secondaryCta: 'Call for Speakers',
-                logoAlt: 'DevFest Lecce 2026 logo',
-            },
+            heroEyebrow: 'GDG Lecce presents',
+            heroTitle: 'DevFest Lecce 2026',
+            heroSubtitle:
+                'A full day for developers, designers, students and tech professionals who want to learn, exchange ideas and build real connections.',
+            heroDate: 'Saturday, October 17, 2026',
+            heroLocation: 'Studium 2000, University of Salento',
+            primaryCta: 'Reserve your seat',
+            secondaryCta: 'Submit a talk',
+            announcementTitle: 'DevFest Lecce is coming',
+            announcementText:
+                'The program will focus on Artificial Intelligence, Web & Mobile Development, Cloud, Cybersecurity, Data Science and Soft Skills.',
+            statsIntro: 'Previous edition',
+            stats: [
+                { value: '350', label: 'Attendees' },
+                { value: '26', label: 'Speakers' },
+                { value: '8', label: 'Sponsors' },
+                { value: '9', label: 'Partners' },
+                { value: '1542', label: 'Challenges completed' },
+            ],
             tickets: {
-                title: 'Registration',
-                body: 'Tickets have not been published yet. Follow GDG Lecce to get the announcement as soon as registration opens.',
+                title: 'Tickets',
+                subtitle:
+                    'Admission will be free. Registration will open here as soon as the program and capacity are finalized.',
+                badge: 'Coming soon',
                 cta: 'Follow GDG Lecce',
             },
             cfp: {
-                title: 'Call for Speakers',
-                badge: 'Closed',
-                body: [
-                    'The DevFest Lecce 2026 Call for Speakers closed on July 31, 2026. The team is now reviewing proposals and shaping the program.',
-                    'Sessions can be delivered in Italian or English, including 45-minute talks, hands-on workshops, and lightning talks.',
-                ],
-                cta: 'Sessionize page',
+                title: 'Call for Speakers is open',
+                subtitle:
+                    'Have an experience, demo or useful story for the community? Send your proposal for DevFest Lecce 2026.',
+                cta: 'Submit a talk',
             },
-            intro: {
-                title: 'DevFest Lecce is coming',
-                body: [
-                    'A full day for developers, designers, students, and tech professionals who want to learn, exchange ideas, and build real community connections.',
-                    'The program will focus on Artificial Intelligence, Web & Mobile Development, Cloud, Cybersecurity, Data Science, and Soft Skills.',
+            sponsors: {
+                title: 'Call for Sponsors',
+                intro: [
+                    'Supporting DevFest Lecce means investing in the growth of the local tech ecosystem and positioning your brand in front of a qualified audience of developers, students and professionals.',
+                    'We offer four sponsorship levels, designed for different needs and budgets, plus a recruiting-focused option: TalentConnect.',
+                    'All contributions cover event costs only: venue, catering, materials and speaker hospitality, helping us keep admission free for attendees.',
                 ],
-                cta: 'Meet the community',
+                cta: 'Become a sponsor',
+                logoTitle: 'Sponsors',
+                logoEmpty: 'Sponsors coming soon',
+                tierLabels: {
+                    platinum: 'Platinum',
+                    gold: 'Gold',
+                    silver: 'Silver',
+                    bronze: 'Bronze',
+                },
+                tiers: [
+                    {
+                        name: 'Bronze',
+                        contribution: '250 euro',
+                        description: 'Simple support and basic visibility.',
+                        perks: ['Logo on the official website', 'Logo on GDG Lecce social channels', 'Mention in the thank-you post'],
+                    },
+                    {
+                        name: 'Silver',
+                        contribution: '500 euro',
+                        description: 'Dedicated visibility before and during the event.',
+                        perks: ['All Bronze benefits', 'Dedicated social post', 'Promotional material in the welcome bag'],
+                    },
+                    {
+                        name: 'Gold',
+                        contribution: '1,000 euro',
+                        description: 'On-site presence and brand visibility on official materials.',
+                        perks: ['All Silver benefits', 'Stand for the full event', 'Access to TalentConnect'],
+                    },
+                    {
+                        name: 'Platinum',
+                        contribution: '2,000 euro',
+                        description: 'Maximum visibility.',
+                        perks: [
+                            'All Gold benefits',
+                            'Logo on official t-shirts, welcome bags and printed materials',
+                            'Closing keynote in the plenary room',
+                            'Branded after party',
+                        ],
+                    },
+                ],
+                talentConnectTitle: 'TalentConnect',
+                talentConnectText:
+                    'TalentConnect helps companies connect with tech professionals. Attendees will be able to submit their CV through a form and a dedicated desk will be active during DevFest. CV access is reserved for Gold and Platinum sponsors.',
             },
-            stats: [
-                { value: '1', label: 'community day' },
-                { value: '6', label: 'topic areas' },
-                { value: 'IT/EN', label: 'languages welcome' },
-                { value: '100%', label: 'GDG energy' },
+        },
+        about: {
+            title: 'About',
+            intro:
+                'GDG Lecce and DevFest Lecce exist to grow the local tech ecosystem and connect it with the rest of Italy.',
+            sections: [
+                {
+                    title: 'Google Developer Group Lecce',
+                    text: 'Google Developer Group Lecce is an independent, non-profit community of developers, students and tech professionals. We organize talks, workshops and networking moments open to everyone, with the goal of growing the local technology ecosystem and connecting it with the rest of Italy. We are part of the global Google Developer Groups network, active in more than 100 countries.',
+                },
+                {
+                    title: 'What DevFest is',
+                    text: "DevFest is the largest tech festival organized by GDG communities around the world. DevFest Lecce is its Salento edition: a day of talks, workshops and hackathons on AI, Web & Mobile, Cloud, Cybersecurity, Data Science and Soft Skills. It is a unique opportunity in Southern Italy to learn from top national and international speakers, network and meet companies in the field.",
+                },
+                {
+                    title: 'DevFest Lecce 2026',
+                    text: 'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 in Lecce, at Studium 2000, University of Salento. We expect more than 20 talks and over 500 attendees.',
+                },
             ],
-            topicsTitle: 'Topic areas',
-            topics: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
-            partners: {
-                title: 'Partners and sponsors',
-                body: 'Partnerships for DevFest Lecce 2026 are being defined. For sponsorships, collaborations, or community partnerships, you can reach the GDG Lecce team.',
-                cta: 'Email GDG Lecce',
-            },
+            facts: [
+                { label: 'When', value: 'Saturday, October 17, 2026' },
+                { label: 'Where', value: 'Studium 2000, Lecce' },
+                { label: 'Expected talks', value: '20+' },
+                { label: 'Expected attendees', value: '500+' },
+            ],
+            activitiesTitle: 'Planned activities',
+            activities: [
+                { title: 'Talks', text: 'Front-facing sessions with expert speakers on the most current tech topics.' },
+                { title: 'Workshops', text: 'Hands-on practical sessions in smaller groups.' },
+                { title: 'Lightning Talks', text: 'Fast, dense sessions with a focused idea.' },
+                { title: 'Hackathon', text: 'A team challenge to put skills into practice.' },
+                { title: 'Networking Area', text: 'Moments for attendees, speakers and companies to connect.' },
+                { title: 'Leisure Area', text: 'Relax and gaming spaces between sessions.' },
+                { title: 'After party', text: 'A closing celebration to keep networking in an informal setting.' },
+            ],
         },
         speakers: {
             title: 'Speakers',
-            body: 'Speaker selection is in progress after the Call for Speakers closed. The lineup will be published here as soon as the program is confirmed.',
-            cards: [
-                'Technical talks and real-world stories',
-                'Hands-on workshops from 60-90 minutes',
-                'Lightning talks from 10-15 minutes',
-            ],
+            subtitle:
+                'The DevFest Lecce 2026 line-up will be published after the Call for Speakers selection.',
+            emptyTitle: 'Speakers coming soon',
+            emptyText:
+                'We are building a program with national and international voices on AI, development, cloud, security, data and soft skills.',
+            cfpTitle: 'Want to take the stage?',
+            cfpText: 'The Call for Speakers is open on Sessionize.',
+            cfpCta: 'Submit your proposal',
         },
         schedule: {
             title: 'Schedule',
-            body: 'The official DevFest Lecce 2026 schedule will be published after proposal review. For now, save October 17, 2026: it will be a full day of technical sessions, workshops, and networking.',
-            cards: ['45-minute talks', 'Hands-on workshops', 'Networking and community moments'],
+            subtitle:
+                'The full program will be published here as soon as talks, workshops and activities are finalized.',
+            emptyTitle: 'Schedule in progress',
+            emptyText:
+                'Expect a full day of technical sessions, practical workshops, networking and community moments.',
+            cfpCta: 'Submit a talk',
         },
         news: {
             title: 'News',
-            shareText: 'Read this DevFest Lecce 2026 news.',
-        },
-        location: {
-            title: 'Location',
-            heroTitle: 'Lecce, Italy',
-            venueName: 'Venue coming soon',
-            venueAddress: 'The final venue will be announced by GDG Lecce.',
-            mapCta: 'Open map',
-            infoTitle: 'Venue information',
-            info: [
-                'DevFest Lecce 2026 will take place in Lecce on October 17, 2026. The official venue has not been published yet, so the site shows the city without claiming an unconfirmed address.',
-                'Once the venue is announced, this page can include the address, precise map, accessibility notes, and travel details.',
-            ],
-            findUs: 'Find Lecce',
-            mapTitle: 'Lecce',
-            mapText: 'The map points to central Lecce as a temporary reference until the official venue is published.',
-            directionsTitle: 'Getting there',
-            trainTitle: 'By train',
-            train: 'Lecce is served by regional and national rail connections. When the venue is announced, we will add the easiest route from the station.',
-            planeTitle: 'By plane',
-            plane: 'The closest airport is Brindisi, connected to Lecce by bus and transfer services. Details will be refined when the venue is official.',
-            carTitle: 'By car',
-            car: 'Lecce is reachable from the main roads across Salento. Parking guidance will be added together with the venue.',
-        },
-        team: {
-            title: 'Team',
-            body: 'DevFest Lecce 2026 is organized by GDG Lecce, the local Google Developer Groups community.',
-            organizers: [
-                { name: 'Martino Scarcia', role: 'GDG Organizer' },
-                { name: 'Raffaele Grieco', role: 'GDG Organizer' },
-            ],
+            subtitle:
+                'Updates, announcements and community stories will appear here on the road to DevFest Lecce 2026.',
+            emptyTitle: 'No news yet',
+            emptyText: 'Come back soon for updates on tickets, program and sponsors.',
         },
         iwd: {
-            title: 'Inclusion and community',
-            introTitle: 'An open community',
-            intro: [
-                'DevFest is a space to learn and grow together. Inclusion, respect, and representation are part of how we want to build the local tech community.',
-                'The Women Techmakers ecosystem inspires many GDG initiatives around the world: visibility, community, and resources to make tech more accessible.',
+            title: 'Inclusion',
+            subtitle:
+                'DevFest Lecce aims to be an open, welcoming and respectful space for everyone.',
+            cards: [
+                {
+                    title: 'Open community',
+                    text: 'Talks, workshops and networking are designed for students, professionals, designers, developers and everyone curious about technology.',
+                },
+                {
+                    title: 'Real connections',
+                    text: 'The event focuses on dialogue, mentoring and relationships that continue beyond the conference day.',
+                },
+                {
+                    title: 'Code of Conduct',
+                    text: 'Every attendee, speaker, volunteer and sponsor is expected to follow our code of conduct.',
+                },
             ],
-            themeTitle: 'Break the Pattern',
-            theme: [
-                'Breaking the pattern starts when we stop accepting things simply because they have always been done that way.',
-                'At DevFest Lecce, we want to bring that spirit too: more voices, more paths, and more possibilities for people building technology.',
+        },
+        location: {
+            title: 'Venue',
+            heroTitle: 'Studium 2000, University of Salento',
+            subtitle:
+                'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 at the University of Salento Studium 2000 complex.',
+            venueName: 'Studium 2000 - University of Salento',
+            venueAddress: 'Via di Valesio, corner of Viale San Nicola, 73100 Lecce',
+            mapTitle: 'Studium 2000',
+            mapText:
+                'The complex is in Via di Valesio, close to Lecce historic center and reachable from the station and the city main routes.',
+            mapCta: 'Open directions',
+            directions: [
+                {
+                    title: 'By train',
+                    text: 'Lecce railway station connects the city with Bari, Brindisi and major national destinations.',
+                },
+                {
+                    title: 'By plane',
+                    text: 'Brindisi Airport is the closest airport, with shuttle and train connections to Lecce.',
+                },
+                {
+                    title: 'In the city',
+                    text: 'Studium 2000 is close to the historic center and can be reached by public transport, taxi or on foot.',
+                },
             ],
-            cta: 'Explore Women Techmakers',
         },
         faq: {
-            title: 'FAQs',
-            intro: 'Quick answers about DevFest Lecce 2026. This page will be updated as the program, tickets, and venue are confirmed.',
+            title: 'FAQ',
             items: [
                 {
-                    q: 'When is DevFest Lecce 2026?',
-                    a: 'DevFest Lecce 2026 will take place on October 17, 2026 in Lecce, Italy.',
+                    question: 'When is DevFest Lecce 2026?',
+                    answer: 'Saturday, October 17, 2026 in Lecce, at Studium 2000, University of Salento.',
                 },
                 {
-                    q: 'Is registration open?',
-                    a: 'Not yet. Follow GDG Lecce to get the announcement as soon as tickets are available.',
+                    question: 'Are tickets available?',
+                    answer: 'Not yet. Admission will be free and registration will open later.',
                 },
                 {
-                    q: 'Is the Call for Speakers open?',
-                    a: 'No. The Call for Speakers closed on July 31, 2026 on Sessionize.',
-                },
-                {
-                    q: 'Will sessions be in Italian or English?',
-                    a: 'Both languages are welcome. Session language will be clearly shown in the schedule.',
-                },
-                {
-                    q: 'Where will the event take place?',
-                    a: 'The official venue has not been published yet. This page will be updated as soon as GDG Lecce confirms it.',
+                    question: 'Can I apply as a speaker?',
+                    answer: 'Yes. The Call for Speakers is open on Sessionize.',
                 },
             ],
         },
         coc: {
             title: 'Code of Conduct',
-            sections: [
-                {
-                    title: 'Introduction',
-                    body: [
-                        'GDG Lecce DevFest 2026 is dedicated to providing a harassment-free and inclusive event experience for everyone regardless of gender identity and expression, sexual orientation, disabilities, neurodiversity, physical appearance, body size, ethnicity, nationality, race, age, religion, or other protected category.',
-                        'We do not tolerate harassment of event participants in any form. Violations will be taken seriously and handled appropriately by the organizing team.',
-                    ],
-                },
-                {
-                    title: 'Policy',
-                    body: [
-                        'Treat everyone with respect. Participate while acknowledging that everyone deserves to be here and to enjoy the event without harassment, discrimination, or condescension.',
-                        'If you see or experience inappropriate behavior, contact an event staff member immediately. The team may take any action it deems appropriate, including removing a participant from the event.',
-                    ],
-                },
-                {
-                    title: 'Reporting',
-                    body: [
-                        'To report an incident, look for a staff member during the event or contact GDG Lecce through the official community channels.',
-                    ],
-                },
-                {
-                    title: 'Attribution',
-                    body: [
-                        'This policy is based on international community guidelines, including ConfCodeofConduct.com, Geek Feminism Wiki, and other open community codes of conduct.',
-                    ],
-                },
-            ],
+            description:
+                'All GDG events follow guidelines designed to ensure a respectful and safe environment.',
+            cta: 'Read the GDG code',
         },
         notFound: {
-            title: '404 - Page Not Found',
-            subtitle: 'Route not found',
-            home: 'Return to homepage',
+            title: 'Page not found',
+            text: 'This page does not exist or has been moved.',
+            cta: 'Back to home',
         },
     },
-} as const
+} as const;
+
+export const isLang = (value: string | undefined): value is Lang =>
+    languages.includes(value as Lang);
+
+export const withoutLangPrefix = (pathname: string) => {
+    const segments = pathname.split('/').filter(Boolean);
+    if (segments.length && isLang(segments[0])) {
+        return `/${segments.slice(1).join('/')}`.replace(/\/$/, '') || '/';
+    }
+
+    return pathname || '/';
+};
+
+export const routePath = (lang: Lang, path = '/') => {
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    return `/${lang}${normalizedPath === '/' ? '' : normalizedPath}`;
+};
+
+export const localizedStaticPaths = () =>
+    languages.map((lang) => ({
+        params: { lang },
+        props: { lang },
+    }));
+

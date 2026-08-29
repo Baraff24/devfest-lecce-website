@@ -30,6 +30,9 @@ const t = content[lang]
     <div class="v-stack">
         <h4>{t.footer.about}</h4>
         <div class="text">
+            <a href={routePath(lang, 'about')}>{t.nav.about}</a>
+        </div>
+        <div class="text">
             <a href={eventLinks.gdg} target="_blank" rel="noopener noreferrer">{t.footer.gdgLecce}</a>
         </div>
         <div class="text">

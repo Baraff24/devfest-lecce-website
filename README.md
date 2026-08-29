@@ -2,7 +2,7 @@
 
 Official website for **DevFest Lecce 2026**, the community-driven technology conference organized by [GDG Lecce](https://gdg.community.dev/gdg-lecce/).
 
-The event is scheduled for **October 17, 2026** in Lecce, Italy. The final venue, tickets, speakers, and schedule are shown as “coming soon” until GDG Lecce publishes the official details.
+The event is scheduled for **October 17, 2026** at **Studium 2000, University of Salento**, in Lecce, Italy. Tickets, speakers, and schedule are shown as “coming soon” until GDG Lecce publishes the official details.
 
 ## Stack
 
@@ -58,9 +58,29 @@ src/
 
 ## Content Notes
 
-- The current public pages avoid showing previous-edition speaker, agenda, ticket, sponsor, and venue data as if it belonged to Lecce.
-- The old Sessionize export and historical news are still in the repository as source material, but they are not used by the active localized news pages.
-- When official Lecce speaker and schedule exports become available, replace the data in `src/assets/sessionize/` and reconnect the schedule/speaker pages.
+- Shared Italian and English copy lives in `src/lib/astro/i18n.ts`.
+- The home page uses the previous-edition numbers from the DevFest Lecce 2026 sponsor deck: 350 attendees, 26 speakers, 8 sponsors, 9 partners, and 1542 completed challenges.
+- News and Inclusion pages still exist, but they are hidden from the main navigation for the current DevFest Lecce 2026 public flow.
+- The old Team page redirects to the new About page.
+
+## Structured Data
+
+### Speakers and Schedule
+
+Yes: the repository already has a data pipeline for speaker and agenda content.
+
+- Raw Sessionize exports live in `src/assets/sessionize/`.
+- `speakers.json` and `sessions.json` are generated from the Sessionize advanced XLSX export.
+- `src/lib/astro/sessionize.ts` normalizes that data for Astro and Preact components.
+- `src/components/preact/ScheduleSection.tsx` is the existing interactive schedule UI.
+
+The current public speaker and schedule pages stay in “coming soon” mode because the checked-in JSON is historical content. When the official DevFest Lecce 2026 accepted sessions are ready, replace the Sessionize export in `src/assets/sessionize/` and reconnect the live pages.
+
+### Sponsor Logos
+
+Sponsor logos are prepared in `src/assets/data-sponsors/`.
+
+Add logo files in that folder, import them in `src/assets/data-sponsors/index.ts`, then add each sponsor under `platinum`, `gold`, `silver`, or `bronze`. The home page will render the sponsor logo area automatically when at least one sponsor is present.
 
 ## Deployment
 

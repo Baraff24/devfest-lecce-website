@@ -75,13 +75,13 @@ export const content = {
             heroSubtitle:
                 'Una giornata intera dedicata a sviluppatori, designer, studenti e professionisti tech che vogliono imparare, confrontarsi e costruire relazioni reali.',
             heroDate: 'Sabato 17 ottobre 2026',
-            heroLocation: 'Studium 2000, Universita del Salento',
+            heroLocation: 'Studium 2000, Università del Salento',
             primaryCta: 'Prenota il tuo posto',
             secondaryCta: 'Proponi un talk',
             announcementTitle: 'DevFest Lecce sta arrivando',
             announcementText:
-                'Il programma ruotera intorno a Intelligenza Artificiale, Web & Mobile Development, Cloud, Cybersecurity, Data Science e Soft Skills.',
-            statsIntro: 'Nell edizione precedente',
+                'Il programma ruoterà intorno a Intelligenza Artificiale, Web & Mobile Development, Cloud, Cybersecurity, Data Science e Soft Skills.',
+            statsIntro: "Nell'edizione precedente",
             stats: [
                 { value: '350', label: 'Partecipanti' },
                 { value: '26', label: 'Speaker' },
@@ -92,14 +92,14 @@ export const content = {
             tickets: {
                 title: 'Biglietti',
                 subtitle:
-                    'L ingresso sara gratuito. Le registrazioni apriranno qui non appena finalizzeremo programma e capienza.',
+                    "L'ingresso sarà gratuito. Le registrazioni apriranno qui non appena finalizzeremo programma e capienza.",
                 badge: 'Coming soon',
                 cta: 'Seguici su GDG Lecce',
             },
             cfp: {
                 title: 'Call for Speaker aperta',
                 subtitle:
-                    'Hai un esperienza, una demo o una storia utile alla community? Invia la tua proposta per DevFest Lecce 2026.',
+                    "Hai un'esperienza, una demo o una storia utile alla community? Invia la tua proposta per DevFest Lecce 2026.",
                 cta: 'Invia proposta',
             },
             sponsors: {
@@ -107,7 +107,7 @@ export const content = {
                 intro: [
                     'Sostenere DevFest Lecce significa investire nella crescita tech del territorio e posizionare il proprio brand davanti a una platea qualificata di sviluppatori, studenti e professionisti.',
                     "Offriamo quattro livelli di sponsorizzazione, pensati per esigenze e budget diversi, oltre a un'opzione dedicata al recruiting: TalentConnect.",
-                    "Tutti i contributi coprono esclusivamente i costi dell'evento: location, catering, materiali e ospitalita speaker, permettendoci di mantenere l ingresso gratuito ai partecipanti.",
+                    "Tutti i contributi coprono esclusivamente i costi dell'evento: location, catering, materiali e ospitalità speaker, permettendoci di mantenere l'ingresso gratuito ai partecipanti.",
                 ],
                 cta: 'Diventa sponsor',
                 logoTitle: 'Sponsor',
@@ -122,13 +122,13 @@ export const content = {
                     {
                         name: 'Bronze',
                         contribution: '250 euro',
-                        description: 'Supporto semplice e visibilita base.',
+                        description: 'Supporto semplice e visibilità base.',
                         perks: ['Logo sul sito ufficiale', 'Logo sui social GDG Lecce', 'Menzione nel post di ringraziamento'],
                     },
                     {
                         name: 'Silver',
                         contribution: '500 euro',
-                        description: "Visibilita dedicata prima e durante l'evento.",
+                        description: "Visibilità dedicata prima e durante l'evento.",
                         perks: ['Tutti i benefit Bronze', 'Post social dedicato', 'Materiale promozionale nella welcome bag'],
                     },
                     {
@@ -140,7 +140,7 @@ export const content = {
                     {
                         name: 'Platinum',
                         contribution: '2.000 euro',
-                        description: 'Massima visibilita.',
+                        description: 'Massima visibilità.',
                         perks: [
                             'Tutti i benefit Gold',
                             'Logo su magliette, welcome bag e materiali stampati',
@@ -151,25 +151,25 @@ export const content = {
                 ],
                 talentConnectTitle: 'TalentConnect',
                 talentConnectText:
-                    'TalentConnect facilita il contatto tra aziende e professionisti tech. I partecipanti potranno inviare il CV tramite form e, durante DevFest, sara attivo un desk dedicato. I CV saranno riservati agli sponsor Gold e Platinum.',
+                    'TalentConnect facilita il contatto tra aziende e professionisti tech. I partecipanti potranno inviare il CV tramite form e, durante DevFest, sarà attivo un desk dedicato. I CV saranno riservati agli sponsor Gold e Platinum.',
             },
         },
         about: {
             title: 'Chi siamo',
             intro:
-                'GDG Lecce e DevFest Lecce nascono per far crescere l ecosistema tecnologico del territorio e connetterlo con il resto d Italia.',
+                "GDG Lecce e DevFest Lecce nascono per far crescere l'ecosistema tecnologico del territorio e connetterlo con il resto d'Italia.",
             sections: [
                 {
                     title: 'Google Developer Group Lecce',
-                    text: 'Google Developer Group Lecce e una community indipendente e no-profit di sviluppatori, studenti e professionisti del tech. Organizziamo talk, workshop e momenti di networking aperti a tutti, con l obiettivo di far crescere l ecosistema tecnologico del territorio e connetterlo con il resto d Italia. Siamo parte del network globale dei Google Developer Groups, presente in oltre 100 paesi.',
+                    text: "Google Developer Group Lecce è una community indipendente e no-profit di sviluppatori, studenti e professionisti del tech. Organizziamo talk, workshop e momenti di networking aperti a tutti, con l'obiettivo di far crescere l'ecosistema tecnologico del territorio e connetterlo con il resto d'Italia. Siamo parte del network globale dei Google Developer Groups, presente in oltre 100 paesi.",
                 },
                 {
-                    title: "Cos'e DevFest",
-                    text: "DevFest e il piu grande festival tech organizzato dalle community GDG in tutto il mondo. DevFest Lecce ne e l edizione salentina: una giornata di talk, workshop e hackathon su AI, Web & Mobile, Cloud, Cybersecurity, Data Science e Soft Skills. Un occasione unica nel Sud Italia per imparare dai migliori speaker nazionali e internazionali, fare networking e incontrare le aziende del settore.",
+                    title: "Cos'è DevFest",
+                    text: "DevFest è il più grande festival tech organizzato dalle community GDG in tutto il mondo. DevFest Lecce ne è l'edizione salentina: una giornata di talk, workshop e hackathon su AI, Web & Mobile, Cloud, Cybersecurity, Data Science e Soft Skills. Un'occasione unica nel Sud Italia per imparare dai migliori speaker nazionali e internazionali, fare networking e incontrare le aziende del settore.",
                 },
                 {
                     title: 'DevFest Lecce 2026',
-                    text: 'DevFest Lecce 2026 si terra sabato 17 ottobre 2026 a Lecce, presso Studium 2000, Universita del Salento. Sono attesi oltre 20 talk e piu di 500 partecipanti.',
+                    text: 'DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 a Lecce, presso Studium 2000, Università del Salento. Sono attesi oltre 20 talk e più di 500 partecipanti.',
                 },
             ],
             facts: [
@@ -178,9 +178,9 @@ export const content = {
                 { label: 'Talk attesi', value: '20+' },
                 { label: 'Partecipanti attesi', value: '500+' },
             ],
-            activitiesTitle: 'Attivita previste',
+            activitiesTitle: 'Attività previste',
             activities: [
-                { title: 'Talk', text: 'Sessioni frontali con speaker esperti sui temi piu attuali del tech.' },
+                { title: 'Talk', text: 'Sessioni frontali con speaker esperti sui temi più attuali del tech.' },
                 { title: 'Workshop', text: 'Sessioni pratiche hands-on in gruppi ristretti.' },
                 { title: 'Lightning Talk', text: 'Interventi rapidi e ad alta densita.' },
                 { title: 'Hackathon', text: 'Una sfida a squadre per mettere in pratica le competenze.' },
@@ -194,12 +194,12 @@ export const content = {
             body: 'La line-up di DevFest Lecce 2026 sarà pubblicata dopo la selezione della Call for Speaker.',
             cards: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
             subtitle:
-                'La line-up di DevFest Lecce 2026 sara pubblicata dopo la selezione della Call for Speaker.',
+                'La line-up di DevFest Lecce 2026 sarà pubblicata dopo la selezione della Call for Speaker.',
             emptyTitle: 'Speaker in arrivo',
             emptyText:
                 'Stiamo costruendo un programma con voci nazionali e internazionali su AI, sviluppo, cloud, sicurezza, dati e competenze trasversali.',
             cfpTitle: 'Vuoi salire sul palco?',
-            cfpText: 'La Call for Speaker e aperta su Sessionize.',
+            cfpText: 'La Call for Speaker è aperta su Sessionize.',
             cfpCta: 'Invia la tua proposta',
         },
         schedule: {
@@ -207,7 +207,7 @@ export const content = {
             body: 'Il programma completo sarà pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attività.',
             cards: ['Talk', 'Workshop', 'Lightning Talk', 'Hackathon', 'Networking', 'After party'],
             subtitle:
-                'Il programma completo sara pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attivita.',
+                'Il programma completo sarà pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attività.',
             emptyTitle: 'Agenda in preparazione',
             emptyText:
                 'Aspettati una giornata piena di sessioni tecniche, workshop pratici, networking e momenti community.',
@@ -219,7 +219,7 @@ export const content = {
             subtitle:
                 'Aggiornamenti, annunci e storie dalla community arriveranno qui durante il percorso verso DevFest Lecce 2026.',
             emptyTitle: 'Nessuna news pubblicata',
-            emptyText: 'Torna presto per novita su biglietti, programma e sponsor.',
+            emptyText: 'Torna presto per novità su biglietti, programma e sponsor.',
         },
         iwd: {
             title: 'Inclusione',
@@ -232,20 +232,20 @@ export const content = {
                 },
                 {
                     title: 'Relazioni reali',
-                    text: 'L evento mette al centro confronto, mentoring e connessioni che continuano oltre la giornata della conferenza.',
+                    text: "L'evento mette al centro confronto, mentoring e connessioni che continuano oltre la giornata della conferenza.",
                 },
                 {
                     title: 'Codice di condotta',
-                    text: 'Ogni partecipante, speaker, volontario e sponsor e tenuto a rispettare il nostro codice di condotta.',
+                    text: 'Ogni partecipante, speaker, volontario e sponsor è tenuto a rispettare il nostro codice di condotta.',
                 },
             ],
         },
         location: {
             title: 'Dove',
-            heroTitle: 'Studium 2000, Universita del Salento',
+            heroTitle: 'Studium 2000, Università del Salento',
             subtitle:
-                'DevFest Lecce 2026 si terra sabato 17 ottobre 2026 nel complesso Studium 2000 dell Universita del Salento.',
-            venueName: 'Studium 2000 - Universita del Salento',
+                "DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 nel complesso Studium 2000 dell'Università del Salento.",
+            venueName: 'Studium 2000 - Università del Salento',
             venueAddress: 'Via di Valesio, angolo Viale San Nicola, 73100 Lecce',
             mapTitle: 'Studium 2000',
             mapText:
@@ -267,15 +267,15 @@ export const content = {
             directions: [
                 {
                     title: 'In treno',
-                    text: 'La stazione di Lecce collega la citta con Bari, Brindisi e le principali destinazioni nazionali.',
+                    text: 'La stazione di Lecce collega la città con Bari, Brindisi e le principali destinazioni nazionali.',
                 },
                 {
                     title: 'In aereo',
-                    text: "L'aeroporto di Brindisi e lo scalo piu vicino, con collegamenti shuttle e treno verso Lecce.",
+                    text: "L'aeroporto di Brindisi è lo scalo più vicino, con collegamenti shuttle e treno verso Lecce.",
                 },
                 {
-                    title: 'In citta',
-                    text: 'Studium 2000 e vicino al centro storico e puo essere raggiunto con mezzi pubblici, taxi o percorsi pedonali.',
+                    title: 'In città',
+                    text: 'Studium 2000 è vicino al centro storico e può essere raggiunto con mezzi pubblici, taxi o percorsi pedonali.',
                 },
             ],
         },
@@ -283,16 +283,16 @@ export const content = {
             title: 'FAQ',
             items: [
                 {
-                    question: 'Quando si terra DevFest Lecce 2026?',
-                    answer: 'Sabato 17 ottobre 2026 a Lecce, presso Studium 2000, Universita del Salento.',
+                    question: 'Quando si terrà DevFest Lecce 2026?',
+                    answer: 'Sabato 17 ottobre 2026 a Lecce, presso Studium 2000, Università del Salento.',
                 },
                 {
                     question: 'I biglietti sono disponibili?',
-                    answer: "Non ancora. L ingresso sara gratuito e le registrazioni apriranno piu avanti.",
+                    answer: "Non ancora. L'ingresso sarà gratuito e le registrazioni apriranno più avanti.",
                 },
                 {
                     question: 'Posso candidarmi come speaker?',
-                    answer: 'Si. La Call for Speaker e aperta su Sessionize.',
+                    answer: 'Sì. La Call for Speaker è aperta su Sessionize.',
                 },
             ],
         },
@@ -304,7 +304,9 @@ export const content = {
         },
         notFound: {
             title: 'Pagina non trovata',
-            text: 'Questa pagina non esiste o e stata spostata.',
+            subtitle: 'Pagina non trovata',
+            home: 'Torna alla home',
+            text: 'Questa pagina non esiste o è stata spostata.',
             cta: 'Torna alla home',
         },
     },
@@ -587,6 +589,8 @@ export const content = {
         },
         notFound: {
             title: 'Page not found',
+            subtitle: 'Page not found',
+            home: 'Back to home',
             text: 'This page does not exist or has been moved.',
             cta: 'Back to home',
         },

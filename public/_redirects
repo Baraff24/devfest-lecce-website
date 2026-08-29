@@ -4,7 +4,8 @@
 /news            /it/news             302
 /iwd             /it/iwd              302
 /location        /it/location         302
-/team            /it/team             302
+/about           /it/about            302
+/team            /it/about            302
 /faq             /it/faq              302
 /code-of-conduct /it/code-of-conduct  302
 /coc             /it/code-of-conduct  302

@@ -1,48 +1,30 @@
-import googleLogo from './google.svg'
+// Add sponsor logo files in this folder, import them here, then add each company to the matching tier.
+// Example:
+// import companyLogo from './company-logo.svg'
+
+type SponsorLogo = {
+    src: string
+    width?: number
+    height?: number
+    format?: string
+}
+
+export type SponsorTier = 'platinum' | 'gold' | 'silver' | 'bronze'
+
+export type Sponsor = {
+    name: string
+    logo: SponsorLogo
+    url?: string
+}
+
+export const sponsorTierOrder: SponsorTier[] = ['platinum', 'gold', 'silver', 'bronze']
 
 export const sponsors = {
-    main: [
-        {
-            name: 'Google',
-            logo: googleLogo,
-            url: 'https://www.google.it/',
-        },
+    platinum: [
+        // { name: 'Company name', logo: companyLogo, url: 'https://example.com' },
     ],
-    diamond: [
-        //     {
-        //         name: 'Link.it',
-        //         logo: linkItLogo,
-        //         url: 'https://www.link.it',
-        //     },
-        //     {
-        //         name: 'Logobject AG',
-        //         logo: logobjectLogo,
-        //         url: 'https://logobject.com/',
-        //     },
-        //     {
-        //         name: 'GILBARCO ITALIA SRL',
-        //         logo: gilbarcoLogo,
-        //         url: 'https://www.gilbarco.com/eu/it/',
-        //     },
-        //     {
-        //         name: 'Randstad Digital',
-        //         logo: randstadLogo,
-        //         url: 'https://www.randstad.it/digital/',
-        //     },
-    ],
-    // platinum: [
-    //     {
-    //         name: 'Ascom',
-    //         logo: ascomLogo,
-    //         url: 'https://www.ascom.com/it/',
-    //     },
-    // ],
-    silver: [
+    gold: [],
+    silver: [],
+    bronze: [],
+} satisfies Record<SponsorTier, Sponsor[]>
 
-        // {
-        //     name: 'Seacom',
-        //     logo: seacomLogo,
-        //     url: 'https://www.seacom.it/',
-        // },
-    ],
-}

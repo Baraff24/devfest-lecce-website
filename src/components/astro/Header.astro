@@ -2,7 +2,7 @@
 import devfestLogoSvg from '@/assets/devfest-logo.svg'
 import '@/styles/navbar.css'
 import { Icon } from 'astro-icon/components'
-import { content, languages, routePath, switchLangPath, type Lang } from '@/lib/astro/i18n'
+import { content, langLabels, languages, routePath, switchLangPath, type Lang } from '@/lib/astro/i18n'
 
 type Props = {
     lang: Lang
@@ -14,10 +14,11 @@ const t = content[lang]
 const navItems = [
     { href: routePath(lang, 'speakers'), label: t.nav.speakers },
     { href: routePath(lang, 'schedule'), label: t.nav.schedule },
-    { href: routePath(lang, 'news'), label: t.nav.news },
-    { href: routePath(lang, 'iwd'), label: t.nav.iwd },
     { href: routePath(lang, 'location'), label: t.nav.location },
-    { href: routePath(lang, 'team'), label: t.nav.team },
+    { href: routePath(lang, 'about'), label: t.nav.about },
+    // Sezioni tenute nel codice ma nascoste dalla navigazione per DevFest Lecce 2026.
+    // { href: routePath(lang, 'news'), label: t.nav.news },
+    // { href: routePath(lang, 'iwd'), label: t.nav.iwd },
 ]
 ---
 
@@ -32,7 +33,7 @@ const navItems = [
     <nav>
         <div class="nav-item">
             <a href={routePath(lang)}>
-                <img src={devfestLogoSvg.src} alt={t.home.hero.logoAlt} />
+                <img src={devfestLogoSvg.src} alt={t.site.title} />
                 {t.site.title}
             </a>
         </div>
@@ -46,12 +47,12 @@ const navItems = [
         }
         <div class="nav-item desktop-only language-switcher" aria-label="Language selector">
             {
-                Object.entries(languages).map(([locale, label]) => (
+                languages.map(locale => (
                     <a
-                        href={switchLangPath(Astro.url.pathname, locale as Lang)}
+                        href={switchLangPath(Astro.url.pathname, locale)}
                         class:list={{ active: locale === lang }}
                         aria-current={locale === lang ? 'page' : undefined}
-                        aria-label={label}
+                        aria-label={langLabels[locale]}
                     >
                         {locale.toUpperCase()}
                     </a>
@@ -67,7 +68,7 @@ const navItems = [
     <div id="mobile-nav" class="mobile-only">
         <div class="nav-item">
             <a href={routePath(lang)}>
-                <img src={devfestLogoSvg.src} alt={t.home.hero.logoAlt} />
+                <img src={devfestLogoSvg.src} alt={t.site.title} />
                 {t.site.title}
             </a>
 
@@ -85,12 +86,12 @@ const navItems = [
         }
         <div class="nav-item language-switcher">
             {
-                Object.entries(languages).map(([locale, label]) => (
+                languages.map(locale => (
                     <a
-                        href={switchLangPath(Astro.url.pathname, locale as Lang)}
+                        href={switchLangPath(Astro.url.pathname, locale)}
                         class:list={{ active: locale === lang }}
                         aria-current={locale === lang ? 'page' : undefined}
-                        aria-label={label}
+                        aria-label={langLabels[locale]}
                     >
                         {locale.toUpperCase()}
                     </a>

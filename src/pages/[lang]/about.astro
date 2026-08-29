@@ -1,0 +1,77 @@
+---
+import Base from '@/layouts/Base.astro'
+import { Icon } from 'astro-icon/components'
+import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+
+export const getStaticPaths = localizedStaticPaths
+
+const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
+const t = content[lang]
+---
+
+<Base lang={lang} title={t.about.title}>
+    <section id="about" class="wide">
+        <div class="about-page">
+            <div class="wide">
+                <h1>{t.about.title}</h1>
+                <div class="text">
+                    <p>{t.about.intro}</p>
+                </div>
+            </div>
+
+            <div class="about-section-list">
+                {
+                    t.about.sections.map(section => (
+                        <div class="card large about-section-card">
+                            <div class="text">
+                                <h2>{section.title}</h2>
+                                <p>{section.text}</p>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+
+            <div class="event-facts">
+                {
+                    t.about.facts.map(fact => (
+                        <div class="card large">
+                            <span>{fact.label}</span>
+                            <strong>{fact.value}</strong>
+                        </div>
+                    ))
+                }
+            </div>
+
+            <div class="wide about-activities-heading">
+                <h2>{t.about.activitiesTitle}</h2>
+            </div>
+
+            <div class="activity-grid">
+                {
+                    t.about.activities.map(activity => (
+                        <div class="card activity-card">
+                            <Icon name="mdi:sparkles-outline" />
+                            <div class="text">
+                                <h3>{activity.title}</h3>
+                                <p>{activity.text}</p>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+
+            <div class="card large about-contact-card">
+                <div class="text">
+                    <h2>{t.footer.contact}</h2>
+                    <p>info@gdglecce.it · +39 339 431 1707</p>
+                </div>
+                <a class="large primary" href={eventLinks.email} role="button">
+                    <Icon name="mdi:email-outline" />
+                    {t.common.contactUs}
+                </a>
+            </div>
+        </div>
+    </section>
+</Base>
+

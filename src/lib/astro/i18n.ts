@@ -11,6 +11,8 @@ export const langLabels: Record<Lang, string> = {
 
 export const eventLinks = {
     gdg: 'https://gdg.community.dev/gdg-lecce/',
+    gdgGlobal: 'https://developers.google.com/community/gdg',
+    devfest: 'https://developers.google.com/community/devfest',
     cfp: 'https://sessionize.com/devfest-lecce-2026',
     tickets: '#tickets',
     calendar: 'https://gdg.community.dev/events/details/google-gdg-lecce-presents-devfest-lecce-2026/',
@@ -24,10 +26,20 @@ export const eventLinks = {
 
 export const content = {
     it: {
+        site: {
+            title: 'DevFest Lecce 2026',
+            description:
+                'DevFest Lecce 2026, la conferenza tech GDG Lecce dedicata ad AI, Web, Mobile, Cloud, Cybersecurity, Data Science e community.',
+        },
         meta: {
             title: 'DevFest Lecce 2026',
             description:
                 'DevFest Lecce 2026, la conferenza tech GDG Lecce dedicata ad AI, Web, Mobile, Cloud, Cybersecurity, Data Science e community.',
+        },
+        common: {
+            contactUs: 'Contattaci',
+            newsletter: 'Segui GDG Lecce',
+            viewCfp: 'Vai alla Call for Speaker',
         },
         nav: {
             home: 'Home',
@@ -42,11 +54,20 @@ export const content = {
         footer: {
             description:
                 'DevFest Lecce 2026 è organizzata da GDG Lecce: una giornata per imparare, condividere e creare relazioni nella community tech salentina.',
+            social: 'Social',
             community: 'Community',
             resources: 'Risorse',
             follow: 'Seguici',
             about: 'Chi siamo',
             contact: 'Contatti',
+            gdgLecce: 'GDG Lecce',
+            gdg: 'Google Developer Groups',
+            devfest: 'DevFest',
+            gdgPlatform: 'Pagina GDG Lecce',
+            codeOfConduct: 'Codice di condotta',
+            faq: 'FAQ',
+            madeBy: 'Made with care by GDG Lecce',
+            copyright: 'DevFest Lecce 2026',
         },
         home: {
             heroEyebrow: 'GDG Lecce presenta',
@@ -170,6 +191,8 @@ export const content = {
         },
         speakers: {
             title: 'Speaker',
+            body: 'La line-up di DevFest Lecce 2026 sarà pubblicata dopo la selezione della Call for Speaker.',
+            cards: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
             subtitle:
                 'La line-up di DevFest Lecce 2026 sara pubblicata dopo la selezione della Call for Speaker.',
             emptyTitle: 'Speaker in arrivo',
@@ -181,6 +204,8 @@ export const content = {
         },
         schedule: {
             title: 'Agenda',
+            body: 'Il programma completo sarà pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attività.',
+            cards: ['Talk', 'Workshop', 'Lightning Talk', 'Hackathon', 'Networking', 'After party'],
             subtitle:
                 'Il programma completo sara pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attivita.',
             emptyTitle: 'Agenda in preparazione',
@@ -190,6 +215,7 @@ export const content = {
         },
         news: {
             title: 'News',
+            shareText: 'Leggi questa news da DevFest Lecce 2026',
             subtitle:
                 'Aggiornamenti, annunci e storie dalla community arriveranno qui durante il percorso verso DevFest Lecce 2026.',
             emptyTitle: 'Nessuna news pubblicata',
@@ -225,6 +251,19 @@ export const content = {
             mapText:
                 'Il complesso si trova in Via di Valesio, vicino al centro storico di Lecce e raggiungibile dalla stazione e dalle principali direttrici cittadine.',
             mapCta: 'Apri indicazioni',
+            infoTitle: 'Studium 2000',
+            info: [
+                'DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 a Studium 2000, Università del Salento.',
+                'La venue ospiterà talk, workshop, networking, area svago e after party per una giornata intera dedicata alla community tech.',
+            ],
+            findUs: 'Come arrivare',
+            directionsTitle: 'Indicazioni',
+            trainTitle: 'In treno',
+            train: 'La stazione di Lecce collega la città con Bari, Brindisi e le principali destinazioni nazionali.',
+            planeTitle: 'In aereo',
+            plane: "L'aeroporto di Brindisi è lo scalo più vicino, con collegamenti shuttle e treno verso Lecce.",
+            carTitle: 'In città',
+            car: 'Studium 2000 è vicino al centro storico e può essere raggiunto con mezzi pubblici, taxi o percorsi pedonali.',
             directions: [
                 {
                     title: 'In treno',
@@ -270,10 +309,20 @@ export const content = {
         },
     },
     en: {
+        site: {
+            title: 'DevFest Lecce 2026',
+            description:
+                'DevFest Lecce 2026, the GDG Lecce tech conference for AI, Web, Mobile, Cloud, Cybersecurity, Data Science and community.',
+        },
         meta: {
             title: 'DevFest Lecce 2026',
             description:
                 'DevFest Lecce 2026, the GDG Lecce tech conference for AI, Web, Mobile, Cloud, Cybersecurity, Data Science and community.',
+        },
+        common: {
+            contactUs: 'Contact us',
+            newsletter: 'Follow GDG Lecce',
+            viewCfp: 'Open the Call for Speakers',
         },
         nav: {
             home: 'Home',
@@ -288,11 +337,20 @@ export const content = {
         footer: {
             description:
                 'DevFest Lecce 2026 is organized by GDG Lecce: a full day to learn, share and build relationships in the local tech community.',
+            social: 'Social',
             community: 'Community',
             resources: 'Resources',
             follow: 'Follow us',
             about: 'About',
             contact: 'Contact',
+            gdgLecce: 'GDG Lecce',
+            gdg: 'Google Developer Groups',
+            devfest: 'DevFest',
+            gdgPlatform: 'GDG Lecce page',
+            codeOfConduct: 'Code of Conduct',
+            faq: 'FAQ',
+            madeBy: 'Made with care by GDG Lecce',
+            copyright: 'DevFest Lecce 2026',
         },
         home: {
             heroEyebrow: 'GDG Lecce presents',
@@ -416,6 +474,8 @@ export const content = {
         },
         speakers: {
             title: 'Speakers',
+            body: 'The DevFest Lecce 2026 line-up will be published after the Call for Speakers selection.',
+            cards: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
             subtitle:
                 'The DevFest Lecce 2026 line-up will be published after the Call for Speakers selection.',
             emptyTitle: 'Speakers coming soon',
@@ -427,6 +487,8 @@ export const content = {
         },
         schedule: {
             title: 'Schedule',
+            body: 'The full program will be published here as soon as talks, workshops and activities are finalized.',
+            cards: ['Talks', 'Workshops', 'Lightning Talks', 'Hackathon', 'Networking', 'After party'],
             subtitle:
                 'The full program will be published here as soon as talks, workshops and activities are finalized.',
             emptyTitle: 'Schedule in progress',
@@ -436,6 +498,7 @@ export const content = {
         },
         news: {
             title: 'News',
+            shareText: 'Read this update from DevFest Lecce 2026',
             subtitle:
                 'Updates, announcements and community stories will appear here on the road to DevFest Lecce 2026.',
             emptyTitle: 'No news yet',
@@ -471,6 +534,19 @@ export const content = {
             mapText:
                 'The complex is in Via di Valesio, close to Lecce historic center and reachable from the station and the city main routes.',
             mapCta: 'Open directions',
+            infoTitle: 'Studium 2000',
+            info: [
+                'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 at Studium 2000, University of Salento.',
+                'The venue will host talks, workshops, networking, leisure spaces and the after party for a full community tech day.',
+            ],
+            findUs: 'How to get there',
+            directionsTitle: 'Directions',
+            trainTitle: 'By train',
+            train: 'Lecce railway station connects the city with Bari, Brindisi and major national destinations.',
+            planeTitle: 'By plane',
+            plane: 'Brindisi Airport is the closest airport, with shuttle and train connections to Lecce.',
+            carTitle: 'In the city',
+            car: 'Studium 2000 is close to the historic center and can be reached by public transport, taxi or on foot.',
             directions: [
                 {
                     title: 'By train',
@@ -534,9 +610,18 @@ export const routePath = (lang: Lang, path = '/') => {
     return `/${lang}${normalizedPath === '/' ? '' : normalizedPath}`;
 };
 
+export const getLangFromUrl = (url: URL): Lang => {
+    const [, lang] = url.pathname.split('/');
+    return isLang(lang) ? lang : defaultLang;
+};
+
+export const switchLangPath = (pathname: string, lang: Lang) => {
+    const rest = withoutLangPrefix(pathname);
+    return routePath(lang, rest);
+};
+
 export const localizedStaticPaths = () =>
     languages.map((lang) => ({
         params: { lang },
         props: { lang },
     }));
-

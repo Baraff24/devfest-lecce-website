@@ -36,8 +36,8 @@ const pageTitle = title === t.site.title ? title : `${title} | ${t.site.title}`
         <meta name="twitter:card" content="summary" />
 
         {
-            Object.keys(languages).map(locale => (
-                <link rel="alternate" hreflang={locale} href={switchLangPath(Astro.url.pathname, locale as Lang)} />
+            languages.map(locale => (
+                <link rel="alternate" hreflang={locale} href={switchLangPath(Astro.url.pathname, locale)} />
             ))
         }
         <link rel="alternate" hreflang="x-default" href={switchLangPath(Astro.url.pathname, defaultLang)} />

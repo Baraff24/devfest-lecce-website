@@ -3,13 +3,21 @@ import Base from '@/layouts/Base.astro'
 import { Icon } from 'astro-icon/components'
 
 import devfestLogoSvg from '@/assets/devfest-logo.svg'
-import topicsImage from '@/assets/topics.png'
-import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+import { sponsorTierOrder, sponsors } from '@/assets/data-sponsors'
+import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, routePath, type Lang } from '@/lib/astro/i18n'
 
 export const getStaticPaths = localizedStaticPaths
 
 const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
 const t = content[lang]
+const sponsorSections = sponsorTierOrder
+    .map(tier => ({
+        tier,
+        label: t.home.sponsors.tierLabels[tier],
+        items: sponsors[tier],
+    }))
+    .filter(section => section.items.length > 0)
+const hasSponsors = sponsorSections.length > 0
 ---
 
 <Base lang={lang}>
@@ -18,9 +26,10 @@ const t = content[lang]
         <div class="h-stack">
             <div class="hero-content v-stack">
                 <div class="text">
-                    <h1>{t.home.hero.title}</h1>
-                    <h3>{t.home.hero.subtitle}</h3>
-                    <p class="motto">{t.home.hero.motto}</p>
+                    <p class="motto">{t.home.heroEyebrow}</p>
+                    <h1>{t.home.heroTitle}</h1>
+                    <h3>{t.home.heroSubtitle}</h3>
+                    <p class="motto">{t.home.heroDate} · {t.home.heroLocation}</p>
                 </div>
                 <div class="hero-actions h-flex-wrap">
                     <a
@@ -31,15 +40,15 @@ const t = content[lang]
                         role="button"
                     >
                         <Icon name="mdi:bell-outline" />
-                        {t.home.hero.primaryCta}
+                        {t.home.primaryCta}
                     </a>
                     <a class="large" href={eventLinks.cfp} target="_blank" rel="noopener noreferrer" role="button">
                         <Icon name="mdi:microphone-outline" />
-                        {t.home.hero.secondaryCta}
+                        {t.home.secondaryCta}
                     </a>
                 </div>
             </div>
-            <img class="hero-image hero-logo" src={devfestLogoSvg.src} alt={t.home.hero.logoAlt} />
+            <img class="hero-image hero-logo" src={devfestLogoSvg.src} alt={t.site.title} />
         </div>
         <script>
             import { BinaryGrid } from '@/lib/client/binary-art-10y'
@@ -63,7 +72,7 @@ const t = content[lang]
         <h2>{t.home.tickets.title}</h2>
         <div class="card large">
             <div class="text">
-                <p>{t.home.tickets.body}</p>
+                <p>{t.home.tickets.subtitle}</p>
             </div>
             <a class="large" href={eventLinks.gdg} target="_blank" rel="noopener noreferrer" role="button">
                 <Icon name="mdi:account-group" />
@@ -74,9 +83,9 @@ const t = content[lang]
 
     <section id="cfp">
         <h2>{t.home.cfp.title}</h2>
-        <div class="card large" data-diagonal-message={t.home.cfp.badge}>
+        <div class="card large">
             <div class="text">
-                {t.home.cfp.body.map(paragraph => <p>{paragraph}</p>)}
+                <p>{t.home.cfp.subtitle}</p>
             </div>
             <a class="large" href={eventLinks.cfp} target="_blank" rel="noopener noreferrer" role="button">
                 {t.home.cfp.cta}
@@ -88,12 +97,13 @@ const t = content[lang]
         <div class="stats-layouts">
             <div class="stats-card card large">
                 <div class="text">
-                    <h2>{t.home.intro.title}</h2>
-                    {t.home.intro.body.map(paragraph => <p>{paragraph}</p>)}
+                    <h2>{t.home.announcementTitle}</h2>
+                    <p>{t.home.announcementText}</p>
+                    <p class="stats-kicker">{t.home.statsIntro}</p>
                 </div>
-                <a class="large" href={eventLinks.gdg} target="_blank" rel="noopener noreferrer" role="button">
+                <a class="large" href={routePath(lang, 'about')} role="button">
                     <Icon name="material-symbols:groups-rounded" />
-                    {t.home.intro.cta}
+                    {t.nav.about}
                 </a>
             </div>
             {
@@ -109,34 +119,78 @@ const t = content[lang]
         </div>
     </section>
 
-    <section id="topics">
-        <h2>{t.home.topicsTitle}</h2>
-        <div class="topic-layout">
-            <div class="card large tight">
-                <img src={topicsImage.src} alt={t.home.topicsTitle} />
+    <section id="sponsors">
+        <h2>{t.home.sponsors.title}</h2>
+        <div class="sponsor-layout">
+            <div class="card large sponsor-call">
+                <div class="text">
+                    {t.home.sponsors.intro.map(paragraph => <p>{paragraph}</p>)}
+                </div>
+                <a class="large primary" href={eventLinks.sponsorEmail} role="button">
+                    <Icon name="mdi:email-outline" />
+                    {t.home.sponsors.cta}
+                </a>
             </div>
-            <div class="topic-grid">
+
+            <div class="sponsor-tier-grid">
                 {
-                    t.home.topics.map(topic => (
-                        <div class="card topic-card">
-                            <strong>{topic}</strong>
+                    t.home.sponsors.tiers.map(tier => (
+                        <div class="card large sponsor-tier-card">
+                            <div class="text">
+                                <p class="sponsor-tier-contribution">{tier.contribution}</p>
+                                <h3>{tier.name}</h3>
+                                <p>{tier.description}</p>
+                            </div>
+                            <ul>
+                                {tier.perks.map(perk => (
+                                    <li>{perk}</li>
+                                ))}
+                            </ul>
                         </div>
                     ))
                 }
             </div>
-        </div>
-    </section>
 
-    <section id="sponsors">
-        <h2>{t.home.partners.title}</h2>
-        <div class="card large">
-            <div class="text">
-                <p>{t.home.partners.body}</p>
+            <div class="card large sponsor-talent">
+                <div class="text">
+                    <h3>{t.home.sponsors.talentConnectTitle}</h3>
+                    <p>{t.home.sponsors.talentConnectText}</p>
+                </div>
             </div>
-            <a class="large" href={eventLinks.email} role="button">
-                <Icon name="mdi:email-outline" />
-                {t.home.partners.cta}
-            </a>
+
+            <div class="sponsor-logo-area">
+                <h3>{t.home.sponsors.logoTitle}</h3>
+                {
+                    hasSponsors ? (
+                        sponsorSections.map(section => (
+                            <div class="sponsor-logo-tier">
+                                <h4>{section.label}</h4>
+                                <div class="small-card-list h-flex-wrap">
+                                    {section.items.map(sponsor =>
+                                        sponsor.url ? (
+                                            <a
+                                                class="card sponsor-logo-card"
+                                                href={sponsor.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <img src={sponsor.logo.src} alt={sponsor.name} />
+                                            </a>
+                                        ) : (
+                                            <div class="card sponsor-logo-card">
+                                                <img src={sponsor.logo.src} alt={sponsor.name} />
+                                            </div>
+                                        ),
+                                    )}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div class="card large sponsor-logo-placeholder">{t.home.sponsors.logoEmpty}</div>
+                    )
+                }
+            </div>
         </div>
     </section>
 </Base>
+

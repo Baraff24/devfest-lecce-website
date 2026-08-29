@@ -1,16 +1,16 @@
 ---
 import Base from '@/layouts/Base.astro'
 import { Icon } from 'astro-icon/components'
-import { content, defaultLang, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
 
 export const getStaticPaths = localizedStaticPaths
 
 const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
 const t = content[lang]
 
-const lecceMapsUrl = 'https://www.google.com/maps/dir//Lecce,+Italy'
+const lecceMapsUrl = eventLinks.directions
 const lecceOpenStreetMap =
-    'https://www.openstreetmap.org/export/embed.html?bbox=18.1484%2C40.3371%2C18.2055%2C40.3678&layer=mapnik&marker=40.3515%2C18.1750'
+    'https://www.openstreetmap.org/export/embed.html?bbox=18.1585%2C40.3538%2C18.1735%2C40.3628&layer=mapnik&marker=40.35826%2C18.16623'
 ---
 
 <Base lang={lang} title={t.location.title}>
@@ -42,7 +42,7 @@ const lecceOpenStreetMap =
                     </div>
                     <div class="map-pin map-pin-3 active">
                         <div class="pin-dot pin-dot-3"></div>
-                        <div class="pin-label">Lecce</div>
+                        <div class="pin-label">Studium 2000</div>
                     </div>
                     <div class="map-landmark landmark-1">
                         <div class="landmark-icon">#</div>

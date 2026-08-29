@@ -1,0 +1,45 @@
+---
+import Base from '@/layouts/Base.astro'
+import { Icon } from 'astro-icon/components'
+import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+
+export const getStaticPaths = localizedStaticPaths
+
+const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
+const t = content[lang]
+---
+
+<Base lang={lang} title={t.team.title}>
+    <section id="team">
+        <div class="announcement-page">
+            <div class="wide">
+                <h1>{t.team.title}</h1>
+            </div>
+            <div class="card large announcement-card">
+                <div class="text">
+                    <p>{t.team.body}</p>
+                </div>
+                <a class="large" href={eventLinks.gdg} target="_blank" rel="noopener noreferrer" role="button">
+                    <Icon name="mdi:account-group" />
+                    {t.common.newsletter}
+                </a>
+            </div>
+            <div class="people-list">
+                {
+                    t.team.organizers.map(organizer => (
+                        <div class="person organizer-card">
+                            <div class="picture initials">
+                                {organizer.name
+                                    .split(' ')
+                                    .map(part => part[0])
+                                    .join('')}
+                            </div>
+                            <h3>{organizer.name}</h3>
+                            <p>{organizer.role}</p>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+</Base>

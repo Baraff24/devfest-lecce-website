@@ -29,7 +29,7 @@
         body.not-on-top header nav {
             top: 2.5rem;
 
-            width: 80ch;
+            width: 104ch;
             max-width: calc(100vw - 2rem);
 
             box-shadow:

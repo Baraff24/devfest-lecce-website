@@ -1,1 +1,11 @@
-/coc    /code-of-conduct
+/                /it/                 302
+/speakers        /it/speakers         302
+/schedule        /it/schedule         302
+/news            /it/news             302
+/iwd             /it/iwd              302
+/location        /it/location         302
+/team            /it/team             302
+/faq             /it/faq              302
+/code-of-conduct /it/code-of-conduct  302
+/coc             /it/code-of-conduct  302
+/talk/*          /it/schedule         302

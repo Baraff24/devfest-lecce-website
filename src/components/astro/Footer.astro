@@ -1,95 +1,75 @@
 ---
 import iconEmail from '@/assets/icons/email.svg?raw'
-import iconFacebook from '@/assets/icons/facebook.svg?raw'
-import iconInstagram from '@/assets/icons/instagram.svg?raw'
 import iconLinkedin from '@/assets/icons/linkedin.svg?raw'
-import iconTelegram from '@/assets/icons/telegram.svg?raw'
-import iconYoutube from '@/assets/icons/youtube.svg?raw'
+import { content, eventLinks, routePath, type Lang } from '@/lib/astro/i18n'
 
 // The "<Fragment set:html={...} />" syntax is used to inline the raw SVG from the file,
 // this cannot be done with a component because the module must be imported statically
 // due to an Astro limitation (itself due to a Vite module resolution limitation).
+
+type Props = {
+    lang: Lang
+}
+
+const { lang } = Astro.props
+const t = content[lang]
 ---
 
 <footer>
     <div class="wide v-stack">
-        <h4>Social</h4>
+        <h4>{t.footer.social}</h4>
         <div class="h-flex-wrap">
-            <a href="mailto:pisagdg@gmail.com" target="_blank" rel="noopener noreferrer">
+            <a href={eventLinks.email} target="_blank" rel="noopener noreferrer" aria-label="Email">
                 <Fragment set:html={iconEmail} />
             </a>
-            <a href="https://gdgpisa.it/telegram" target="_blank" rel="noopener noreferrer">
-                <Fragment set:html={iconTelegram} />
-            </a>
-            <a href="https://instagram.com/gdgpisa" target="_blank" rel="noopener noreferrer">
-                <Fragment set:html={iconInstagram} />
-            </a>
-            <a href="https://linkedin.com/company/gdg-pisa" target="_blank" rel="noopener noreferrer">
+            <a href={eventLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <Fragment set:html={iconLinkedin} />
             </a>
-            <a href="https://facebook.com/gdg.pisa" target="_blank" rel="noopener noreferrer">
-                <Fragment set:html={iconFacebook} />
-            </a>
-            <a href="https://www.youtube.com/@gdgpisa4445" target="_blank" rel="noopener noreferrer">
-                <Fragment set:html={iconYoutube} />
-            </a>
         </div>
     </div>
     <div class="v-stack">
-        <h4>About</h4>
+        <h4>{t.footer.about}</h4>
         <div class="text">
-            <a href="https://gdgpisa.it/">GDG Pisa</a>
+            <a href={eventLinks.gdg} target="_blank" rel="noopener noreferrer">{t.footer.gdgLecce}</a>
         </div>
         <div class="text">
-            <a href="https://developers.google.com/groups/">GDG</a>
+            <a href={eventLinks.gdgGlobal} target="_blank" rel="noopener noreferrer">{t.footer.gdg}</a>
         </div>
         <div class="text">
-            <a href="https://devfest.withgoogle.com/">DevFest</a>
-        </div>
-    </div>
-    <div class="v-stack">
-        <h4>Explore Past DevFests</h4>
-        <div class="text">
-            <a href="https://2018.devfest.gdgpisa.it/">DevFest Pisa 0.1</a>
-        </div>
-        <div class="text">
-            <a href="https://2019.devfest.gdgpisa.it/">DevFest Pisa 2019</a>
-        </div>
-        <div class="text">
-            <a href="https://2020.devfest.gdgpisa.it/">DevFest Pisa 2020</a>
-        </div>
-        <div class="text">
-            <a href="https://2023.devfest.gdgpisa.it/">DevFest Pisa 2023</a>
-        </div>
-        <div class="text">
-            <a href="https://2024.devfest.gdgpisa.it/">DevFest Pisa 2024</a>
-        </div>
-        <div class="text">
-            <a href="https://2025.devfest.gdgpisa.it/">DevFest Pisa 2025</a>
+            <a href={eventLinks.devfest} target="_blank" rel="noopener noreferrer">{t.footer.devfest}</a>
         </div>
     </div>
     <div class="v-stack">
-        <h4>Event Resources</h4>
+        <h4>{t.footer.community}</h4>
         <div class="text">
-            <a href="https://docs.google.com/document/d/1TbuETYCizEvvVMRBR9kTFsLT-X2X5NS7GlV43IZO0xM/edit?usp=sharing"
-                >Partnership Proposal (Italian)</a
-            >
+            <a href={eventLinks.gdg} target="_blank" rel="noopener noreferrer">{t.footer.gdgPlatform}</a>
         </div>
         <div class="text">
-            <a href="/code-of-conduct">Code of Conduct</a>
+            <a href={eventLinks.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
         <div class="text">
-            <a href="/faq">FAQs</a>
+            <a href={eventLinks.email}>{t.common.contactUs}</a>
+        </div>
+    </div>
+    <div class="v-stack">
+        <h4>{t.footer.resources}</h4>
+        <div class="text">
+            <a href={routePath(lang, 'code-of-conduct')}>{t.footer.codeOfConduct}</a>
         </div>
         <div class="text">
-            <a href="https://github.com/gdgpisa/devfest-2025/">Source Code on GitHub</a>
+            <a href={routePath(lang, 'faq')}>{t.footer.faq}</a>
+        </div>
+        <div class="text">
+            <a href={eventLinks.cfp} target="_blank" rel="noopener noreferrer">{t.common.viewCfp}</a>
         </div>
     </div>
     <div class="wide center copy-right">
         <div class="text">
             <p>
-                Made with ❤️ by GDG & WTM Pisa <br />
-                <span style="font-family: sans-serif;">&copy;</span> GDG Pisa 2026
+                {t.footer.madeBy}
+                <br />
+                <span style="font-family: sans-serif;">&copy;</span>
+                {t.footer.copyright}
             </p>
         </div>
     </div>

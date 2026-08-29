@@ -1,131 +1,77 @@
-# Website DevFest Pisa 2026
+# Website DevFest Lecce 2026
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/996efb3d-5136-4b7f-af08-2fd99ddc40ef/deploy-status)](https://app.netlify.com/sites/gdgpisa-devfest-2025/deploys)
+Official website for **DevFest Lecce 2026**, the community-driven technology conference organized by [GDG Lecce](https://gdg.community.dev/gdg-lecce/).
 
-The official website for **DevFest Pisa 2026** — a community-driven technology event organized by [GDG Pisa](https://gdg.community.dev/gdg-pisa/) (Google Developer Groups). Scheduled for **April 18, 2026** at MACC (Meeting Art Craft Center) in Pisa, Italy.
+The event is scheduled for **October 17, 2026** in Lecce, Italy. The final venue, tickets, speakers, and schedule are shown as “coming soon” until GDG Lecce publishes the official details.
+
+## Stack
+
+- **Framework**: [Astro 7](https://astro.build)
+- **UI islands**: [Preact 10](https://preactjs.com)
+- **Language**: TypeScript
+- **Styling**: plain CSS with project-level design tokens
+- **Icons**: `astro-icon` with Material Symbols and Material Design Icons
+- **Package manager**: npm
+
+Astro 7 requires Node.js `>=22.12.0`. This repository includes an `.nvmrc` and matching `package.json` engines field.
 
 ## Commands
 
-All commands are run from the root of the project, from a terminal:
+Run every command from the project root.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| Command                   | Action                                          |
+| :------------------------ | :---------------------------------------------- |
+| `npm install`             | Installs dependencies                           |
+| `npm run dev`             | Starts the local dev server at `localhost:4321` |
+| `npm run build`           | Builds the production site to `./dist/`         |
+| `npm run preview`         | Previews the production build locally           |
+| `npm run astro ...`       | Runs Astro CLI commands like `astro check`      |
+| `npm run astro -- --help` | Shows Astro CLI help                            |
 
-## Technology Stack
+## Multilanguage
 
-- **Framework**: [Astro 5](https://astro.build) - Static site generation with Islands Architecture
+The site is available in Italian and English:
 
-- **UI Components**: [Preact 10](https://preactjs.com) via `@astrojs/preact` integration for interactive sections
+- `/it/` is the default public language.
+- `/en/` is the English version.
+- Root-level routes such as `/`, `/schedule`, `/speakers`, and `/news` redirect to the Italian version.
 
-- **Language**: [TypeScript](https://www.typescriptlang.org) with strict type checking
-
-- **Styling**: Cascading CSS with CSS layers and custom design system
-
-- **Icons**: `astro-icon` with Material Symbols and Material Design Icons
-
-- **(Preferred) Package Manager**: [Bun](https://bun.sh) or [npm](https://www.npmjs.com)
-
-- **Deployment**: [Netlify](https://netlify.com) with continuous deployment
+Shared copy, links, and route helpers live in `src/lib/astro/i18n.ts`. Add or update text there first, then use it from Astro pages and components.
 
 ## Project Structure
 
-```
+```text
 src/
-├── assets/                   # Content & data files
-│   ├── data-*/               # Structured data (sponsors, supporters, partners)
-│   ├── gallery/              # Event photography with responsive grid naming
-│   ├── news/                 # Blog posts and announcements
-│   ├── speakers/             # Speaker data (Sessionize JSON exports + sessions)
-│   ├── team/                 # Team member photos
-│   ├── icons/                # SVG icon assets
-│   └── fonts/                # Custom typography files
+├── assets/                 # Images, videos, local content, and structured data
 ├── components/
-│   ├── astro/                # Server-rendered components (Header, Footer, Gallery)
-│   └── preact/               # Interactive components (Schedule filtering, icons)
-├── layouts/
-│   └── Base.astro            # Root layout with meta tags and global styles
+│   ├── astro/              # Server-rendered Astro components
+│   └── preact/             # Interactive Preact components
+├── layouts/                # Page layouts and redirect shell
 ├── lib/
-│   ├── astro/                # Server utilities (Sessionize parsing, data transformations)
-│   └── client/               # Browser utilities and helpers
-├── pages/                     # File-based routing
-└── styles/                    # Global styles and component CSS
+│   ├── astro/              # Astro-side utilities, including i18n
+│   └── client/             # Browser utilities
+├── pages/
+│   ├── [lang]/             # Localized pages for it/en
+│   └── *.astro             # Backward-compatible redirects
+└── styles/                 # Global styles and component CSS
 ```
 
-### Data Management
+## Content Notes
 
-**Speaker & Talk Data:**
-
-- Source: Integrated with [Sessionize](https://sessionize.com) conference management platform
-
-- Files: `src/assets/sessionize/sessions.json` and `speakers.json`
-
-- Processing: `src/lib/astro/sessionize.ts` transforms raw exports into typed Speaker and Talk objects
-
-- Features: Speaker deduplication, GDE (Google Developer Expert) badge detection, room/language/level categorization
-
-**Static Content:**
-
-- Simple Markdown-based can be created directly in `src/pages/` using the `MarkdownPage.astro` layout
-
-- Blog posts and news announcements in `src/assets/news/`
-
-- Team photos automatically discovered from `src/assets/team/` directory
-
-- Sponsor/partner data in modular TypeScript files with image imports
-
-## Development
-
-### Setup
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-# Access at http://localhost:4321
-
-# Build for production
-npm run build
-
-# Preview production build locally
-npm run preview
-```
-
-### Path Aliases
-
-The project uses convenient path aliases configured in `tsconfig.json` and `astro.config.mjs`:
-
-- `@/*` maps to `src/*` for cleaner imports
-
-### Key Configuration Files
-
-- `astro.config.mjs` - Astro framework configuration with integrations
-
-- `tsconfig.json` - TypeScript configuration with strict mode
-
-- `package.json` - Project dependencies and npm scripts
-
-- `public/` - Static assets and service worker
-
-- `src/env.d.ts` - TypeScript declarations for custom modules and assets
+- The current public pages avoid showing previous-edition speaker, agenda, ticket, sponsor, and venue data as if it belonged to Lecce.
+- The old Sessionize export and historical news are still in the repository as source material, but they are not used by the active localized news pages.
+- When official Lecce speaker and schedule exports become available, replace the data in `src/assets/sessionize/` and reconnect the schedule/speaker pages.
 
 ## Deployment
 
-The site is automatically deployed to [Netlify](https://app.netlify.com/sites/gdgpisa-devfest-2025) whenever changes are pushed to the main branch.
+Build command:
 
-**Deployment Configuration:**
+```bash
+npm run build
+```
 
-- Build command: `npm run build`
+Publish directory:
 
-- Publish directory: `./dist/`
-
-- Custom headers in `public/_headers`
-
-- Redirect rules in `public/_redirects`
+```text
+dist
+```

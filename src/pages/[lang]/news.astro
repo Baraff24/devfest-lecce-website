@@ -1,0 +1,143 @@
+---
+import Base from '@/layouts/Base.astro'
+import { Icon } from 'astro-icon/components'
+import { content, defaultLang, isLang, localizedStaticPaths, routePath, type Lang } from '@/lib/astro/i18n'
+
+type NewsModule = {
+    frontmatter: {
+        title: string
+        date: string
+    }
+    Content: any
+}
+
+export const getStaticPaths = localizedStaticPaths
+
+const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
+const t = content[lang]
+
+const modules = import.meta.glob<NewsModule>(['@/assets/news/it/*.md', '@/assets/news/en/*.md'])
+const articles = (
+    await Promise.all(
+        Object.entries(modules).map(async ([name, loader]) => {
+            const article = await loader()
+            return {
+                ...article,
+                id: name.split('/').pop()!.split('.')[0],
+                lang: name.split('/assets/news/').at(1)?.split('/').at(0),
+            }
+        }),
+    )
+)
+    .filter(article => article.lang === lang)
+    .sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date))
+
+const shareTitle = t.site.title
+const shareText = t.news.shareText
+---
+
+<Base lang={lang} title={t.news.title}>
+    <section id="news">
+        <div class="news-list">
+            <div class="wide">
+                <h1>{t.news.title}</h1>
+            </div>
+            {
+                articles.map(({ Content, frontmatter, id }, i) => (
+                    <div
+                        class="news-item"
+                        data-news-id={id}
+                        style={{
+                            '--news-color': `hsl(${Math.random() * 360}, 100%, 50%)`,
+                        }}
+                    >
+                        <div class="title">
+                            <span>{frontmatter.title}</span>
+                            <div class="actions">
+                                <input
+                                    type="checkbox"
+                                    class="news-item-trigger hide"
+                                    id={`news-${i + 1}`}
+                                    autocomplete="off"
+                                />
+                                <a
+                                    class="button flat square desktop-only"
+                                    href={`${routePath(lang, 'news')}?item=${id}`}
+                                    target="_blank"
+                                >
+                                    <Icon name="material-symbols:link" />
+                                </a>
+                                <button class="news-share-button flat square mobile-only">
+                                    <Icon class="news-item-expanded" name="material-symbols:share" />
+                                </button>
+                                <label for={`news-${i + 1}`} class="news-share-button-close button flat square">
+                                    <Icon class="news-item-not-expanded" name="material-symbols:open-in-full-rounded" />
+                                    <Icon class="news-item-expanded" name="material-symbols:close" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="timestamp">
+                                {new Date(frontmatter.date).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-GB', {
+                                    month: 'long',
+                                    day: 'numeric',
+                                    year: 'numeric',
+                                })}
+                            </div>
+                            <div class="text">
+                                <Content />
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+    <script define:vars={{ shareTitle, shareText }}>
+        const urlParams = new URLSearchParams(window.location.search)
+        const item = urlParams.get('item')
+        if (item) {
+            const newsItem = document.querySelector(`[data-news-id="${item}"] .news-item-trigger`)
+            if (newsItem) {
+                newsItem.checked = true
+            }
+        }
+
+        document.querySelectorAll('.news-share-button').forEach($button => {
+            $button.addEventListener('click', async () => {
+                const newsItem = $button.closest('.news-item')
+                const newsId = newsItem.getAttribute('data-news-id')
+                const url = new URL(window.location.href)
+                url.searchParams.set('item', newsId)
+
+                if (navigator.share) {
+                    navigator.share({
+                        title: shareTitle,
+                        text: shareText,
+                        url: url.toString(),
+                    })
+                }
+            })
+        })
+
+        document.querySelectorAll('.news-share-button-close').forEach($button => {
+            $button.addEventListener('click', async () => {
+                const url = new URL(window.location.href)
+                url.searchParams.delete('item')
+
+                window.history.pushState({}, '', url.toString())
+            })
+        })
+
+        window.addEventListener('popstate', () => {
+            const url = new URL(window.location.href)
+            const item = url.searchParams.get('item')
+            if (item) {
+                const newsItem = document.querySelector(`[data-news-id="${item}"] .news-item-trigger`)
+                if (newsItem) {
+                    newsItem.checked = true
+                }
+            }
+        })
+    </script>
+</Base>

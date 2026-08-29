@@ -336,6 +336,26 @@
                     background: #0001;
                 }
 
+                &.language-switcher {
+                    display: flex;
+                    gap: 0.25rem;
+                    padding-left: 0.5rem;
+
+                    a {
+                        min-width: 2.4rem;
+                        min-height: 2rem;
+                        padding: 0 0.6rem;
+                        border: 2px solid transparent;
+                        border-radius: 999px;
+                        font-weight: 700;
+                    }
+
+                    a.active {
+                        border-color: #333;
+                        background: var(--pastel-yellow);
+                    }
+                }
+
                 @media (width < 768px) {
                     > a {
                         padding: 0;
@@ -391,6 +411,21 @@
 
                 img {
                     height: 2rem;
+                }
+            }
+
+            .language-switcher {
+                display: flex;
+                gap: 0.5rem;
+
+                a {
+                    padding: 0.25rem 0.75rem;
+                    border: 2px solid #333;
+                    border-radius: 999px;
+                }
+
+                a.active {
+                    background: var(--pastel-yellow);
                 }
             }
 
@@ -578,6 +613,23 @@
                 background: linear-gradient(to right, rgba(from var(--pastel-blue) r g b / 0) 45%, #fff);
             }
         }
+
+        .hero-actions {
+            justify-content: start;
+        }
+
+        .hero-logo {
+            width: min(35vw, 32rem);
+            min-width: 18rem;
+            filter: drop-shadow(0.75rem 0.75rem 0 #0002);
+        }
+
+        @media (width < 768px) {
+            .hero-logo {
+                width: min(70vw, 22rem);
+                min-width: 0;
+            }
+        }
     }
 
     #cfp {
@@ -674,6 +726,62 @@
         --gap: 2rem;
 
         background: #fff;
+    }
+
+    #topics {
+        background: var(--pastel-blue);
+
+        .topic-layout {
+            display: grid;
+            grid-template-columns: minmax(16rem, 34rem) minmax(16rem, 34rem);
+            gap: 2rem;
+            align-items: stretch;
+            max-width: 74rem;
+
+            > .card img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                background: #fff;
+            }
+
+            @media (width < 768px) {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    .topic-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .topic-card {
+        min-height: 6rem;
+        display: grid;
+        place-content: center;
+        text-align: center;
+        box-shadow: 5px 5px 0 0 #0002;
+    }
+
+    .announcement-page {
+        width: 100%;
+        max-width: 78rem;
+        display: grid;
+        gap: 2rem;
+        place-self: center;
+
+        > .wide {
+            grid-column: 1 / -1;
+        }
+
+        .announcement-card {
+            max-width: 78rem;
+            width: 100%;
+            box-shadow: 0.5rem 0.5rem 0 0 #0002;
+        }
     }
 
     #news {
@@ -1195,8 +1303,28 @@
                 }
             }
 
+            .picture.initials {
+                display: grid;
+                place-content: center;
+                background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-cyan));
+                color: #333;
+                font-size: 3rem;
+                font-weight: 700;
+            }
+
             h3 {
                 font-size: 2rem !important;
+            }
+
+            &.organizer-card {
+                .picture {
+                    margin-bottom: 1rem;
+                }
+
+                p {
+                    color: #555;
+                    font-weight: 700;
+                }
             }
 
             &.interactive {
@@ -1962,10 +2090,10 @@
         }
 
         .location-arno {
-            background-image: url('/src/assets/arno.svg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+            background:
+                linear-gradient(90deg, transparent 0 12%, rgba(255, 255, 255, 0.65) 12% 15%, transparent 15%),
+                linear-gradient(15deg, transparent 0 45%, rgba(0, 244, 58, 0.25) 45% 49%, transparent 49%),
+                linear-gradient(135deg, var(--pastel-blue), var(--pastel-yellow));
             z-index: 3;
             position: absolute;
             top: 0;

@@ -4,34 +4,43 @@ import 'katex/dist/katex.css'
 
 import Footer from '@/components/astro/Footer.astro'
 import Header from '@/components/astro/Header.astro'
+import { content, defaultLang, getLangFromUrl, languages, switchLangPath, type Lang } from '@/lib/astro/i18n'
 
 type Props = {
+    lang?: Lang
     title?: string
+    description?: string
 }
 
-const { title = 'DevFest Pisa 2026' } = Astro.props
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url)
+const t = content[lang]
+const title = Astro.props.title ?? t.site.title
+const description = Astro.props.description ?? t.site.description
+const pageTitle = title === t.site.title ? title : `${title} | ${t.site.title}`
 ---
 
-<html lang="en">
+<html lang={lang}>
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
+        <meta name="description" content={description} />
 
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={pageTitle} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={Astro.url} />
         <meta property="og:image" content="/favicon.svg" />
-        <meta
-            property="og:description"
-            content={[
-                `// Leaning into the Future`,
-                `Unisciti alla DevFest Pisa, l'evento che riunisce la community tech per crescere e innovare insieme! 
-                 Talk ispirazionali, workshop pratici e networking con esperti del settore. Perché solo insieme possiamo
-                 costruire il futuro della tecnologia! 🚀`.replace(/\s+/g, ' '),
-            ].join('\n')}
-        />
+        <meta property="og:description" content={description} />
+        <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
+        <meta name="twitter:card" content="summary" />
+
+        {
+            Object.keys(languages).map(locale => (
+                <link rel="alternate" hreflang={locale} href={switchLangPath(Astro.url.pathname, locale as Lang)} />
+            ))
+        }
+        <link rel="alternate" hreflang="x-default" href={switchLangPath(Astro.url.pathname, defaultLang)} />
 
         <!-- Address Bar Color -->
         <meta name="theme-color" content="#ffbb00" />
@@ -40,13 +49,13 @@ const { title = 'DevFest Pisa 2026' } = Astro.props
         <script defer src="https://cloud.umami.is/script.js" data-website-id="6a2d9e3e-6360-4797-b976-e15276cc1d42"
         ></script>
 
-        <title>{title}</title>
+        <title>{pageTitle}</title>
     </head>
     <body>
-        <Header />
+        <Header lang={lang} />
         <main>
             <slot />
         </main>
-        <Footer />
+        <Footer lang={lang} />
     </body>
 </html>

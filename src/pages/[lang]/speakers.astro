@@ -1,0 +1,38 @@
+---
+import Base from '@/layouts/Base.astro'
+import { Icon } from 'astro-icon/components'
+import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+
+export const getStaticPaths = localizedStaticPaths
+
+const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
+const t = content[lang]
+---
+
+<Base lang={lang} title={t.speakers.title}>
+    <section class="wide">
+        <div class="announcement-page">
+            <div class="wide">
+                <h1>{t.speakers.title}</h1>
+            </div>
+            <div class="card large announcement-card">
+                <div class="text">
+                    <p>{t.speakers.body}</p>
+                </div>
+                <a class="large" href={eventLinks.cfp} target="_blank" rel="noopener noreferrer" role="button">
+                    <Icon name="mdi:microphone-outline" />
+                    {t.common.viewCfp}
+                </a>
+            </div>
+            <div class="topic-grid">
+                {
+                    t.speakers.cards.map(card => (
+                        <div class="card topic-card">
+                            <strong>{card}</strong>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+</Base>

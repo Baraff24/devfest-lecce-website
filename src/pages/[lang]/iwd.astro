@@ -1,0 +1,81 @@
+---
+import Base from '@/layouts/Base.astro'
+import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+
+import wtmQuadrato from '@/assets/logo_wtm_quadrato_2026.png'
+import wtmQuadratoNoTitle from '@/assets/logo_wtm_quadrato_2026_notitle.png'
+import breakThePatternVideo from '@/assets/Break-The-Pattern.mp4'
+
+export const getStaticPaths = localizedStaticPaths
+
+const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
+const t = content[lang]
+---
+
+<Base lang={lang} title={t.iwd.title}>
+    <section class="desktop-only" id="iwd-hero">
+        <div class="card large tight">
+            <video autoplay loop muted playsinline>
+                <source src={breakThePatternVideo} type="video/mp4" />
+            </video>
+        </div>
+        <div class="h-stack top">
+            <div class="card large">
+                <img class="logo-wtm" src={wtmQuadrato.src} alt="Women Techmakers Logo" />
+            </div>
+            <div class="card large">
+                <div class="text">
+                    <h3>{t.iwd.introTitle}</h3>
+                    {t.iwd.intro.map(paragraph => <p>{paragraph}</p>)}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mobile-only" id="iwd-hero-mobile">
+        <video autoplay loop muted playsinline>
+            <source src={breakThePatternVideo} type="video/mp4" />
+        </video>
+    </section>
+    <section class="mobile-only" id="iwd-hero-mobile-content">
+        <div class="card large">
+            <img class="logo-wtm" src={wtmQuadratoNoTitle.src} alt="Women Techmakers Logo" />
+        </div>
+        <div class="card large">
+            <div class="text">
+                <h3>{t.iwd.introTitle}</h3>
+                {t.iwd.intro.map(paragraph => <p>{paragraph}</p>)}
+            </div>
+        </div>
+    </section>
+    <section id="iwd-theme">
+        <div class="text text-center">
+            <h2>
+                <strong>{t.iwd.themeTitle}</strong>
+            </h2>
+            <p>{t.iwd.theme[0]}</p>
+        </div>
+        <div class="card large">
+            <div class="text">
+                {t.iwd.theme.map(paragraph => <p>{paragraph}</p>)}
+            </div>
+        </div>
+    </section>
+    <section id="iwd-whats-wtm" style="background-color: var(--iwd-blue);">
+        <div class="text">
+            <h2>
+                Women Techmakers
+                <div class="text-wtm-logo">
+                    <img class="logo-wtm" src={wtmQuadratoNoTitle.src} alt="Women Techmakers Logo" />
+                </div>
+            </h2>
+        </div>
+        <div class="card large">
+            <div class="text">
+                <p>{t.iwd.intro[1]}</p>
+            </div>
+            <a class="large" href={eventLinks.wtm} target="_blank" rel="noopener noreferrer" role="button">
+                {t.iwd.cta}
+            </a>
+        </div>
+    </section>
+</Base>

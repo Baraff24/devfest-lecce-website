@@ -13,6 +13,7 @@ export const eventLinks = {
     gdg: 'https://gdg.community.dev/gdg-lecce/',
     gdgGlobal: 'https://developers.google.com/community/gdg',
     devfest: 'https://developers.google.com/community/devfest',
+    wtm: 'https://developers.google.com/womentechmakers',
     cfp: 'https://sessionize.com/devfest-lecce-2026',
     tickets: '#tickets',
     calendar: 'https://gdg.community.dev/events/details/google-gdg-lecce-presents-devfest-lecce-2026/',
@@ -223,6 +224,18 @@ export const content = {
         },
         iwd: {
             title: 'Inclusione',
+            introTitle: 'Inclusione e community',
+            intro: [
+                'DevFest Lecce vuole essere uno spazio aperto, accogliente e rispettoso per tutte le persone.',
+                'Women Techmakers e le iniziative community aiutano a creare occasioni di confronto, crescita e visibilità per chi vive il tech da prospettive diverse.',
+            ],
+            themeTitle: 'Spazi aperti, tecnologia per tutti',
+            theme: [
+                'DevFest Lecce mette al centro una community accessibile, curiosa e rispettosa.',
+                'Talk, workshop e networking sono pensati per studenti, professionisti, designer, developer e persone curiose di tecnologia.',
+                'Ogni partecipante, speaker, volontario e sponsor è tenuto a rispettare il codice di condotta.',
+            ],
+            cta: 'Scopri Women Techmakers',
             subtitle:
                 'DevFest Lecce vuole essere uno spazio aperto, accogliente e rispettoso per tutte le persone.',
             cards: [
@@ -281,6 +294,7 @@ export const content = {
         },
         faq: {
             title: 'FAQ',
+            intro: 'Le informazioni principali su DevFest Lecce 2026.',
             items: [
                 {
                     question: 'Quando si terrà DevFest Lecce 2026?',
@@ -301,6 +315,20 @@ export const content = {
             description:
                 'Tutti gli eventi GDG seguono linee guida pensate per garantire un ambiente rispettoso e sicuro.',
             cta: 'Leggi il codice GDG',
+            sections: [
+                {
+                    title: 'Ambiente rispettoso',
+                    body: [
+                        'DevFest Lecce vuole essere un evento accogliente per ogni partecipante, speaker, volontario e sponsor.',
+                    ],
+                },
+                {
+                    title: 'Contatti',
+                    body: [
+                        'Per qualsiasi segnalazione o richiesta puoi contattare il team GDG Lecce.',
+                    ],
+                },
+            ],
         },
         notFound: {
             title: 'Pagina non trovata',
@@ -508,6 +536,18 @@ export const content = {
         },
         iwd: {
             title: 'Inclusion',
+            introTitle: 'Inclusion and community',
+            intro: [
+                'DevFest Lecce aims to be an open, welcoming and respectful space for everyone.',
+                'Women Techmakers and community initiatives help create opportunities for dialogue, growth and visibility for people experiencing tech from different perspectives.',
+            ],
+            themeTitle: 'Open spaces, technology for everyone',
+            theme: [
+                'DevFest Lecce puts an accessible, curious and respectful community at the center.',
+                'Talks, workshops and networking are designed for students, professionals, designers, developers and everyone curious about technology.',
+                'Every attendee, speaker, volunteer and sponsor is expected to follow the code of conduct.',
+            ],
+            cta: 'Discover Women Techmakers',
             subtitle:
                 'DevFest Lecce aims to be an open, welcoming and respectful space for everyone.',
             cards: [
@@ -566,6 +606,7 @@ export const content = {
         },
         faq: {
             title: 'FAQ',
+            intro: 'The key information about DevFest Lecce 2026.',
             items: [
                 {
                     question: 'When is DevFest Lecce 2026?',
@@ -586,6 +627,20 @@ export const content = {
             description:
                 'All GDG events follow guidelines designed to ensure a respectful and safe environment.',
             cta: 'Read the GDG code',
+            sections: [
+                {
+                    title: 'Respectful environment',
+                    body: [
+                        'DevFest Lecce aims to be a welcoming event for every attendee, speaker, volunteer and sponsor.',
+                    ],
+                },
+                {
+                    title: 'Contact',
+                    body: [
+                        'For any report or request, you can contact the GDG Lecce team.',
+                    ],
+                },
+            ],
         },
         notFound: {
             title: 'Page not found',

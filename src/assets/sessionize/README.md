@@ -1,10 +1,12 @@
 # Speakers & Sessions
 
-All the data in `sessions.json` and `speakers.json` is generated from the XLSX file downloaded from Sessionize and should not be edited directly. This raw data is then pre-processed though the `src/lib/sessionize.ts` file that can then be used from Astro components and pages.
+All the data in `sessions.json` and `speakers.json` is generated from the XLSX file downloaded from Sessionize and should not be edited directly. This raw data is then pre-processed through `src/lib/astro/sessionize.ts` and can be used from Astro components and pages.
+
+The currently checked-in JSON is historical content. For DevFest Lecce 2026, replace it only when the official accepted talks and speakers are available.
 
 ## How to import data from Sessionize
 
-- Go to [Sessionize](https://sessionize.com/) and from the "Export" section, download the XLSX file for "Sessions and speakers (advanced)" and download the "Accepted" version and download that XLSX file into `src/assets/sessionize/data-advanced.xlsx`.
+- Go to [Sessionize](https://sessionize.com/) and from the "Export" section download the XLSX file for "Sessions and speakers (advanced)". Use the "Accepted" version and save it as `src/assets/sessionize/data-advanced.xlsx`.
 
 - Then `cd` into this folder `src/assets/sessionize` and run the following python script (you may need to install the `pandas` package) to convert the XLSX spreadsheet from Sessionize to json
 
@@ -12,11 +14,11 @@ All the data in `sessions.json` and `speakers.json` is generated from the XLSX f
     ./convert-advanced.py
     ```
 
-    This will update the `speakers.json` and `sessions.json` files.
+    This updates `speakers.json` and `sessions.json`.
 
 ## The `sessionize_feedback_links.json` file
 
-Sessionize let's you add a "Feedback Link" to each session, but this is not included in the XLSX export and you can only manually export it as a zip of qr codes. Claude has helped here xD
+Sessionize lets you add a "Feedback Link" to each session, but this is not included in the XLSX export. If you export the QR codes manually, the helper script below can extract those URLs.
 
 https://claude.ai/share/ccb96adb-312d-479d-b540-aae8963b88b6
 

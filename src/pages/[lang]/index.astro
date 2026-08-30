@@ -2,14 +2,25 @@
 import Base from '@/layouts/Base.astro'
 import { Icon } from 'astro-icon/components'
 
+import HomepageGallery from '@/components/astro/HomepageGallery.astro'
 import devfestLogoSvg from '@/assets/devfest-logo.svg'
 import { sponsorTierOrder, sponsors } from '@/assets/data-sponsors'
-import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, routePath, type Lang } from '@/lib/astro/i18n'
+import {
+    content,
+    defaultLang,
+    eventFeatureFlags,
+    eventLinks,
+    isLang,
+    localizedStaticPaths,
+    routePath,
+    type Lang,
+} from '@/lib/astro/i18n'
 
 export const getStaticPaths = localizedStaticPaths
 
 const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
 const t = content[lang]
+const showCallForSpeakers = eventFeatureFlags.showCallForSpeakers
 const sponsorSections = sponsorTierOrder
     .map(tier => ({
         tier,
@@ -51,10 +62,20 @@ const hasSponsors = sponsorSections.length > 0
                         <Icon name="mdi:bell-outline" />
                         {t.home.primaryCta}
                     </a>
-                    <span class="button large cfp-closed-button" role="button" aria-disabled="true">
-                        <Icon name="mdi:microphone-outline" />
-                        {t.home.secondaryCta}
-                    </span>
+                    {
+                        showCallForSpeakers && (
+                            <a
+                                class="large"
+                                href={eventLinks.cfp}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                role="button"
+                            >
+                                <Icon name="mdi:microphone-outline" />
+                                {t.home.secondaryCta}
+                            </a>
+                        )
+                    }
                 </div>
             </div>
             <img class="hero-image hero-logo" src={devfestLogoSvg.src} alt={t.site.title} />
@@ -90,17 +111,28 @@ const hasSponsors = sponsorSections.length > 0
         </div>
     </section>
 
-    <section id="cfp" class="cfp-closed-section">
-        <h2>{t.home.cfp.title}</h2>
-        <div class="card large">
-            <div class="text">
-                <p>{t.home.cfp.subtitle}</p>
-            </div>
-            <span class="button large cfp-closed-button" role="button" aria-disabled="true">
-                {t.home.cfp.cta}
-            </span>
-        </div>
-    </section>
+    {
+        showCallForSpeakers && (
+            <section id="cfp">
+                <h2>{t.home.cfp.title}</h2>
+                <div class="card large">
+                    <div class="text">
+                        <p>{t.home.cfp.subtitle}</p>
+                    </div>
+                    <a
+                        class="large primary"
+                        href={eventLinks.cfp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        role="button"
+                    >
+                        <Icon name="mdi:microphone-outline" />
+                        {t.home.cfp.cta}
+                    </a>
+                </div>
+            </section>
+        )
+    }
 
     <section id="stats">
         <div class="stats-layouts">
@@ -130,45 +162,11 @@ const hasSponsors = sponsorSections.length > 0
         </div>
     </section>
 
+    <HomepageGallery title={t.home.gallery.title} intro={t.home.gallery.intro} />
+
     <section id="sponsors">
         <h2>{t.home.sponsors.title}</h2>
-        <div class="sponsor-layout">
-            <div class="card large sponsor-call">
-                <div class="text">
-                    {t.home.sponsors.intro.map(paragraph => <p>{paragraph}</p>)}
-                </div>
-                <a class="large primary" href={eventLinks.sponsorEmail} role="button">
-                    <Icon name="mdi:email-outline" />
-                    {t.home.sponsors.cta}
-                </a>
-            </div>
-
-            <div class="sponsor-tier-grid">
-                {
-                    t.home.sponsors.tiers.map(tier => (
-                        <div class="card large sponsor-tier-card">
-                            <div class="text">
-                                <p class="sponsor-tier-contribution">{tier.contribution}</p>
-                                <h3>{tier.name}</h3>
-                                <p>{tier.description}</p>
-                            </div>
-                            <ul>
-                                {tier.perks.map(perk => (
-                                    <li>{perk}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))
-                }
-            </div>
-
-            <div class="card large sponsor-talent">
-                <div class="text">
-                    <h3>{t.home.sponsors.talentConnectTitle}</h3>
-                    <p>{t.home.sponsors.talentConnectText}</p>
-                </div>
-            </div>
-
+        <div class="sponsor-layout sponsor-logo-layout">
             <div class="sponsor-logo-area">
                 <h3>{t.home.sponsors.logoTitle}</h3>
                 {

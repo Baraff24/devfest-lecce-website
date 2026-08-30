@@ -11,15 +11,16 @@ declare module '@/assets/sessionize/sessions.json' {
         'Session duration (workshops)': string | null
         'Level': string
         'Language': string
-        'Are you a Google employee or GDE?': string
-        'Country': string
+        'Are you a Google employee or GDE?': string | null
+        'Country': string | null
         'Owner Informed': string
         'Owner Confirmed': string
-        'Room': string
-        'Scheduled At': string
-        'Scheduled Duration': number
+        'Room': string | null
+        'Scheduled At': string | null
+        'Scheduled Duration': number | null
         'Live Link': string | null
         'Recording Link': string | null
+        'Favorited Count': number
         'Speaker Ids': string
     }
 
@@ -33,15 +34,15 @@ declare module '@/assets/sessionize/speakers.json' {
         'FirstName': string
         'LastName': string
         'Email': string
-        'TagLine': string
-        'Bio': string
-        'LinkedIn': string
-        'Company Website': string
-        'Instagram': string
+        'TagLine': string | null
+        'Bio': string | null
+        'LinkedIn': string | null
+        'Company Website': string | null
+        'Instagram': string | null
         'X (Twitter)': string | null
         'Blog': string | null
         'Facebook': string | null
-        'Profile Picture': string
+        'Profile Picture': string | null
     }
 
     const value: RawSpeaker[]

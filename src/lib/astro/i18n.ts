@@ -14,16 +14,25 @@ export const eventLinks = {
     gdgGlobal: 'https://developers.google.com/community/gdg',
     devfest: 'https://developers.google.com/community/devfest',
     wtm: 'https://developers.google.com/womentechmakers',
+    // Keep this URL updated and flip `eventFeatureFlags.showCallForSpeakers`
+    // when speaker submissions reopen for a future edition.
     cfp: 'https://sessionize.com/devfest-lecce-2026',
     tickets: '#tickets',
     calendar: 'https://gdg.community.dev/events/details/google-gdg-lecce-presents-devfest-lecce-2026/',
-    sponsorEmail: 'mailto:info@gdglecce.it?subject=Sponsor%20DevFest%20Lecce%202026',
     email: 'mailto:info@gdglecce.it',
     phone: 'tel:+393394311707',
     linkedin: 'https://www.linkedin.com/company/gdg-lecce',
     instagram: 'https://www.instagram.com/gdg_lecce',
     directions: 'https://www.google.com/maps/dir//Studium+2000,+Via+di+Valesio,+Lecce',
+    train: 'https://www.trenitalia.com/it.html',
+    brindisiAirPortLink: 'https://www.trenitalia.com/it/regionale/collegamenti-regionale/brindisi-air-port-link.html',
+    sgmLecce: 'https://www.sgmlecce.it/servizi/trasporto-pubblico/mappa-linee',
 }
+
+// Flip these for future editions when public calls reopen.
+export const eventFeatureFlags = {
+    showCallForSpeakers: false,
+} as const
 
 export const content = {
     it: {
@@ -40,7 +49,9 @@ export const content = {
         common: {
             contactUs: 'Contattaci',
             newsletter: 'Segui GDG Lecce',
-            viewCfp: 'Call for Speaker chiusa',
+            details: 'Dettagli',
+            bio: 'Bio',
+            abstract: 'Abstract',
         },
         nav: {
             home: 'Home',
@@ -78,7 +89,7 @@ export const content = {
             heroDate: 'Sabato 17 ottobre 2026',
             heroLocation: 'Studium 2000, Università del Salento',
             primaryCta: 'Prenota il tuo posto',
-            secondaryCta: 'Call for Speaker chiusa',
+            secondaryCta: 'Proponi un talk',
             announcementTitle: 'DevFest Lecce sta arrivando',
             announcementText:
                 'Il programma ruoterà intorno a Intelligenza Artificiale, Web & Mobile Development, Cloud, Cybersecurity, Data Science e Soft Skills.',
@@ -97,90 +108,38 @@ export const content = {
                 cta: 'Seguici su GDG Lecce',
             },
             cfp: {
-                title: 'Call for Speaker chiusa',
+                title: 'Proponi un talk',
                 subtitle:
-                    'La Call for Speaker di DevFest Lecce 2026 è chiusa. Grazie a tutte le persone che hanno inviato una proposta: stiamo finalizzando la selezione.',
-                cta: 'Chiusa',
+                    'Quando le proposte speaker saranno aperte, potrai candidare talk e workshop da questa sezione.',
+                cta: 'Invia proposta',
+            },
+            gallery: {
+                title: 'La community dal vivo',
+                intro: 'Volti, sale piene, talk e momenti insieme: DevFest Lecce è soprattutto una giornata da vivere con altre persone.',
             },
             sponsors: {
-                title: 'Call for Sponsor',
-                intro: [
-                    'Sostenere DevFest Lecce significa investire nella crescita tech del territorio e posizionare il proprio brand davanti a una platea qualificata di sviluppatori, studenti e professionisti.',
-                    "Offriamo quattro livelli di sponsorizzazione, pensati per esigenze e budget diversi, oltre a un'opzione dedicata al recruiting: TalentConnect.",
-                    "Tutti i contributi coprono esclusivamente i costi dell'evento: location, catering, materiali e ospitalità speaker, permettendoci di mantenere l'ingresso gratuito ai partecipanti.",
-                ],
-                cta: 'Diventa sponsor',
-                logoTitle: 'Sponsor',
-                logoEmpty: 'Sponsor in arrivo',
+                title: 'Sponsor e partner',
+                logoTitle: 'Sponsor e partner',
+                logoEmpty: 'Sponsor e partner saranno annunciati qui.',
                 tierLabels: {
                     platinum: 'Platinum',
                     gold: 'Gold',
                     silver: 'Silver',
                     bronze: 'Bronze',
                 },
-                tiers: [
-                    {
-                        name: 'Bronze',
-                        contribution: '250 euro',
-                        description: 'Supporto semplice e visibilità base.',
-                        perks: [
-                            'Logo sul sito ufficiale',
-                            'Logo sui social GDG Lecce',
-                            'Menzione nel post di ringraziamento',
-                        ],
-                    },
-                    {
-                        name: 'Silver',
-                        contribution: '500 euro',
-                        description: "Visibilità dedicata prima e durante l'evento.",
-                        perks: [
-                            'Tutti i benefit Bronze',
-                            'Post social dedicato',
-                            'Materiale promozionale nella welcome bag',
-                        ],
-                    },
-                    {
-                        name: 'Gold',
-                        contribution: '1.000 euro',
-                        description: 'Presenza fisica e brand sui materiali ufficiali.',
-                        perks: [
-                            'Tutti i benefit Silver',
-                            "Stand per tutta la durata dell'evento",
-                            'Accesso a TalentConnect',
-                        ],
-                    },
-                    {
-                        name: 'Platinum',
-                        contribution: '2.000 euro',
-                        description: 'Massima visibilità.',
-                        perks: [
-                            'Tutti i benefit Gold',
-                            'Logo su magliette, welcome bag e materiali stampati',
-                            'Keynote di chiusura in plenaria',
-                            'After party brandizzato',
-                        ],
-                    },
-                ],
-                talentConnectTitle: 'TalentConnect',
-                talentConnectText:
-                    'TalentConnect facilita il contatto tra aziende e professionisti tech. I partecipanti potranno inviare il CV tramite form e, durante DevFest, sarà attivo un desk dedicato. I CV saranno riservati agli sponsor Gold e Platinum.',
             },
         },
         about: {
             title: 'Chi siamo',
-            intro: "GDG Lecce e DevFest Lecce nascono per far crescere l'ecosistema tecnologico del territorio e connetterlo con il resto d'Italia.",
+            intro: 'GDG Lecce è una community indipendente e no-profit. DevFest Lecce è il nostro momento annuale per mettere insieme persone, competenze e territorio.',
             sections: [
                 {
                     title: 'Google Developer Group Lecce',
-                    text: "Google Developer Group Lecce è una community indipendente e no-profit di sviluppatori, studenti e professionisti del tech. Organizziamo talk, workshop e momenti di networking aperti a tutti, con l'obiettivo di far crescere l'ecosistema tecnologico del territorio e connetterlo con il resto d'Italia. Siamo parte del network globale dei Google Developer Groups, presente in oltre 100 paesi.",
+                    text: "Organizziamo talk, workshop e momenti di networking aperti a sviluppatori, studenti, designer e professionisti tech, con l'obiettivo di far crescere l'ecosistema locale.",
                 },
                 {
-                    title: "Cos'è DevFest",
-                    text: "DevFest è il più grande festival tech organizzato dalle community GDG in tutto il mondo. DevFest Lecce ne è l'edizione salentina: una giornata di talk, workshop e hackathon su AI, Web & Mobile, Cloud, Cybersecurity, Data Science e Soft Skills. Un'occasione unica nel Sud Italia per imparare dai migliori speaker nazionali e internazionali, fare networking e incontrare le aziende del settore.",
-                },
-                {
-                    title: 'DevFest Lecce 2026',
-                    text: 'DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 a Lecce, presso Studium 2000, Università del Salento. Sono attesi oltre 20 talk e più di 500 partecipanti.',
+                    title: 'DevFest Lecce',
+                    text: 'DevFest Lecce è una giornata community-driven su AI, Web & Mobile, Cloud, Cybersecurity, Data Science e Soft Skills, con talk, workshop e networking.',
                 },
             ],
             facts: [
@@ -191,7 +150,7 @@ export const content = {
             ],
             organizersTitle: 'Organizers',
             organizersIntro:
-                'Il team GDG Lecce cura programma, community, speaker, sponsor e accoglienza per costruire una DevFest utile, accessibile e ben organizzata.',
+                'Il team GDG Lecce cura programma, community, speaker e accoglienza per costruire una DevFest utile, accessibile e ben organizzata.',
             organizers: [
                 {
                     id: 'raffaele-grieco',
@@ -210,43 +169,44 @@ export const content = {
                     profileUrl: 'https://gdg.community.dev/u/m2jda5/',
                 },
             ],
-            activitiesTitle: 'Attività previste',
-            activities: [
-                { title: 'Talk', text: 'Sessioni frontali con speaker esperti sui temi più attuali del tech.' },
-                { title: 'Workshop', text: 'Sessioni pratiche hands-on in gruppi ristretti.' },
-                { title: 'Lightning Talk', text: 'Interventi rapidi e ad alta densità.' },
-                { title: 'Hackathon', text: 'Una sfida a squadre per mettere in pratica le competenze.' },
-                { title: 'Area Networking', text: 'Momenti di scambio tra partecipanti, speaker e aziende.' },
-                { title: 'Area svago', text: "Spazi relax e gaming per staccare tra una sessione e l'altra." },
-                {
-                    title: 'After party',
-                    text: 'Chiusura in festa per continuare il networking in un contesto informale.',
-                },
-            ],
         },
         speakers: {
             title: 'Speaker',
-            body: 'La Call for Speaker di DevFest Lecce 2026 è chiusa. La line-up sarà pubblicata dopo la selezione.',
+            body: 'La prima line-up confermata di DevFest Lecce 2026 è online: bio, talk e dettagli verranno aggiornati lungo il percorso verso l’evento.',
             cards: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
-            subtitle:
-                'La Call for Speaker di DevFest Lecce 2026 è chiusa. La line-up sarà pubblicata dopo la selezione.',
+            subtitle: 'Speaker confermati per DevFest Lecce 2026.',
+            lineupTitle: 'Speaker confermati',
+            lineupIntro:
+                'Scopri chi salirà sul palco: ogni card collega la persona alla sessione proposta e raccoglie i dettagli senza appesantire la pagina.',
+            sessionLabel: 'Sessione',
+            sessionsLabel: 'Sessioni',
+            bioFallback: 'Bio in aggiornamento.',
             emptyTitle: 'Speaker in arrivo',
             emptyText:
                 'Stiamo costruendo un programma con voci nazionali e internazionali su AI, sviluppo, cloud, sicurezza, dati e competenze trasversali.',
-            cfpTitle: 'Vuoi salire sul palco?',
-            cfpText: 'La Call for Speaker è chiusa. La line-up sarà pubblicata dopo la selezione.',
-            cfpCta: 'Call chiusa',
         },
         schedule: {
             title: 'Agenda',
-            body: 'Il programma completo sarà pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attività.',
+            body: 'Le sessioni accettate sono online. Orari, aule e track interne saranno aggiunti appena chiuderemo la pianificazione logistica.',
             cards: ['Talk', 'Workshop', 'Lightning Talk', 'Hackathon', 'Networking', 'After party'],
-            subtitle:
-                'Il programma completo sarà pubblicato qui non appena avremo chiuso la selezione di talk, workshop e attività.',
+            subtitle: 'Sessioni confermate e dettagli in aggiornamento.',
+            acceptedTitle: 'Sessioni accettate',
+            acceptedIntro:
+                'Questa lista arriva dall’export Sessionize. La griglia con orari e aule verrà pubblicata quando la venue map e le track saranno definitive.',
+            talksCountLabel: 'sessioni accettate',
+            speakersCountLabel: 'speaker confermati',
+            unscheduledNote: 'Orario e aula in definizione',
+            meta: {
+                track: 'Track',
+                format: 'Formato',
+                level: 'Livello',
+                language: 'Lingua',
+                room: 'Aula',
+                time: 'Orario',
+            },
             emptyTitle: 'Agenda in preparazione',
             emptyText:
                 'Aspettati una giornata piena di sessioni tecniche, workshop pratici, networking e momenti community.',
-            cfpCta: 'Call chiusa',
         },
         news: {
             title: 'News',
@@ -292,16 +252,16 @@ export const content = {
             subtitle:
                 "DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 nel complesso Studium 2000 dell'Università del Salento.",
             venueName: 'Studium 2000 - Università del Salento',
-            venueAddress: 'Via di Valesio, angolo Viale San Nicola, 73100 Lecce',
+            venueAddress: 'Edificio 3, Via di Valesio 3, 73100 Lecce',
             mapTitle: 'Studium 2000',
             mapText:
-                'Il complesso si trova in Via di Valesio, vicino al centro storico di Lecce e raggiungibile dalla stazione e dalle principali direttrici cittadine.',
+                'Il complesso si trova tra Via di Valesio e Viale San Nicola, vicino a Porta Napoli e al centro storico di Lecce.',
             mapCta: 'Apri indicazioni',
             infoTitle: 'Studium 2000',
             info: [
                 "DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 nel complesso Studium 2000 dell'Università del Salento, con punto principale nell'Edificio 3.",
                 'Studium 2000 è un polo urbano vicino al centro storico: ospita biblioteca, spazi museali, aule, sale conferenza e ambienti adatti a sessioni parallele, networking e attività community.',
-                "Una volta arrivati al punto indicato da Google Maps, la segnaletica DevFest guiderà verso check-in, aule, area sponsor e spazi di pausa all'interno del complesso.",
+                "Una volta arrivati al punto indicato da Google Maps, la segnaletica DevFest guiderà verso check-in, aule, area community e spazi di pausa all'interno del complesso.",
             ],
             venueHighlights: [
                 {
@@ -314,7 +274,7 @@ export const content = {
                 },
                 {
                     title: 'Area community',
-                    text: 'Zone per networking, sponsor, TalentConnect e pause tra una track e l’altra.',
+                    text: 'Zone per networking, partner e pause tra una track e l’altra.',
                 },
             ],
             indoor: {
@@ -377,10 +337,10 @@ export const content = {
                     },
                     {
                         id: 'networking',
-                        label: 'Sponsor',
+                        label: 'Community',
                         room: 'Foyer / area networking',
-                        track: 'Sponsor, TalentConnect e community',
-                        description: 'Area per stand sponsor, recruiting, pausa caffè e incontri tra partecipanti.',
+                        track: 'Partner, networking e community',
+                        description: 'Area per partner, pausa caffè e incontri tra partecipanti.',
                         x: '64%',
                         y: '62%',
                         w: '28%',
@@ -390,25 +350,64 @@ export const content = {
                 ],
             },
             findUs: 'Come arrivare',
-            directionsTitle: 'Indicazioni',
-            trainTitle: 'In treno',
-            train: 'La stazione di Lecce collega la città con Bari, Brindisi e le principali destinazioni nazionali.',
-            planeTitle: 'In aereo',
-            plane: "L'aeroporto di Brindisi è lo scalo più vicino, con collegamenti shuttle e treno verso Lecce.",
-            carTitle: 'In città',
-            car: 'Studium 2000 è vicino al centro storico e può essere raggiunto con mezzi pubblici, taxi o percorsi pedonali.',
+            directionsTitle: 'Come raggiungerci',
+            directionsIntro:
+                'Punta a Studium 2000 - Edificio 3. L’ingresso evento sarà indicato dalla segnaletica DevFest appena dentro il complesso universitario.',
             directions: [
                 {
+                    icon: 'mdi:map-marker-path',
+                    title: 'Punto di arrivo',
+                    text: 'Imposta Studium 2000 su Google Maps e raggiungi l’area tra Via di Valesio e Viale San Nicola. Il check-in sarà nell’Edificio 3.',
+                    details: [
+                        'Cerca il percorso verso Studium 2000, Via di Valesio 3.',
+                        'Una volta arrivato, segui cartelli e volontari DevFest verso check-in e aule.',
+                    ],
+                    cta: 'Apri Google Maps',
+                    href: eventLinks.directions,
+                },
+                {
+                    icon: 'mdi:train',
                     title: 'In treno',
-                    text: 'La stazione di Lecce collega la città con Bari, Brindisi e le principali destinazioni nazionali.',
+                    text: 'Arriva alla stazione di Lecce, collegata con Bari, Brindisi, Roma, Bologna e Milano. Da lì puoi proseguire verso Studium 2000 a piedi, in taxi o con trasporto urbano.',
+                    details: [
+                        'Dal centro storico l’area di Studium 2000 è comoda da raggiungere passando da Porta Napoli.',
+                        'Per i bus urbani controlla linee e fermate aggiornate sul sito SGM Lecce.',
+                    ],
+                    cta: 'Cerca treni',
+                    href: eventLinks.train,
                 },
                 {
+                    icon: 'mdi:airplane',
                     title: 'In aereo',
-                    text: "L'aeroporto di Brindisi è lo scalo più vicino, con collegamenti shuttle e treno verso Lecce.",
+                    text: 'Lo scalo più comodo è Brindisi. Puoi arrivare alla stazione di Brindisi con Brindisi Air&Port Link e poi prendere il treno per Lecce.',
+                    details: [
+                        'L’aeroporto di Bari è un’alternativa più distante, utile se trovi voli migliori.',
+                        'Per navette o taxi condivisi conviene prenotare con anticipo nei giorni vicini all’evento.',
+                    ],
+                    cta: 'Brindisi Air&Port Link',
+                    href: eventLinks.brindisiAirPortLink,
                 },
                 {
-                    title: 'In città',
-                    text: 'Studium 2000 è vicino al centro storico e può essere raggiunto con mezzi pubblici, taxi o percorsi pedonali.',
+                    icon: 'mdi:bus',
+                    title: 'Bus urbano',
+                    text: 'Se parti da hotel, B&B o zone fuori dal centro, controlla la mappa SGM e scegli la fermata più vicina a Via di Valesio, Porta Napoli o Viale De Pietro.',
+                    details: [
+                        'Le linee e le fermate possono cambiare: verifica sempre la mappa aggiornata il giorno prima.',
+                        'Tieni qualche minuto extra per orientarti dentro il complesso.',
+                    ],
+                    cta: 'Mappa SGM Lecce',
+                    href: eventLinks.sgmLecce,
+                },
+                {
+                    icon: 'mdi:car-outline',
+                    title: 'In auto',
+                    text: 'Arrivando da fuori città, segui le indicazioni per Lecce centro e poi per Via di Valesio / Viale San Nicola. Prevedi un po’ di margine per parcheggio e check-in.',
+                    details: [
+                        'Imposta la destinazione prima di partire: la zona è centrale e può avere traffico nelle fasce universitarie.',
+                        'Dopo aver parcheggiato, raggiungi l’Edificio 3 a piedi seguendo la segnaletica DevFest.',
+                    ],
+                    cta: 'Apri indicazioni',
+                    href: eventLinks.directions,
                 },
             ],
         },
@@ -423,10 +422,6 @@ export const content = {
                 {
                     question: 'I biglietti sono disponibili?',
                     answer: "Non ancora. L'ingresso sarà gratuito e le registrazioni apriranno più avanti.",
-                },
-                {
-                    question: 'Posso candidarmi come speaker?',
-                    answer: 'La Call for Speaker è chiusa. La line-up sarà pubblicata dopo la selezione.',
                 },
             ],
         },
@@ -470,7 +465,9 @@ export const content = {
         common: {
             contactUs: 'Contact us',
             newsletter: 'Follow GDG Lecce',
-            viewCfp: 'Call for Speakers closed',
+            details: 'Details',
+            bio: 'Bio',
+            abstract: 'Abstract',
         },
         nav: {
             home: 'Home',
@@ -508,7 +505,7 @@ export const content = {
             heroDate: 'Saturday, October 17, 2026',
             heroLocation: 'Studium 2000, University of Salento',
             primaryCta: 'Reserve your seat',
-            secondaryCta: 'Call for Speakers closed',
+            secondaryCta: 'Submit a talk',
             announcementTitle: 'DevFest Lecce is coming',
             announcementText:
                 'The program will focus on Artificial Intelligence, Web & Mobile Development, Cloud, Cybersecurity, Data Science and Soft Skills.',
@@ -527,86 +524,37 @@ export const content = {
                 cta: 'Follow GDG Lecce',
             },
             cfp: {
-                title: 'Call for Speakers closed',
-                subtitle:
-                    'The DevFest Lecce 2026 Call for Speakers is closed. Thanks to everyone who submitted a proposal: we are finalizing the selection.',
-                cta: 'Closed',
+                title: 'Submit a talk',
+                subtitle: 'When speaker submissions reopen, this section can be used to collect talks and workshops.',
+                cta: 'Submit proposal',
+            },
+            gallery: {
+                title: 'The community, live',
+                intro: 'Faces, full rooms, talks and shared moments: DevFest Lecce is first of all a day to experience with other people.',
             },
             sponsors: {
-                title: 'Call for Sponsors',
-                intro: [
-                    'Supporting DevFest Lecce means investing in the growth of the local tech ecosystem and positioning your brand in front of a qualified audience of developers, students and professionals.',
-                    'We offer four sponsorship levels, designed for different needs and budgets, plus a recruiting-focused option: TalentConnect.',
-                    'All contributions cover event costs only: venue, catering, materials and speaker hospitality, helping us keep admission free for attendees.',
-                ],
-                cta: 'Become a sponsor',
-                logoTitle: 'Sponsors',
-                logoEmpty: 'Sponsors coming soon',
+                title: 'Sponsors and partners',
+                logoTitle: 'Sponsors and partners',
+                logoEmpty: 'Sponsors and partners will be announced here.',
                 tierLabels: {
                     platinum: 'Platinum',
                     gold: 'Gold',
                     silver: 'Silver',
                     bronze: 'Bronze',
                 },
-                tiers: [
-                    {
-                        name: 'Bronze',
-                        contribution: '250 euro',
-                        description: 'Simple support and basic visibility.',
-                        perks: [
-                            'Logo on the official website',
-                            'Logo on GDG Lecce social channels',
-                            'Mention in the thank-you post',
-                        ],
-                    },
-                    {
-                        name: 'Silver',
-                        contribution: '500 euro',
-                        description: 'Dedicated visibility before and during the event.',
-                        perks: [
-                            'All Bronze benefits',
-                            'Dedicated social post',
-                            'Promotional material in the welcome bag',
-                        ],
-                    },
-                    {
-                        name: 'Gold',
-                        contribution: '1,000 euro',
-                        description: 'On-site presence and brand visibility on official materials.',
-                        perks: ['All Silver benefits', 'Stand for the full event', 'Access to TalentConnect'],
-                    },
-                    {
-                        name: 'Platinum',
-                        contribution: '2,000 euro',
-                        description: 'Maximum visibility.',
-                        perks: [
-                            'All Gold benefits',
-                            'Logo on official t-shirts, welcome bags and printed materials',
-                            'Closing keynote in the plenary room',
-                            'Branded after party',
-                        ],
-                    },
-                ],
-                talentConnectTitle: 'TalentConnect',
-                talentConnectText:
-                    'TalentConnect helps companies connect with tech professionals. Attendees will be able to submit their CV through a form and a dedicated desk will be active during DevFest. CV access is reserved for Gold and Platinum sponsors.',
             },
         },
         about: {
             title: 'About',
-            intro: 'GDG Lecce and DevFest Lecce exist to grow the local tech ecosystem and connect it with the rest of Italy.',
+            intro: 'GDG Lecce is an independent, non-profit community. DevFest Lecce is our annual moment to bring people, skills and the local ecosystem together.',
             sections: [
                 {
                     title: 'Google Developer Group Lecce',
-                    text: 'Google Developer Group Lecce is an independent, non-profit community of developers, students and tech professionals. We organize talks, workshops and networking moments open to everyone, with the goal of growing the local technology ecosystem and connecting it with the rest of Italy. We are part of the global Google Developer Groups network, active in more than 100 countries.',
+                    text: 'We organize talks, workshops and networking moments open to developers, students, designers and tech professionals, with the goal of growing the local ecosystem.',
                 },
                 {
-                    title: 'What DevFest is',
-                    text: 'DevFest is the largest tech festival organized by GDG communities around the world. DevFest Lecce is its Salento edition: a day of talks, workshops and hackathons on AI, Web & Mobile, Cloud, Cybersecurity, Data Science and Soft Skills. It is a unique opportunity in Southern Italy to learn from top national and international speakers, network and meet companies in the field.',
-                },
-                {
-                    title: 'DevFest Lecce 2026',
-                    text: 'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 in Lecce, at Studium 2000, University of Salento. We expect more than 20 talks and over 500 attendees.',
+                    title: 'DevFest Lecce',
+                    text: 'DevFest Lecce is a community-driven day about AI, Web & Mobile, Cloud, Cybersecurity, Data Science and Soft Skills, with talks, workshops and networking.',
                 },
             ],
             facts: [
@@ -617,7 +565,7 @@ export const content = {
             ],
             organizersTitle: 'Organizers',
             organizersIntro:
-                'The GDG Lecce team curates the program, community, speakers, sponsors and attendee experience to build a useful, accessible and well-organized DevFest.',
+                'The GDG Lecce team curates the program, community, speakers and attendee experience to build a useful, accessible and well-organized DevFest.',
             organizers: [
                 {
                     id: 'raffaele-grieco',
@@ -636,40 +584,44 @@ export const content = {
                     profileUrl: 'https://gdg.community.dev/u/m2jda5/',
                 },
             ],
-            activitiesTitle: 'Planned activities',
-            activities: [
-                { title: 'Talks', text: 'Front-facing sessions with expert speakers on the most current tech topics.' },
-                { title: 'Workshops', text: 'Hands-on practical sessions in smaller groups.' },
-                { title: 'Lightning Talks', text: 'Fast, dense sessions with a focused idea.' },
-                { title: 'Hackathon', text: 'A team challenge to put skills into practice.' },
-                { title: 'Networking Area', text: 'Moments for attendees, speakers and companies to connect.' },
-                { title: 'Leisure Area', text: 'Relax and gaming spaces between sessions.' },
-                { title: 'After party', text: 'A closing celebration to keep networking in an informal setting.' },
-            ],
         },
         speakers: {
             title: 'Speakers',
-            body: 'The DevFest Lecce 2026 Call for Speakers is closed. The line-up will be published after the selection.',
+            body: 'The first confirmed DevFest Lecce 2026 line-up is online: bios, talks and details will be updated on the road to the event.',
             cards: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
-            subtitle:
-                'The DevFest Lecce 2026 Call for Speakers is closed. The line-up will be published after the selection.',
+            subtitle: 'Confirmed speakers for DevFest Lecce 2026.',
+            lineupTitle: 'Confirmed speakers',
+            lineupIntro:
+                'Meet the people taking the stage: each card connects the speaker with their session and keeps details easy to scan.',
+            sessionLabel: 'Session',
+            sessionsLabel: 'Sessions',
+            bioFallback: 'Bio being updated.',
             emptyTitle: 'Speakers coming soon',
             emptyText:
                 'We are building a program with national and international voices on AI, development, cloud, security, data and soft skills.',
-            cfpTitle: 'Want to take the stage?',
-            cfpText: 'The Call for Speakers is closed. The line-up will be published after the selection.',
-            cfpCta: 'Call closed',
         },
         schedule: {
             title: 'Schedule',
-            body: 'The full program will be published here as soon as talks, workshops and activities are finalized.',
+            body: 'Accepted sessions are now online. Times, rooms and internal tracks will be added once logistics are finalized.',
             cards: ['Talks', 'Workshops', 'Lightning Talks', 'Hackathon', 'Networking', 'After party'],
-            subtitle:
-                'The full program will be published here as soon as talks, workshops and activities are finalized.',
+            subtitle: 'Confirmed sessions and details being updated.',
+            acceptedTitle: 'Accepted sessions',
+            acceptedIntro:
+                'This list comes from the Sessionize export. The timed grid with rooms will be published once the venue map and tracks are final.',
+            talksCountLabel: 'accepted sessions',
+            speakersCountLabel: 'confirmed speakers',
+            unscheduledNote: 'Time and room being defined',
+            meta: {
+                track: 'Track',
+                format: 'Format',
+                level: 'Level',
+                language: 'Language',
+                room: 'Room',
+                time: 'Time',
+            },
             emptyTitle: 'Schedule in progress',
             emptyText:
                 'Expect a full day of technical sessions, practical workshops, networking and community moments.',
-            cfpCta: 'Call closed',
         },
         news: {
             title: 'News',
@@ -715,16 +667,16 @@ export const content = {
             subtitle:
                 'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 at the University of Salento Studium 2000 complex.',
             venueName: 'Studium 2000 - University of Salento',
-            venueAddress: 'Via di Valesio, corner of Viale San Nicola, 73100 Lecce',
+            venueAddress: 'Building 3, Via di Valesio 3, 73100 Lecce',
             mapTitle: 'Studium 2000',
             mapText:
-                'The complex is in Via di Valesio, close to Lecce historic center and reachable from the station and the city main routes.',
+                'The complex sits between Via di Valesio and Viale San Nicola, close to Porta Napoli and Lecce historic center.',
             mapCta: 'Open directions',
             infoTitle: 'Studium 2000',
             info: [
                 'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 in the University of Salento Studium 2000 complex, with the main reference point in Building 3.',
                 'Studium 2000 is an urban campus near the historic center: it hosts a library, museum spaces, classrooms, conference rooms and areas suitable for parallel sessions, networking and community activities.',
-                'Once attendees arrive at the Google Maps point, DevFest signage will guide them to check-in, rooms, sponsor area and break spaces inside the complex.',
+                'Once attendees arrive at the Google Maps point, DevFest signage will guide them to check-in, rooms, community area and break spaces inside the complex.',
             ],
             venueHighlights: [
                 {
@@ -737,7 +689,7 @@ export const content = {
                 },
                 {
                     title: 'Community area',
-                    text: 'Areas for networking, sponsors, TalentConnect and breaks between tracks.',
+                    text: 'Areas for networking, partners and breaks between tracks.',
                 },
             ],
             indoor: {
@@ -799,10 +751,10 @@ export const content = {
                     },
                     {
                         id: 'networking',
-                        label: 'Sponsors',
+                        label: 'Community',
                         room: 'Foyer / networking area',
-                        track: 'Sponsors, TalentConnect and community',
-                        description: 'Area for sponsor booths, recruiting, coffee breaks and attendee conversations.',
+                        track: 'Partners, networking and community',
+                        description: 'Area for partners, coffee breaks and attendee conversations.',
                         x: '64%',
                         y: '62%',
                         w: '28%',
@@ -812,25 +764,64 @@ export const content = {
                 ],
             },
             findUs: 'How to get there',
-            directionsTitle: 'Directions',
-            trainTitle: 'By train',
-            train: 'Lecce railway station connects the city with Bari, Brindisi and major national destinations.',
-            planeTitle: 'By plane',
-            plane: 'Brindisi Airport is the closest airport, with shuttle and train connections to Lecce.',
-            carTitle: 'In the city',
-            car: 'Studium 2000 is close to the historic center and can be reached by public transport, taxi or on foot.',
+            directionsTitle: 'How to reach us',
+            directionsIntro:
+                'Head to Studium 2000 - Building 3. DevFest signs will guide you to the event entrance as soon as you enter the university complex.',
             directions: [
                 {
+                    icon: 'mdi:map-marker-path',
+                    title: 'Arrival point',
+                    text: 'Set Studium 2000 on Google Maps and head to the area between Via di Valesio and Viale San Nicola. Check-in will be in Building 3.',
+                    details: [
+                        'Search for Studium 2000, Via di Valesio 3.',
+                        'Once you arrive, follow DevFest signs and volunteers toward check-in and rooms.',
+                    ],
+                    cta: 'Open Google Maps',
+                    href: eventLinks.directions,
+                },
+                {
+                    icon: 'mdi:train',
                     title: 'By train',
-                    text: 'Lecce railway station connects the city with Bari, Brindisi and major national destinations.',
+                    text: 'Arrive at Lecce railway station, connected with Bari, Brindisi, Rome, Bologna and Milan. From there, continue to Studium 2000 on foot, by taxi or by local transport.',
+                    details: [
+                        'From the historic center, Studium 2000 is convenient to reach via Porta Napoli.',
+                        'For local buses, check updated lines and stops on the SGM Lecce website.',
+                    ],
+                    cta: 'Search trains',
+                    href: eventLinks.train,
                 },
                 {
+                    icon: 'mdi:airplane',
                     title: 'By plane',
-                    text: 'Brindisi Airport is the closest airport, with shuttle and train connections to Lecce.',
+                    text: 'The most convenient airport is Brindisi. You can reach Brindisi railway station with Brindisi Air&Port Link and then take the train to Lecce.',
+                    details: [
+                        'Bari Airport is a farther alternative if it has better flights for you.',
+                        'For shuttles or shared taxis, booking in advance is recommended close to the event date.',
+                    ],
+                    cta: 'Brindisi Air&Port Link',
+                    href: eventLinks.brindisiAirPortLink,
                 },
                 {
-                    title: 'In the city',
-                    text: 'Studium 2000 is close to the historic center and can be reached by public transport, taxi or on foot.',
+                    icon: 'mdi:bus',
+                    title: 'Local bus',
+                    text: 'If you are leaving from hotels, B&Bs or areas outside the center, check the SGM map and choose the closest stop to Via di Valesio, Porta Napoli or Viale De Pietro.',
+                    details: [
+                        'Lines and stops may change: always check the updated map the day before.',
+                        'Keep a few extra minutes to orient yourself inside the complex.',
+                    ],
+                    cta: 'SGM Lecce map',
+                    href: eventLinks.sgmLecce,
+                },
+                {
+                    icon: 'mdi:car-outline',
+                    title: 'By car',
+                    text: 'When arriving from outside the city, follow signs to Lecce center and then to Via di Valesio / Viale San Nicola. Allow time for parking and check-in.',
+                    details: [
+                        'Set your destination before leaving: the area is central and can be busy during university hours.',
+                        'After parking, walk to Building 3 following DevFest signage.',
+                    ],
+                    cta: 'Open directions',
+                    href: eventLinks.directions,
                 },
             ],
         },
@@ -845,10 +836,6 @@ export const content = {
                 {
                     question: 'Are tickets available?',
                     answer: 'Not yet. Admission will be free and registration will open later.',
-                },
-                {
-                    question: 'Can I apply as a speaker?',
-                    answer: 'The Call for Speakers is closed. The line-up will be published after the selection.',
                 },
             ],
         },

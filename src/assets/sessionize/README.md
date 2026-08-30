@@ -2,11 +2,15 @@
 
 All the data in `sessions.json` and `speakers.json` is generated from the XLSX file downloaded from Sessionize and should not be edited directly. This raw data is then pre-processed through `src/lib/astro/sessionize.ts` and can be used from Astro components and pages.
 
-The currently checked-in JSON is historical content. For DevFest Lecce 2026, replace it only when the official accepted talks and speakers are available.
+The currently checked-in JSON is generated from the DevFest Lecce 2026 accepted sessions and speakers export.
 
 ## How to import data from Sessionize
 
-- Go to [Sessionize](https://sessionize.com/) and from the "Export" section download the XLSX file for "Sessions and speakers (advanced)". Use the "Accepted" version and save it as `src/assets/sessionize/data-advanced.xlsx`.
+- Go to [Sessionize](https://sessionize.com/) and from the "Export" section download the XLSX file for accepted sessions and speakers.
+
+    The importer supports both the classic advanced export with separate `Accepted sessions` and `Accepted speakers` sheets, and the flattened export with a single `Accepted sessions and speakers` sheet.
+
+- Save the export as `src/assets/sessionize/data-advanced.xlsx`.
 
 - Then `cd` into this folder `src/assets/sessionize` and run the following python script (you may need to install the `pandas` package) to convert the XLSX spreadsheet from Sessionize to json
 
@@ -15,6 +19,14 @@ The currently checked-in JSON is historical content. For DevFest Lecce 2026, rep
     ```
 
     This updates `speakers.json` and `sessions.json`.
+
+    To test a different file without replacing `data-advanced.xlsx`, pass the file path explicitly:
+
+    ```
+    ./convert-advanced.py "devfest-lecce-2026 flattened accepted sessions - exported 2026-08-30.xlsx"
+    ```
+
+    If the export does not include room and time assignments yet, the generated sessions are still shown on the website as accepted sessions. The timed agenda can be completed later by adding `Room`, `Scheduled At`, and `Scheduled Duration` in the source export.
 
 ## The `sessionize_feedback_links.json` file
 
@@ -62,7 +74,7 @@ for r in results[:3]:
     print(r)
 
 out = json.dumps(results, indent=2, ensure_ascii=False)
-with open("/mnt/user-data/outputs/devfest_pisa_2026_qr_links.json", "w") as f:
+with open("/mnt/user-data/outputs/devfest_lecce_2026_qr_links.json", "w") as f:
     f.write(out)
 print(f"\nDone: {len(results)} entries")
 EOF

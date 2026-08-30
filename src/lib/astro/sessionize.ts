@@ -46,26 +46,33 @@ const slugify = (str: string) =>
         .replace(/^-+/, '')
         .replace(/-+$/, '')
 
-const excelCleanup = (str: string) => str.replaceAll('_x000D_', '\n')
+const excelCleanup = (value: unknown) =>
+    String(value ?? '')
+        .replaceAll('_x000D_', '\n')
+        .trim()
 
-// Speakers to exclude
-const EXCLUDED_SPEAKERS = new Set([
-    // These names must match exactly the "<firstName> <lastName>"
-    'Francesco Sciuti',
-])
+const parseSpeakerIds = (value: unknown) =>
+    String(value ?? '')
+        .split(',')
+        .map(id => id.trim())
+        .filter(Boolean)
 
-// Remove talks with no room assigned
+const shouldDebugSessionize = import.meta.env.DEV && import.meta.env.PUBLIC_SESSIONIZE_DEBUG === 'true'
+
+const EXCLUDED_SPEAKERS = new Set<string>()
+
 const rawSessionsAssigned = rawSessions
     .filter(session => {
-        const isAccepted = session['Room'] !== null
-        if (!isAccepted) {
-            console.warn(`Talk "${session['Title']}" has been hidden for now`)
+        const hasContent = Boolean(session['Title']) && Boolean(session['Description'])
+        const hasSpeakers = parseSpeakerIds(session['Speaker Ids']).length > 0
+        if (!hasContent || !hasSpeakers) {
+            console.warn(`Talk "${session['Title']}" has been hidden because required content is missing`)
         }
-        return isAccepted
+        return hasContent && hasSpeakers
     })
     .filter(session => {
         // Remove sessions where all speakers are excluded
-        const speakerIds = session['Speaker Ids'].split(', ').filter(id => {
+        const speakerIds = parseSpeakerIds(session['Speaker Ids']).filter(id => {
             const speaker = rawSpeakers.find(s => s['Speaker Id'] === id)
             if (!speaker) return true
             const fullName = `${speaker['FirstName']} ${speaker['LastName']}`
@@ -88,7 +95,7 @@ const rawSpeakersAssigned = rawSpeakers.filter(speaker => {
         return false
     }
 
-    const isAccepted = rawSessionsAssigned.some(session => session['Speaker Ids'].split(', ').includes(speakerId))
+    const isAccepted = rawSessionsAssigned.some(session => parseSpeakerIds(session['Speaker Ids']).includes(speakerId))
     if (!isAccepted) {
         console.warn(`Speaker "${fullName}" has been hidden for now`)
     }
@@ -104,11 +111,11 @@ for (const speaker of rawSpeakersAssigned) {
 
     speakersBySessionizeUUID[id] = {
         id: slugify(`${speaker['FirstName']} ${speaker['LastName']}`),
-        firstName: speaker['FirstName'],
-        lastName: speaker['LastName'],
-        tagLine: speaker['TagLine'],
-        bio: excelCleanup(speaker['Bio'] ?? ''),
-        profilePicture: speaker['Profile Picture'],
+        firstName: speaker['FirstName'] ?? '',
+        lastName: speaker['LastName'] ?? '',
+        tagLine: speaker['TagLine'] ?? '',
+        bio: excelCleanup(speaker['Bio']),
+        profilePicture: speaker['Profile Picture'] ?? '',
         isGDE: false,
         isWtmAmbassador: false,
         isGoogler: false,
@@ -119,7 +126,7 @@ for (const speaker of rawSpeakersAssigned) {
 for (const session of rawSessionsAssigned) {
     // console.log(`Processing talk "${session['Title']}"...`)
     if ((session['Are you a Google employee or GDE?'] ?? '').includes('Yes')) {
-        const speakerIds = session['Speaker Ids'].split(', ')
+        const speakerIds = parseSpeakerIds(session['Speaker Ids'])
         for (const speakerId of speakerIds) {
             if (speakersBySessionizeUUID[speakerId]) {
                 speakersBySessionizeUUID[speakerId].isGDE = true
@@ -174,6 +181,8 @@ export const SESSION_FORMAT_LABELS: Record<string, { label: string; shortLabel?:
     'Medium (30min)': { label: '30min', shortLabel: '30m' },
     'Full (40min)': { label: '40min', shortLabel: '40m' },
     'Workshop (1+ hr)': { label: '1h30m' },
+    'Talk (45 min)': { label: '45min', shortLabel: '45m' },
+    'Workshop (60–90 min)': { label: '60-90min', shortLabel: '60-90m' },
 }
 
 const WORKSHOPS: Record<string, { color: string }> = {
@@ -194,18 +203,17 @@ export const TALKS: Talk[] = [
         const title = session['Title']
         const description = excelCleanup(session['Description'])
 
-        const category = session['Category']
-        const level = session['Level']
-        const language = session['Language']
-        const sessionFormat = session['Session format']
+        const category = session['Category'] ?? ''
+        const level = session['Level'] ?? ''
+        const language = session['Language'] ?? ''
+        const sessionFormat = session['Session format'] ?? ''
 
-        const room = session['Room']
+        const room = session['Room'] ?? ''
 
-        const scheduledStart = session['Scheduled At']
+        const scheduledStart = session['Scheduled At'] ?? ''
         const scheduledDuration = session['Scheduled Duration'] ?? 0
 
-        const speakers = session['Speaker Ids']
-            .split(', ')
+        const speakers = parseSpeakerIds(session['Speaker Ids'])
             .map(speakerId => speakersBySessionizeUUID[speakerId])
             .filter(Boolean)
 
@@ -241,138 +249,126 @@ export const TALKS: Talk[] = [
     }
 })
 
-//
-// Debugging
-//
-
-console.log('Talks & Speakers:')
-for (const talk of TALKS) {
-    console.log(`> ${talk.id}:`)
-    console.log(`  "${talk.title}"`)
-    console.log(`  [${talk.category}] [${talk.language}] [${talk.room}] [${talk.scheduledStart}]`)
-    console.log(`  ${talk.description.trim().replace(/\n+/g, '  ').slice(0, 100)}...`)
-    for (const speaker of talk.speakers) {
-        console.log(`  - ${speaker.firstName} ${speaker.lastName} @${speaker.id}`)
+if (shouldDebugSessionize) {
+    console.log('Talks & Speakers:')
+    for (const talk of TALKS) {
+        console.log(`> ${talk.id}:`)
+        console.log(`  "${talk.title}"`)
+        console.log(`  [${talk.category}] [${talk.language}] [${talk.room}] [${talk.scheduledStart}]`)
+        console.log(`  ${talk.description.trim().replace(/\n+/g, '  ').slice(0, 100)}...`)
+        for (const speaker of talk.speakers) {
+            console.log(`  - ${speaker.firstName} ${speaker.lastName} @${speaker.id}`)
+        }
+        console.log('')
     }
-    console.log('')
-}
 
-console.log(`Total talks: ${TALKS.length}`)
-console.log(`Total speakers: ${SPEAKERS.length}`)
+    console.log(`Total talks: ${TALKS.length}`)
+    console.log(`Total speakers: ${SPEAKERS.length}`)
 
-// Rooms
-
-console.log('Rooms:')
-const rooms = [...new Set(TALKS.map(talk => talk.room).filter(room => room !== 'unknown'))]
-for (const room of rooms) {
-    console.log(`> ${room}`)
-}
-
-// console.log('Talk Durations:')
-// const durations = new Set(TALKS.map(talk => talk.scheduledDuration))
-// for (const duration of durations) {
-//     console.log(`> ${duration} minutes`)
-// }
-console.log('Session Formats:')
-const sessionFormats = new Set(TALKS.map(talk => talk.sessionFormat))
-for (const sessionFormat of sessionFormats) {
-    console.log(`> ${sessionFormat}`)
-}
-
-console.log('Errors:')
-const errorTalks = TALKS.filter(
-    talk =>
-        talk.room === null ||
-        talk.room === 'unknown' ||
-        talk.scheduledDuration === null ||
-        talk.scheduledDuration === 0 ||
-        !talk.sessionFormat ||
-        !SESSION_FORMAT_LABELS[talk.sessionFormat],
-)
-if (errorTalks.length === 0) {
-    console.log('No errors found!')
-} else {
-    console.log(`Found ${errorTalks.length} talks with errors:`)
-}
-errorTalks.forEach(talk => {
-    console.log(`> ${talk.title} (${talk.id})`)
-    if (talk.room === null || talk.room === 'unknown') {
-        console.log('  - Missing or unknown room')
+    console.log('Rooms:')
+    const rooms = [...new Set(TALKS.map(talk => talk.room).filter(room => room && room !== 'unknown'))]
+    for (const room of rooms) {
+        console.log(`> ${room}`)
     }
-    if (talk.scheduledDuration === null || talk.scheduledDuration === 0) {
-        console.log('  - Missing or zero duration')
-    }
-    if (!talk.sessionFormat) {
-        console.log('  - Missing session format')
-    }
-    if (talk.sessionFormat && !SESSION_FORMAT_LABELS[talk.sessionFormat]) {
-        console.log(`  - Unknown session format: "${talk.sessionFormat}"`)
-    }
-})
 
-console.log('-'.repeat(50))
-console.log('WTM Ambassadors Errors:')
-const wtmAmbassadorErrors = new Set<string>()
-for (const name of WTM_AMBASSADOR_NAMES) {
-    if (!foundWtmAmbassadors.has(name)) {
-        wtmAmbassadorErrors.add(name)
-        console.error(`> WTM Ambassador "${name}" not found in speakers`)
+    console.log('Session Formats:')
+    const sessionFormats = new Set(TALKS.map(talk => talk.sessionFormat))
+    for (const sessionFormat of sessionFormats) {
+        console.log(`> ${sessionFormat}`)
     }
-}
-if (wtmAmbassadorErrors.size === 0) {
-    console.log('> No WTM Ambassador errors found!')
-} else {
-    console.log(`> Found ${wtmAmbassadorErrors.size} WTM Ambassador errors:`)
-    wtmAmbassadorErrors.forEach(name => console.log(`  ${name}`))
-}
 
-console.log('-'.repeat(50))
-console.log('Googlers Errors:')
-const googlerErrors = new Set<string>()
-for (const name of GOOGLER_NAMES) {
-    if (!foundGooglers.has(name)) {
-        googlerErrors.add(name)
-        console.error(`> Googler "${name}" not found in speakers`)
+    console.log('Errors:')
+    const errorTalks = TALKS.filter(
+        talk =>
+            talk.room === 'unknown' ||
+            !talk.room ||
+            !talk.scheduledDuration ||
+            !talk.sessionFormat ||
+            !SESSION_FORMAT_LABELS[talk.sessionFormat],
+    )
+    if (errorTalks.length === 0) {
+        console.log('No errors found!')
+    } else {
+        console.log(`Found ${errorTalks.length} talks with errors:`)
     }
-}
-if (googlerErrors.size === 0) {
-    console.log('> No Googler errors found!')
-} else {
-    console.log(`> Found ${googlerErrors.size} Googler errors:`)
-    googlerErrors.forEach(name => console.log(`  ${name}`))
-}
+    errorTalks.forEach(talk => {
+        console.log(`> ${talk.title} (${talk.id})`)
+        if (!talk.room || talk.room === 'unknown') {
+            console.log('  - Missing or unknown room')
+        }
+        if (!talk.scheduledDuration) {
+            console.log('  - Missing or zero duration')
+        }
+        if (!talk.sessionFormat) {
+            console.log('  - Missing session format')
+        }
+        if (talk.sessionFormat && !SESSION_FORMAT_LABELS[talk.sessionFormat]) {
+            console.log(`  - Unknown session format: "${talk.sessionFormat}"`)
+        }
+    })
 
-console.log('-'.repeat(50))
-console.log('Feedback Links Errors:')
-const talkIds = new Set(TALKS.map(talk => talk.id))
-const feedbackIds = new Set(rawFeedbackLinks.map(entry => entry.session_name))
-
-// Talks with feedback links
-const talksWithFeedback = TALKS.filter(talk => talk.feedbackLink)
-console.log(`> ${talksWithFeedback.length}/${TALKS.length} talks have feedback links`)
-
-// Talks without feedback links (using startsWith matching)
-const talksWithoutFeedback = [...talkIds].filter(
-    id => !rawFeedbackLinks.some(entry => id.replaceAll('-', '').startsWith(entry.session_name.replaceAll('-', ''))),
-)
-// Feedback links without corresponding talks
-const orphanedFeedbackLinks = [...feedbackIds].filter(
-    fid => !TALKS.some(talk => talk.id.replaceAll('-', '').startsWith(fid.replaceAll('-', ''))),
-)
-
-if (talksWithoutFeedback.length === 0 && orphanedFeedbackLinks.length === 0) {
-    console.log('> No feedback link errors found!')
-} else {
-    if (talksWithoutFeedback.length > 0) {
-        console.warn(`> Found ${talksWithoutFeedback.length} talks without feedback links:`)
-        talksWithoutFeedback.forEach(id => {
-            const talk = TALKS.find(t => t.id === id)
-            console.warn(`  - ${id}: "${talk?.title}"`)
-        })
+    console.log('-'.repeat(50))
+    console.log('WTM Ambassadors Errors:')
+    const wtmAmbassadorErrors = new Set<string>()
+    for (const name of WTM_AMBASSADOR_NAMES) {
+        if (!foundWtmAmbassadors.has(name)) {
+            wtmAmbassadorErrors.add(name)
+            console.error(`> WTM Ambassador "${name}" not found in speakers`)
+        }
     }
-    if (orphanedFeedbackLinks.length > 0) {
-        console.warn(`> Found ${orphanedFeedbackLinks.length} feedback links without corresponding talks:`)
-        orphanedFeedbackLinks.forEach(id => console.warn(`  - ${id}`))
+    if (wtmAmbassadorErrors.size === 0) {
+        console.log('> No WTM Ambassador errors found!')
+    } else {
+        console.log(`> Found ${wtmAmbassadorErrors.size} WTM Ambassador errors:`)
+        wtmAmbassadorErrors.forEach(name => console.log(`  ${name}`))
+    }
+
+    console.log('-'.repeat(50))
+    console.log('Googlers Errors:')
+    const googlerErrors = new Set<string>()
+    for (const name of GOOGLER_NAMES) {
+        if (!foundGooglers.has(name)) {
+            googlerErrors.add(name)
+            console.error(`> Googler "${name}" not found in speakers`)
+        }
+    }
+    if (googlerErrors.size === 0) {
+        console.log('> No Googler errors found!')
+    } else {
+        console.log(`> Found ${googlerErrors.size} Googler errors:`)
+        googlerErrors.forEach(name => console.log(`  ${name}`))
+    }
+
+    console.log('-'.repeat(50))
+    console.log('Feedback Links Errors:')
+    const talkIds = new Set(TALKS.map(talk => talk.id))
+    const feedbackIds = new Set(rawFeedbackLinks.map(entry => entry.session_name))
+
+    const talksWithFeedback = TALKS.filter(talk => talk.feedbackLink)
+    console.log(`> ${talksWithFeedback.length}/${TALKS.length} talks have feedback links`)
+
+    const talksWithoutFeedback = [...talkIds].filter(
+        id =>
+            !rawFeedbackLinks.some(entry => id.replaceAll('-', '').startsWith(entry.session_name.replaceAll('-', ''))),
+    )
+    const orphanedFeedbackLinks = [...feedbackIds].filter(
+        fid => !TALKS.some(talk => talk.id.replaceAll('-', '').startsWith(fid.replaceAll('-', ''))),
+    )
+
+    if (talksWithoutFeedback.length === 0 && orphanedFeedbackLinks.length === 0) {
+        console.log('> No feedback link errors found!')
+    } else {
+        if (talksWithoutFeedback.length > 0) {
+            console.warn(`> Found ${talksWithoutFeedback.length} talks without feedback links:`)
+            talksWithoutFeedback.forEach(id => {
+                const talk = TALKS.find(t => t.id === id)
+                console.warn(`  - ${id}: "${talk?.title}"`)
+            })
+        }
+        if (orphanedFeedbackLinks.length > 0) {
+            console.warn(`> Found ${orphanedFeedbackLinks.length} feedback links without corresponding talks:`)
+            orphanedFeedbackLinks.forEach(id => console.warn(`  - ${id}`))
+        }
     }
 }
 

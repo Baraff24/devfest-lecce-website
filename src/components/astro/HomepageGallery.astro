@@ -2,6 +2,12 @@
 import { resolveImageModules } from '@/lib/astro/server-utils'
 import { Image } from 'astro:assets'
 
+type Props = {
+    title: string
+    intro: string
+}
+
+const { title, intro } = Astro.props
 const galleryImageModules = await resolveImageModules(
     import.meta.glob<{ default: ImageMetadata }>('@/assets/gallery/*.jpg'),
 )
@@ -29,42 +35,21 @@ const getGridCols = (images: typeof galleryImageModules) => {
 const totalCols = getGridCols(galleryImageModules)
 ---
 
-<!-- Static Photo Gallery Grid (desktop only) -->
-<section id="gallery" class="tight">
-    <div class="image-gallery">
-        <div class="image-gallery-wrapper">
-            {
-                galleryImageModules.slice(0, 10).map(({ default: { src } }, i) => {
-                    const filename = src.split('/').at(-1)!.split('?').at(0)!.split('.').at(0)
-                    if (!filename) {
-                        throw new Error('Invalid filename')
-                    }
+{
+    galleryImageModules.length > 0 && (
+        <section id="gallery" class="tight" aria-labelledby="gallery-title">
+            <div class="gallery-heading section-heading">
+                <span class="section-kicker">DevFest Lecce</span>
+                <div class="text">
+                    <h2 id="gallery-title">{title}</h2>
+                    <p>{intro}</p>
+                </div>
+            </div>
 
-                    const [rows, cols] = filename.includes('@')
-                        ? (filename
-                              .split('@')
-                              .at(-1)
-                              ?.split('x')
-                              .map((s: string) => parseInt(s)) ?? [1, 1])
-                        : [1, 1]
-
-                    return <img src={src} alt={`gallery image ${i}`} style={`--rows: ${rows}; --cols: ${cols};`} />
-                })
-            }
-        </div>
-    </div>
-</section>
-
-<!-- Animated Photo Gallery (mobile only) -->
-<section class="photoContainer">
-    {
-        [0, 1].map(() => {
-            const rowImages = [...galleryImageModules, ...galleryImageModules.slice(0, 5)]
-
-            return (
-                <div class="track" style={{ '--total-boxes': totalCols }}>
-                    {rowImages.map((module, i) => {
-                        const filename = module.default.src.split('/').at(-1)!.split('?').at(0)!.split('.').at(0)
+            <div class="image-gallery" aria-label={title}>
+                <div class="image-gallery-wrapper">
+                    {galleryImageModules.slice(0, 10).map(({ default: { src } }, i) => {
+                        const filename = src.split('/').at(-1)!.split('?').at(0)!.split('.').at(0)
                         if (!filename) {
                             throw new Error('Invalid filename')
                         }
@@ -78,13 +63,51 @@ const totalCols = getGridCols(galleryImageModules)
                             : [1, 1]
 
                         return (
-                            <div class="box card" style={{ gridColumn: `span ${cols}` }}>
-                                <Image class="boxImage" src={module.default} alt={`gallery image ${i}`} />
-                            </div>
+                            <img
+                                src={src}
+                                alt={`Momento community DevFest Lecce ${i + 1}`}
+                                style={`--rows: ${rows}; --cols: ${cols};`}
+                                loading="lazy"
+                            />
                         )
                     })}
                 </div>
-            )
-        })
-    }
-</section>
+            </div>
+
+            <div class="photoContainer" aria-label={title}>
+                {[0, 1].map(() => {
+                    const rowImages = [...galleryImageModules, ...galleryImageModules.slice(0, 5)]
+
+                    return (
+                        <div class="track" style={{ '--total-boxes': totalCols }}>
+                            {rowImages.map((module, i) => {
+                                const filename = module.default.src.split('/').at(-1)!.split('?').at(0)!.split('.')[0]
+                                if (!filename) {
+                                    throw new Error('Invalid filename')
+                                }
+
+                                const [_rows, cols] = filename.includes('@')
+                                    ? (filename
+                                          .split('@')
+                                          .at(-1)
+                                          ?.split('x')
+                                          .map((s: string) => parseInt(s)) ?? [1, 1])
+                                    : [1, 1]
+
+                                return (
+                                    <div class="box card" style={{ gridColumn: `span ${cols}` }}>
+                                        <Image
+                                            class="boxImage"
+                                            src={module.default}
+                                            alt={`Momento community DevFest Lecce ${i + 1}`}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )
+                })}
+            </div>
+        </section>
+    )
+}

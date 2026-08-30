@@ -1,12 +1,30 @@
 ---
 import Base from '@/layouts/Base.astro'
-import { Icon } from 'astro-icon/components'
 import { content, defaultLang, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+import { SPEAKERS, TALKS, type Speaker } from '@/lib/astro/sessionize'
 
 export const getStaticPaths = localizedStaticPaths
 
 const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
 const t = content[lang]
+const visibleSpeakers = [...SPEAKERS].sort((a, b) =>
+    `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`, lang),
+)
+const talksBySpeaker = new Map(
+    visibleSpeakers.map(speaker => [
+        speaker.id,
+        TALKS.filter(talk => talk.speakers.some(talkSpeaker => talkSpeaker.id === speaker.id)),
+    ]),
+)
+
+const getSpeakerName = (speaker: Speaker) => `${speaker.firstName} ${speaker.lastName}`.trim()
+const getSpeakerInitials = (speaker: Speaker) =>
+    [speaker.firstName, speaker.lastName]
+        .filter(Boolean)
+        .map(part => part[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
 ---
 
 <Base lang={lang} title={t.speakers.title}>
@@ -19,20 +37,76 @@ const t = content[lang]
                 <div class="text">
                     <p>{t.speakers.body}</p>
                 </div>
-                <span class="button large cfp-closed-button" role="button" aria-disabled="true">
-                    <Icon name="mdi:microphone-outline" />
-                    {t.common.viewCfp}
-                </span>
             </div>
-            <div class="topic-grid">
-                {
-                    t.speakers.cards.map(card => (
-                        <div class="card topic-card">
-                            <strong>{card}</strong>
+            {
+                visibleSpeakers.length > 0 ? (
+                    <div class="speaker-directory" aria-labelledby="speaker-directory-title">
+                        <div class="section-heading">
+                            <span class="section-kicker">
+                                {visibleSpeakers.length} {t.speakers.lineupTitle.toLowerCase()}
+                            </span>
+                            <div class="text">
+                                <h2 id="speaker-directory-title">{t.speakers.lineupTitle}</h2>
+                                <p>{t.speakers.lineupIntro}</p>
+                            </div>
                         </div>
-                    ))
-                }
-            </div>
+
+                        <div class="speaker-grid">
+                            {visibleSpeakers.map(speaker => {
+                                const speakerTalks = talksBySpeaker.get(speaker.id) ?? []
+
+                                return (
+                                    <article class="card large speaker-lineup-card">
+                                        <div class="speaker-card-media">
+                                            {speaker.profilePicture ? (
+                                                <img
+                                                    src={speaker.profilePicture}
+                                                    alt={getSpeakerName(speaker)}
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <div class="speaker-card-initials" aria-hidden="true">
+                                                    {getSpeakerInitials(speaker)}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div class="speaker-card-content">
+                                            <div class="text">
+                                                <h2>{getSpeakerName(speaker)}</h2>
+                                                {speaker.tagLine && <p class="speaker-tagline">{speaker.tagLine}</p>}
+                                            </div>
+                                            <details class="card-details">
+                                                <summary>{t.common.bio}</summary>
+                                                <p class="speaker-bio">{speaker.bio || t.speakers.bioFallback}</p>
+                                            </details>
+                                            {speakerTalks.length > 0 && (
+                                                <div class="speaker-card-sessions">
+                                                    <strong>
+                                                        {speakerTalks.length === 1
+                                                            ? t.speakers.sessionLabel
+                                                            : t.speakers.sessionsLabel}
+                                                    </strong>
+                                                    {speakerTalks.map(talk => (
+                                                        <span>{talk.title}</span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </article>
+                                )
+                            })}
+                        </div>
+                    </div>
+                ) : (
+                    <div class="topic-grid">
+                        {t.speakers.cards.map(card => (
+                            <div class="card topic-card">
+                                <strong>{card}</strong>
+                            </div>
+                        ))}
+                    </div>
+                )
+            }
         </div>
     </section>
 </Base>

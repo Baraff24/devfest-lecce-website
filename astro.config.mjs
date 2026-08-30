@@ -10,6 +10,7 @@ import icon from 'astro-icon'
 import preact from '@astrojs/preact'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+const allowedPreviewHosts = ['nonesthetic-mistie-conjugally.ngrok-free.dev']
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,6 +27,12 @@ export default defineConfig({
             },
         },
         plugins: [yaml()],
+        server: {
+            allowedHosts: allowedPreviewHosts,
+        },
+        preview: {
+            allowedHosts: allowedPreviewHosts,
+        },
     },
 
     integrations: [icon(), preact()],

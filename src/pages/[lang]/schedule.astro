@@ -2,11 +2,36 @@
 import Base from '@/layouts/Base.astro'
 import { Icon } from 'astro-icon/components'
 import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+import { SESSION_FORMAT_LABELS, SPEAKERS, TALKS, type Speaker } from '@/lib/astro/sessionize'
 
 export const getStaticPaths = localizedStaticPaths
 
 const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
 const t = content[lang]
+const acceptedTalks = [...TALKS].sort((a, b) => a.title.localeCompare(b.title, lang))
+
+const getSpeakerName = (speaker: Speaker) => `${speaker.firstName} ${speaker.lastName}`.trim()
+const getSpeakerInitials = (speaker: Speaker) =>
+    [speaker.firstName, speaker.lastName]
+        .filter(Boolean)
+        .map(part => part[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+const getSessionFormatLabel = (sessionFormat: string) => SESSION_FORMAT_LABELS[sessionFormat]?.label ?? sessionFormat
+const formatScheduledStart = (scheduledStart: string) => {
+    const date = new Date(scheduledStart)
+    if (Number.isNaN(date.getTime())) {
+        return scheduledStart
+    }
+
+    return new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', {
+        day: '2-digit',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+    }).format(date)
+}
 ---
 
 <Base lang={lang} title={t.schedule.title}>
@@ -24,15 +49,107 @@ const t = content[lang]
                     {t.common.newsletter}
                 </a>
             </div>
-            <div class="topic-grid">
-                {
-                    t.schedule.cards.map(card => (
-                        <div class="card topic-card">
-                            <strong>{card}</strong>
+            {
+                acceptedTalks.length > 0 ? (
+                    <div class="session-directory" aria-labelledby="session-directory-title">
+                        <div class="section-heading">
+                            <span class="section-kicker">
+                                {acceptedTalks.length} {t.schedule.talksCountLabel}
+                            </span>
+                            <div class="text">
+                                <h2 id="session-directory-title">{t.schedule.acceptedTitle}</h2>
+                                <p>{t.schedule.acceptedIntro}</p>
+                            </div>
+                            <div class="session-summary">
+                                <span>
+                                    <strong>{acceptedTalks.length}</strong> {t.schedule.talksCountLabel}
+                                </span>
+                                <span>
+                                    <strong>{SPEAKERS.length}</strong> {t.schedule.speakersCountLabel}
+                                </span>
+                            </div>
                         </div>
-                    ))
-                }
-            </div>
+
+                        <div class="session-grid">
+                            {acceptedTalks.map(talk => (
+                                <article class="card large session-list-card">
+                                    <div class="session-card-meta">
+                                        {talk.category && (
+                                            <span class="data-chip">
+                                                {t.schedule.meta.track}: {talk.category}
+                                            </span>
+                                        )}
+                                        {talk.sessionFormat && (
+                                            <span class="data-chip">
+                                                {t.schedule.meta.format}: {getSessionFormatLabel(talk.sessionFormat)}
+                                            </span>
+                                        )}
+                                        {talk.level && (
+                                            <span class="data-chip">
+                                                {t.schedule.meta.level}: {talk.level}
+                                            </span>
+                                        )}
+                                        {talk.language && (
+                                            <span class="data-chip">
+                                                {t.schedule.meta.language}: {talk.language}
+                                            </span>
+                                        )}
+                                        {talk.scheduledStart && (
+                                            <span class="data-chip">
+                                                {t.schedule.meta.time}: {formatScheduledStart(talk.scheduledStart)}
+                                            </span>
+                                        )}
+                                        {talk.room ? (
+                                            <span class="data-chip">
+                                                {t.schedule.meta.room}: {talk.room}
+                                            </span>
+                                        ) : (
+                                            <span class="data-chip is-muted">{t.schedule.unscheduledNote}</span>
+                                        )}
+                                    </div>
+
+                                    <div class="text session-card-copy">
+                                        <h2>{talk.title}</h2>
+                                        <details class="card-details">
+                                            <summary>{t.common.abstract}</summary>
+                                            <p>{talk.description}</p>
+                                        </details>
+                                    </div>
+
+                                    {talk.speakers.length > 0 && (
+                                        <div class="session-card-speakers">
+                                            {talk.speakers.map(speaker => (
+                                                <div class="session-mini-speaker">
+                                                    {speaker.profilePicture ? (
+                                                        <img
+                                                            src={speaker.profilePicture}
+                                                            alt={getSpeakerName(speaker)}
+                                                            loading="lazy"
+                                                        />
+                                                    ) : (
+                                                        <span class="session-mini-initials" aria-hidden="true">
+                                                            {getSpeakerInitials(speaker)}
+                                                        </span>
+                                                    )}
+                                                    <span>{getSpeakerName(speaker)}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <div class="topic-grid">
+                        {t.schedule.cards.map(card => (
+                            <div class="card topic-card">
+                                <strong>{card}</strong>
+                            </div>
+                        ))}
+                    </div>
+                )
+            }
         </div>
     </section>
 </Base>

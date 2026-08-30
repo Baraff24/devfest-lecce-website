@@ -161,64 +161,35 @@ const lecceOpenStreetMap =
         </script>
     </section>
 
-    <!--<section id="location-map">-->
-    <!--    <div class="map-list">-->
-    <!--        <div class="wide">-->
-    <!--            <h2>{t.location.findUs}</h2>-->
-    <!--        </div>-->
-    <!--        <div class="map-item">-->
-    <!--            <div class="title">-->
-    <!--                <span>{t.location.mapTitle}</span>-->
-    <!--                <div class="actions">-->
-    <!--                    <a href={lecceMapsUrl} class="button flat square" target="_blank" rel="noopener noreferrer">-->
-    <!--                        <Icon name="mdi:directions" />-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <div class="content">-->
-    <!--                <div class="timestamp">{t.location.venueAddress}</div>-->
-    <!--                <div class="text">-->
-    <!--                    <p>{t.location.mapText}</p>-->
-    <!--                </div>-->
-    <!--                <div class="map-container">-->
-    <!--                    <iframe class="embedded-map" title={t.location.mapTitle} src={lecceOpenStreetMap} loading="lazy"-->
-    <!--                    ></iframe>-->
-    <!--                    <a class="primary" href={lecceMapsUrl} target="_blank" rel="noopener noreferrer" role="button">-->
-    <!--                        <Icon name="mdi:open-in-new" />-->
-    <!--                        {t.location.mapCta}-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</section>-->
-
     <section id="location-directions">
-        <h2>{t.location.directionsTitle}</h2>
+        <div class="section-heading">
+            <span class="section-kicker">{t.location.findUs}</span>
+            <div class="text">
+                <h2>{t.location.directionsTitle}</h2>
+                <p>{t.location.directionsIntro}</p>
+            </div>
+        </div>
         <div class="directions-list">
-            <div class="card large direction-card">
-                <Icon name="mdi:train" />
-                <h3>{t.location.trainTitle}</h3>
-                <div class="text">
-                    <p>{t.location.train}</p>
-                </div>
-            </div>
-
-            <div class="card large direction-card">
-                <Icon name="mdi:airplane" />
-                <h3>{t.location.planeTitle}</h3>
-                <div class="text">
-                    <p>{t.location.plane}</p>
-                </div>
-            </div>
-
-            <div class="card large direction-card">
-                <Icon name="mdi:car" />
-                <h3>{t.location.carTitle}</h3>
-                <div class="text">
-                    <p>{t.location.car}</p>
-                </div>
-            </div>
+            {
+                t.location.directions.map(direction => (
+                    <div class="card large direction-card">
+                        <Icon name={direction.icon} />
+                        <div class="text">
+                            <h3>{direction.title}</h3>
+                            <p>{direction.text}</p>
+                            <ul>
+                                {direction.details.map(detail => (
+                                    <li>{detail}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <a class="large" href={direction.href} target="_blank" rel="noopener noreferrer" role="button">
+                            <Icon name="mdi:open-in-new" />
+                            {direction.cta}
+                        </a>
+                    </div>
+                ))
+            }
         </div>
     </section>
 </Base>

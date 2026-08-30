@@ -103,6 +103,7 @@ import gdgMilanoCloud from './gdg-cloud-milano.png'
 import gdgCloudModena from './gdg-cloud-modena.png'
 import gdgFirenze from './gdg-firenze.png'
 import gdgGenova from './gdg-genova.png'
+import gdgLecce from './gdg-lecce.png'
 import gdgMilano from './gdg-milano.png'
 import gdgPescara from './gdg-pescara.png'
 import gdgRomaCitta from './gdg-roma-citta.png'
@@ -151,6 +152,11 @@ export const gdgItalia = [
         name: 'GDG Genova',
         logo: gdgGenova,
         url: 'https://gdg.community.dev/gdg-genova/',
+    },
+    {
+        name: 'GDG Lecce',
+        logo: gdgLecce,
+        url: 'https://gdg.community.dev/gdg-lecce/',
     },
     {
         name: 'GDG Milano',

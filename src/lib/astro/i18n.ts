@@ -13,7 +13,6 @@ export const eventLinks = {
     gdg: 'https://gdg.community.dev/gdg-lecce/',
     gdgGlobal: 'https://developers.google.com/community/gdg',
     devfest: 'https://developers.google.com/community/devfest',
-    wtm: 'https://developers.google.com/womentechmakers',
     // Keep this URL updated and flip `eventFeatureFlags.showCallForSpeakers`
     // when speaker submissions reopen for a future edition.
     cfp: 'https://sessionize.com/devfest-lecce-2026',
@@ -58,7 +57,6 @@ export const content = {
             speakers: 'Speaker',
             schedule: 'Agenda',
             news: 'News',
-            iwd: 'Inclusione',
             location: 'Dove',
             about: 'Chi siamo',
             cta: 'Biglietti',
@@ -215,36 +213,6 @@ export const content = {
                 'Aggiornamenti, annunci e storie dalla community arriveranno qui durante il percorso verso DevFest Lecce 2026.',
             emptyTitle: 'Nessuna news pubblicata',
             emptyText: 'Torna presto per novità su biglietti, programma e sponsor.',
-        },
-        iwd: {
-            title: 'Inclusione',
-            introTitle: 'Inclusione e community',
-            intro: [
-                'DevFest Lecce vuole essere uno spazio aperto, accogliente e rispettoso per tutte le persone.',
-                'Women Techmakers e le iniziative community aiutano a creare occasioni di confronto, crescita e visibilità per chi vive il tech da prospettive diverse.',
-            ],
-            themeTitle: 'Spazi aperti, tecnologia per tutti',
-            theme: [
-                'DevFest Lecce mette al centro una community accessibile, curiosa e rispettosa.',
-                'Talk, workshop e networking sono pensati per studenti, professionisti, designer, developer e persone curiose di tecnologia.',
-                'Ogni partecipante, speaker, volontario e sponsor è tenuto a rispettare il codice di condotta.',
-            ],
-            cta: 'Scopri Women Techmakers',
-            subtitle: 'DevFest Lecce vuole essere uno spazio aperto, accogliente e rispettoso per tutte le persone.',
-            cards: [
-                {
-                    title: 'Community aperta',
-                    text: 'Talk, workshop e networking sono pensati per studenti, professionisti, designer, developer e persone curiose di tecnologia.',
-                },
-                {
-                    title: 'Relazioni reali',
-                    text: "L'evento mette al centro confronto, mentoring e connessioni che continuano oltre la giornata della conferenza.",
-                },
-                {
-                    title: 'Codice di condotta',
-                    text: 'Ogni partecipante, speaker, volontario e sponsor è tenuto a rispettare il nostro codice di condotta.',
-                },
-            ],
         },
         location: {
             title: 'Dove',
@@ -474,7 +442,6 @@ export const content = {
             speakers: 'Speakers',
             schedule: 'Schedule',
             news: 'News',
-            iwd: 'Inclusion',
             location: 'Venue',
             about: 'About',
             cta: 'Tickets',
@@ -630,36 +597,6 @@ export const content = {
                 'Updates, announcements and community stories will appear here on the road to DevFest Lecce 2026.',
             emptyTitle: 'No news yet',
             emptyText: 'Come back soon for updates on tickets, program and sponsors.',
-        },
-        iwd: {
-            title: 'Inclusion',
-            introTitle: 'Inclusion and community',
-            intro: [
-                'DevFest Lecce aims to be an open, welcoming and respectful space for everyone.',
-                'Women Techmakers and community initiatives help create opportunities for dialogue, growth and visibility for people experiencing tech from different perspectives.',
-            ],
-            themeTitle: 'Open spaces, technology for everyone',
-            theme: [
-                'DevFest Lecce puts an accessible, curious and respectful community at the center.',
-                'Talks, workshops and networking are designed for students, professionals, designers, developers and everyone curious about technology.',
-                'Every attendee, speaker, volunteer and sponsor is expected to follow the code of conduct.',
-            ],
-            cta: 'Discover Women Techmakers',
-            subtitle: 'DevFest Lecce aims to be an open, welcoming and respectful space for everyone.',
-            cards: [
-                {
-                    title: 'Open community',
-                    text: 'Talks, workshops and networking are designed for students, professionals, designers, developers and everyone curious about technology.',
-                },
-                {
-                    title: 'Real connections',
-                    text: 'The event focuses on dialogue, mentoring and relationships that continue beyond the conference day.',
-                },
-                {
-                    title: 'Code of Conduct',
-                    text: 'Every attendee, speaker, volunteer and sponsor is expected to follow our code of conduct.',
-                },
-            ],
         },
         location: {
             title: 'Venue',

@@ -33,11 +33,6 @@
 
         --pastel-cyan: #a5ffba;
         --pastel-red: #ffb3a5;
-
-        --iwd-blue: #cae6ff;
-        --iwd-green: #d1ece3;
-
-        --iwd-blue-dark: oklch(from var(--iwd-blue) l calc(c + 0.1) h);
     }
 
     html,
@@ -97,10 +92,6 @@
 
         &:has(#news) {
             background: #f0f0f0;
-        }
-
-        &:has(#iwd-hero) {
-            background: var(--iwd-blue);
         }
 
         &:has(#schedule) {
@@ -795,12 +786,6 @@
         .card {
             box-shadow: 9px 9px 0 0 var(--cyan-dark);
         }
-    }
-
-    #iwd {
-        background: var(--iwd-blue);
-
-        --button-bg: var(--iwd-blue-dark);
     }
 
     #past-editions {
@@ -2464,112 +2449,6 @@
 }
 
 @layer pages {
-    #iwd-hero {
-        padding: 2rem;
-        gap: 2rem;
-        --gap: 2rem;
-
-        min-height: 0;
-
-        place-items: center;
-
-        background: var(--iwd-blue);
-
-        --card-bg: #fff;
-
-        & > .card:first-child {
-            max-width: 100%;
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-        &.desktop-only {
-            > .card:first-child {
-                animation: slideDown 1s ease-in-out;
-            }
-
-            > .h-stack {
-                > .card:first-child {
-                    animation: slideIn 1s ease-in-out;
-                }
-
-                > .card:nth-child(2) {
-                    animation: slideOut 1s ease-in-out;
-                }
-            }
-        }
-
-        .logo-wtm {
-            max-width: 270px;
-        }
-
-        section:nth-child(2) {
-            background: #fff;
-        }
-
-        video {
-            width: 100%;
-            height: auto;
-            max-height: 75vh;
-        }
-
-        @media (width < 768px) {
-            padding: 0;
-
-            img {
-                width: 100%;
-                aspect-ratio: 1.61 / 1;
-                object-fit: cover;
-            }
-        }
-    }
-
-    #iwd-hero-mobile-content {
-        background: var(--iwd-blue);
-
-        .logo-wtm {
-            max-width: 300px;
-        }
-    }
-
-    #iwd-theme {
-        background: #fff;
-
-        [role='button'] {
-            color: #333 !important;
-        }
-    }
-
-    #iwd-whats-wtm {
-        --button-bg: var(--iwd-blue-dark);
-
-        img {
-            border: none;
-            box-shadow: none;
-        }
-    }
-
-    #iwd-hero-mobile {
-        padding: 0;
-        min-height: 0;
-
-        border-top: none;
-
-        img {
-            width: 100%;
-            aspect-ratio: 1.61 / 1;
-
-            object-fit: cover;
-        }
-
-        video {
-            max-width: 100vw;
-        }
-    }
-
     #talk {
         background: var(--pastel-blue);
 
@@ -3331,18 +3210,6 @@
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-    }
-
-    .text-wtm-logo {
-        display: inline-block;
-        width: 2.25em;
-        height: 2.25em;
-        vertical-align: middle;
-
-        svg {
-            width: 100%;
-            height: 100%;
-        }
     }
 
     .blur-text {

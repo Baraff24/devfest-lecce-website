@@ -10,7 +10,6 @@ export type Speaker = {
     bio: string
     profilePicture: string
     isGDE: boolean
-    isWtmAmbassador: boolean
     isGoogler: boolean
 }
 
@@ -117,7 +116,6 @@ for (const speaker of rawSpeakersAssigned) {
         bio: excelCleanup(speaker['Bio']),
         profilePicture: speaker['Profile Picture'] ?? '',
         isGDE: false,
-        isWtmAmbassador: false,
         isGoogler: false,
     }
 }
@@ -132,25 +130,6 @@ for (const session of rawSessionsAssigned) {
                 speakersBySessionizeUUID[speakerId].isGDE = true
             }
         }
-    }
-}
-
-// Set WTM Ambassador status for specific speakers
-const WTM_AMBASSADOR_NAMES = new Set([
-    // These names must match exactly the "<firstName> <lastName>"
-    'Chiara Corrado',
-    'Michela Bertaina',
-    'Juna Salviati',
-    'Nicola Corti',
-])
-
-const foundWtmAmbassadors = new Set<string>()
-for (const speakerId in speakersBySessionizeUUID) {
-    const speaker = speakersBySessionizeUUID[speakerId]
-    const fullName = `${speaker.firstName} ${speaker.lastName}`
-    if (WTM_AMBASSADOR_NAMES.has(fullName)) {
-        speaker.isWtmAmbassador = true
-        foundWtmAmbassadors.add(fullName)
     }
 }
 
@@ -306,22 +285,6 @@ if (shouldDebugSessionize) {
             console.log(`  - Unknown session format: "${talk.sessionFormat}"`)
         }
     })
-
-    console.log('-'.repeat(50))
-    console.log('WTM Ambassadors Errors:')
-    const wtmAmbassadorErrors = new Set<string>()
-    for (const name of WTM_AMBASSADOR_NAMES) {
-        if (!foundWtmAmbassadors.has(name)) {
-            wtmAmbassadorErrors.add(name)
-            console.error(`> WTM Ambassador "${name}" not found in speakers`)
-        }
-    }
-    if (wtmAmbassadorErrors.size === 0) {
-        console.log('> No WTM Ambassador errors found!')
-    } else {
-        console.log(`> Found ${wtmAmbassadorErrors.size} WTM Ambassador errors:`)
-        wtmAmbassadorErrors.forEach(name => console.log(`  ${name}`))
-    }
 
     console.log('-'.repeat(50))
     console.log('Googlers Errors:')

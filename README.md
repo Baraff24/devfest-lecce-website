@@ -63,7 +63,7 @@ src/
 - Public sponsor-package pricing has been removed from the website. Only the logo area remains.
 - The home page uses the previous-edition numbers from the DevFest Lecce 2026 source material: 350 attendees, 26 speakers, 8 sponsors, and 9 partners.
 - The home gallery is populated from local images in `src/assets/gallery/`.
-- News and Inclusion pages still exist, but they are hidden from the main navigation for the current DevFest Lecce 2026 public flow.
+- The News page still exists, but it is hidden from the main navigation for the current DevFest Lecce 2026 public flow.
 - The old Team page redirects to the new About page.
 
 ## Structured Data

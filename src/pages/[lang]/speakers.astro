@@ -1,7 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro'
 import { Icon } from 'astro-icon/components'
-import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+import { content, defaultLang, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
 
 export const getStaticPaths = localizedStaticPaths
 
@@ -19,10 +19,10 @@ const t = content[lang]
                 <div class="text">
                     <p>{t.speakers.body}</p>
                 </div>
-                <a class="large" href={eventLinks.cfp} target="_blank" rel="noopener noreferrer" role="button">
+                <span class="button large cfp-closed-button" role="button" aria-disabled="true">
                     <Icon name="mdi:microphone-outline" />
                     {t.common.viewCfp}
-                </a>
+                </span>
             </div>
             <div class="topic-grid">
                 {

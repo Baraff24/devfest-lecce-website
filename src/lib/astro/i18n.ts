@@ -40,7 +40,7 @@ export const content = {
         common: {
             contactUs: 'Contattaci',
             newsletter: 'Segui GDG Lecce',
-            viewCfp: 'Vai alla Call for Speaker',
+            viewCfp: 'Call for Speaker chiusa',
         },
         nav: {
             home: 'Home',
@@ -78,7 +78,7 @@ export const content = {
             heroDate: 'Sabato 17 ottobre 2026',
             heroLocation: 'Studium 2000, Università del Salento',
             primaryCta: 'Prenota il tuo posto',
-            secondaryCta: 'Proponi un talk',
+            secondaryCta: 'Call for Speaker chiusa',
             announcementTitle: 'DevFest Lecce sta arrivando',
             announcementText:
                 'Il programma ruoterà intorno a Intelligenza Artificiale, Web & Mobile Development, Cloud, Cybersecurity, Data Science e Soft Skills.',
@@ -88,7 +88,6 @@ export const content = {
                 { value: '26', label: 'Speaker' },
                 { value: '8', label: 'Sponsor' },
                 { value: '9', label: 'Partner' },
-                { value: '1542', label: 'Challenge completate' },
             ],
             tickets: {
                 title: 'Biglietti',
@@ -98,10 +97,10 @@ export const content = {
                 cta: 'Seguici su GDG Lecce',
             },
             cfp: {
-                title: 'Call for Speaker aperta',
+                title: 'Call for Speaker chiusa',
                 subtitle:
-                    "Hai un'esperienza, una demo o una storia utile alla community? Invia la tua proposta per DevFest Lecce 2026.",
-                cta: 'Invia proposta',
+                    'La Call for Speaker di DevFest Lecce 2026 è chiusa. Grazie a tutte le persone che hanno inviato una proposta: stiamo finalizzando la selezione.',
+                cta: 'Chiusa',
             },
             sponsors: {
                 title: 'Call for Sponsor',
@@ -183,7 +182,7 @@ export const content = {
             activities: [
                 { title: 'Talk', text: 'Sessioni frontali con speaker esperti sui temi più attuali del tech.' },
                 { title: 'Workshop', text: 'Sessioni pratiche hands-on in gruppi ristretti.' },
-                { title: 'Lightning Talk', text: 'Interventi rapidi e ad alta densita.' },
+                { title: 'Lightning Talk', text: 'Interventi rapidi e ad alta densità.' },
                 { title: 'Hackathon', text: 'Una sfida a squadre per mettere in pratica le competenze.' },
                 { title: 'Area Networking', text: 'Momenti di scambio tra partecipanti, speaker e aziende.' },
                 { title: 'Area svago', text: "Spazi relax e gaming per staccare tra una sessione e l'altra." },
@@ -192,16 +191,16 @@ export const content = {
         },
         speakers: {
             title: 'Speaker',
-            body: 'La line-up di DevFest Lecce 2026 sarà pubblicata dopo la selezione della Call for Speaker.',
+            body: 'La Call for Speaker di DevFest Lecce 2026 è chiusa. La line-up sarà pubblicata dopo la selezione.',
             cards: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
             subtitle:
-                'La line-up di DevFest Lecce 2026 sarà pubblicata dopo la selezione della Call for Speaker.',
+                'La Call for Speaker di DevFest Lecce 2026 è chiusa. La line-up sarà pubblicata dopo la selezione.',
             emptyTitle: 'Speaker in arrivo',
             emptyText:
                 'Stiamo costruendo un programma con voci nazionali e internazionali su AI, sviluppo, cloud, sicurezza, dati e competenze trasversali.',
             cfpTitle: 'Vuoi salire sul palco?',
-            cfpText: 'La Call for Speaker è aperta su Sessionize.',
-            cfpCta: 'Invia la tua proposta',
+            cfpText: 'La Call for Speaker è chiusa. La line-up sarà pubblicata dopo la selezione.',
+            cfpCta: 'Call chiusa',
         },
         schedule: {
             title: 'Agenda',
@@ -212,7 +211,7 @@ export const content = {
             emptyTitle: 'Agenda in preparazione',
             emptyText:
                 'Aspettati una giornata piena di sessioni tecniche, workshop pratici, networking e momenti community.',
-            cfpCta: 'Proponi un talk',
+            cfpCta: 'Call chiusa',
         },
         news: {
             title: 'News',
@@ -306,7 +305,7 @@ export const content = {
                 },
                 {
                     question: 'Posso candidarmi come speaker?',
-                    answer: 'Sì. La Call for Speaker è aperta su Sessionize.',
+                    answer: 'La Call for Speaker è chiusa. La line-up sarà pubblicata dopo la selezione.',
                 },
             ],
         },
@@ -352,7 +351,7 @@ export const content = {
         common: {
             contactUs: 'Contact us',
             newsletter: 'Follow GDG Lecce',
-            viewCfp: 'Open the Call for Speakers',
+            viewCfp: 'Call for Speakers closed',
         },
         nav: {
             home: 'Home',
@@ -390,7 +389,7 @@ export const content = {
             heroDate: 'Saturday, October 17, 2026',
             heroLocation: 'Studium 2000, University of Salento',
             primaryCta: 'Reserve your seat',
-            secondaryCta: 'Submit a talk',
+            secondaryCta: 'Call for Speakers closed',
             announcementTitle: 'DevFest Lecce is coming',
             announcementText:
                 'The program will focus on Artificial Intelligence, Web & Mobile Development, Cloud, Cybersecurity, Data Science and Soft Skills.',
@@ -400,7 +399,6 @@ export const content = {
                 { value: '26', label: 'Speakers' },
                 { value: '8', label: 'Sponsors' },
                 { value: '9', label: 'Partners' },
-                { value: '1542', label: 'Challenges completed' },
             ],
             tickets: {
                 title: 'Tickets',
@@ -410,10 +408,10 @@ export const content = {
                 cta: 'Follow GDG Lecce',
             },
             cfp: {
-                title: 'Call for Speakers is open',
+                title: 'Call for Speakers closed',
                 subtitle:
-                    'Have an experience, demo or useful story for the community? Send your proposal for DevFest Lecce 2026.',
-                cta: 'Submit a talk',
+                    'The DevFest Lecce 2026 Call for Speakers is closed. Thanks to everyone who submitted a proposal: we are finalizing the selection.',
+                cta: 'Closed',
             },
             sponsors: {
                 title: 'Call for Sponsors',
@@ -504,16 +502,16 @@ export const content = {
         },
         speakers: {
             title: 'Speakers',
-            body: 'The DevFest Lecce 2026 line-up will be published after the Call for Speakers selection.',
+            body: 'The DevFest Lecce 2026 Call for Speakers is closed. The line-up will be published after the selection.',
             cards: ['AI', 'Web & Mobile', 'Cloud', 'Cybersecurity', 'Data Science', 'Soft Skills'],
             subtitle:
-                'The DevFest Lecce 2026 line-up will be published after the Call for Speakers selection.',
+                'The DevFest Lecce 2026 Call for Speakers is closed. The line-up will be published after the selection.',
             emptyTitle: 'Speakers coming soon',
             emptyText:
                 'We are building a program with national and international voices on AI, development, cloud, security, data and soft skills.',
             cfpTitle: 'Want to take the stage?',
-            cfpText: 'The Call for Speakers is open on Sessionize.',
-            cfpCta: 'Submit your proposal',
+            cfpText: 'The Call for Speakers is closed. The line-up will be published after the selection.',
+            cfpCta: 'Call closed',
         },
         schedule: {
             title: 'Schedule',
@@ -524,7 +522,7 @@ export const content = {
             emptyTitle: 'Schedule in progress',
             emptyText:
                 'Expect a full day of technical sessions, practical workshops, networking and community moments.',
-            cfpCta: 'Submit a talk',
+            cfpCta: 'Call closed',
         },
         news: {
             title: 'News',
@@ -618,7 +616,7 @@ export const content = {
                 },
                 {
                     question: 'Can I apply as a speaker?',
-                    answer: 'Yes. The Call for Speakers is open on Sessionize.',
+                    answer: 'The Call for Speakers is closed. The line-up will be published after the selection.',
                 },
             ],
         },

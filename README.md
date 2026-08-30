@@ -2,7 +2,7 @@
 
 Official website for **DevFest Lecce 2026**, the community-driven technology conference organized by [GDG Lecce](https://gdg.community.dev/gdg-lecce/).
 
-The event is scheduled for **October 17, 2026** at **Studium 2000, University of Salento**, in Lecce, Italy. Tickets, speakers, and schedule are shown as “coming soon” until GDG Lecce publishes the official details.
+The event is scheduled for **October 17, 2026** at **Studium 2000, University of Salento**, in Lecce, Italy. Tickets, speakers, and schedule are shown as “coming soon” until GDG Lecce publishes the official details. The Call for Speakers is closed.
 
 ## Stack
 
@@ -59,6 +59,7 @@ src/
 ## Content Notes
 
 - Shared Italian and English copy lives in `src/lib/astro/i18n.ts`.
+- The Call for Speakers is closed and public CTAs are intentionally disabled.
 - The home page uses the previous-edition numbers from the DevFest Lecce 2026 sponsor deck: 350 attendees, 26 speakers, 8 sponsors, 9 partners, and 1542 completed challenges.
 - News and Inclusion pages still exist, but they are hidden from the main navigation for the current DevFest Lecce 2026 public flow.
 - The old Team page redirects to the new About page.

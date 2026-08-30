@@ -42,10 +42,10 @@ const hasSponsors = sponsorSections.length > 0
                         <Icon name="mdi:bell-outline" />
                         {t.home.primaryCta}
                     </a>
-                    <a class="large" href={eventLinks.cfp} target="_blank" rel="noopener noreferrer" role="button">
+                    <span class="button large cfp-closed-button" role="button" aria-disabled="true">
                         <Icon name="mdi:microphone-outline" />
                         {t.home.secondaryCta}
-                    </a>
+                    </span>
                 </div>
             </div>
             <img class="hero-image hero-logo" src={devfestLogoSvg.src} alt={t.site.title} />
@@ -81,15 +81,15 @@ const hasSponsors = sponsorSections.length > 0
         </div>
     </section>
 
-    <section id="cfp">
+    <section id="cfp" class="cfp-closed-section">
         <h2>{t.home.cfp.title}</h2>
         <div class="card large">
             <div class="text">
                 <p>{t.home.cfp.subtitle}</p>
             </div>
-            <a class="large" href={eventLinks.cfp} target="_blank" rel="noopener noreferrer" role="button">
+            <span class="button large cfp-closed-button" role="button" aria-disabled="true">
                 {t.home.cfp.cta}
-            </a>
+            </span>
         </div>
     </section>
 
@@ -193,4 +193,3 @@ const hasSponsors = sponsorSections.length > 0
         </div>
     </section>
 </Base>
-

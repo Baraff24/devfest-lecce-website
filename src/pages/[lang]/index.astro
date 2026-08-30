@@ -23,13 +23,22 @@ const hasSponsors = sponsorSections.length > 0
 <Base lang={lang}>
     <section id="hero">
         <div id="binary-art"></div>
-        <div class="h-stack">
+        <div class="h-stack home-hero-layout">
             <div class="hero-content v-stack">
                 <div class="text">
                     <p class="motto">{t.home.heroEyebrow}</p>
                     <h1>{t.home.heroTitle}</h1>
                     <h3>{t.home.heroSubtitle}</h3>
-                    <p class="motto">{t.home.heroDate} · {t.home.heroLocation}</p>
+                    <div class="hero-meta h-flex-wrap" aria-label={`${t.home.heroDate}, ${t.home.heroLocation}`}>
+                        <span>
+                            <Icon name="mdi:calendar-month-outline" />
+                            {t.home.heroDate}
+                        </span>
+                        <span>
+                            <Icon name="mdi:map-marker-outline" />
+                            {t.home.heroLocation}
+                        </span>
+                    </div>
                 </div>
                 <div class="hero-actions h-flex-wrap">
                     <a

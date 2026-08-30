@@ -62,44 +62,136 @@ const lecceOpenStreetMap =
 
     <section id="location-info">
         <h2>{t.location.infoTitle}</h2>
-        <div class="card large">
-            <div class="text">
-                {t.location.info.map(paragraph => <p>{paragraph}</p>)}
+        <div class="location-info-layout">
+            <div class="card large location-info-card">
+                <div class="text">
+                    {t.location.info.map(paragraph => <p>{paragraph}</p>)}
+                </div>
+            </div>
+            <div class="location-highlight-list">
+                {
+                    t.location.venueHighlights.map(highlight => (
+                        <div class="card location-highlight-card">
+                            <Icon name="mdi:map-marker-radius-outline" />
+                            <div class="text">
+                                <h3>{highlight.title}</h3>
+                                <p>{highlight.text}</p>
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     </section>
 
-    <section id="location-map">
-        <div class="map-list">
-            <div class="wide">
-                <h2>{t.location.findUs}</h2>
+    <section id="location-indoor-map">
+        <div class="section-heading">
+            <h2>{t.location.indoor.title}</h2>
+            <p>{t.location.indoor.subtitle}</p>
+        </div>
+        <div class="indoor-map-layout">
+            <div class="indoor-map-board">
+                <div class="indoor-map-floor" aria-label={t.location.indoor.title}>
+                    <div class="indoor-entrance">
+                        <Icon name="mdi:login" />
+                        {t.location.indoor.entrance}
+                    </div>
+                    <div class="indoor-corridor">{t.location.indoor.corridor}</div>
+                    {
+                        t.location.indoor.rooms.map((room, index) => (
+                            <button
+                                type="button"
+                                class:list={['indoor-map-room', index === 0 && 'is-active']}
+                                style={`--x: ${room.x}; --y: ${room.y}; --w: ${room.w}; --h: ${room.h}; --accent: ${room.accent};`}
+                                data-room-id={room.id}
+                                aria-pressed={index === 0 ? 'true' : 'false'}
+                                aria-controls={`indoor-room-${room.id}`}
+                            >
+                                <strong>{room.label}</strong>
+                                <span>{room.room}</span>
+                            </button>
+                        ))
+                    }
+                </div>
             </div>
-            <div class="map-item">
-                <div class="title">
-                    <span>{t.location.mapTitle}</span>
-                    <div class="actions">
-                        <a href={lecceMapsUrl} class="button flat square" target="_blank" rel="noopener noreferrer">
-                            <Icon name="mdi:directions" />
-                        </a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="timestamp">{t.location.venueAddress}</div>
-                    <div class="text">
-                        <p>{t.location.mapText}</p>
-                    </div>
-                    <div class="map-container">
-                        <iframe class="embedded-map" title={t.location.mapTitle} src={lecceOpenStreetMap} loading="lazy"
-                        ></iframe>
-                        <a class="primary" href={lecceMapsUrl} target="_blank" rel="noopener noreferrer" role="button">
-                            <Icon name="mdi:open-in-new" />
-                            {t.location.mapCta}
-                        </a>
-                    </div>
-                </div>
+            <div class="indoor-room-list" aria-live="polite">
+                <h3>{t.location.indoor.detailsTitle}</h3>
+                {
+                    t.location.indoor.rooms.map((room, index) => (
+                        <article
+                            id={`indoor-room-${room.id}`}
+                            class:list={['indoor-room-card', index === 0 && 'is-active']}
+                            style={`--accent: ${room.accent};`}
+                            data-room-card={room.id}
+                        >
+                            <span>{room.track}</span>
+                            <h4>{room.room}</h4>
+                            <p>{room.description}</p>
+                        </article>
+                    ))
+                }
+                <p class="indoor-map-note">{t.location.indoor.note}</p>
             </div>
         </div>
+        <script>
+            const indoorRoomButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.indoor-map-room'))
+            const indoorRoomCards = Array.from(document.querySelectorAll<HTMLElement>('.indoor-room-card'))
+
+            const setActiveIndoorRoom = (roomId: string) => {
+                indoorRoomButtons.forEach(button => {
+                    const isActive = button.dataset.roomId === roomId
+                    button.classList.toggle('is-active', isActive)
+                    button.setAttribute('aria-pressed', String(isActive))
+                })
+
+                indoorRoomCards.forEach(card => {
+                    card.classList.toggle('is-active', card.dataset.roomCard === roomId)
+                })
+            }
+
+            indoorRoomButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const roomId = button.dataset.roomId
+
+                    if (roomId) {
+                        setActiveIndoorRoom(roomId)
+                    }
+                })
+            })
+        </script>
     </section>
+
+    <!--<section id="location-map">-->
+    <!--    <div class="map-list">-->
+    <!--        <div class="wide">-->
+    <!--            <h2>{t.location.findUs}</h2>-->
+    <!--        </div>-->
+    <!--        <div class="map-item">-->
+    <!--            <div class="title">-->
+    <!--                <span>{t.location.mapTitle}</span>-->
+    <!--                <div class="actions">-->
+    <!--                    <a href={lecceMapsUrl} class="button flat square" target="_blank" rel="noopener noreferrer">-->
+    <!--                        <Icon name="mdi:directions" />-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="content">-->
+    <!--                <div class="timestamp">{t.location.venueAddress}</div>-->
+    <!--                <div class="text">-->
+    <!--                    <p>{t.location.mapText}</p>-->
+    <!--                </div>-->
+    <!--                <div class="map-container">-->
+    <!--                    <iframe class="embedded-map" title={t.location.mapTitle} src={lecceOpenStreetMap} loading="lazy"-->
+    <!--                    ></iframe>-->
+    <!--                    <a class="primary" href={lecceMapsUrl} target="_blank" rel="noopener noreferrer" role="button">-->
+    <!--                        <Icon name="mdi:open-in-new" />-->
+    <!--                        {t.location.mapCta}-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
 
     <section id="location-directions">
         <h2>{t.location.directionsTitle}</h2>

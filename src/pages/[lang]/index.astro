@@ -115,16 +115,18 @@ const hasSponsors = sponsorSections.length > 0
                     {t.nav.about}
                 </a>
             </div>
-            {
-                t.home.stats.map(stat => (
-                    <div class="card large">
-                        <div class="v-stack center">
-                            <div class="text-large">{stat.value}</div>
-                            <div class="text-center">{stat.label}</div>
+            <div class="stats-grid">
+                {
+                    t.home.stats.map(stat => (
+                        <div class="card large">
+                            <div class="v-stack center">
+                                <div class="text-large">{stat.value}</div>
+                                <div class="text-center">{stat.label}</div>
+                            </div>
                         </div>
-                    </div>
-                ))
-            }
+                    ))
+                }
+            </div>
         </div>
     </section>
 

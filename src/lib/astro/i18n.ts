@@ -1,13 +1,13 @@
-export const languages = ['it', 'en'] as const;
+export const languages = ['it', 'en'] as const
 
-export type Lang = (typeof languages)[number];
+export type Lang = (typeof languages)[number]
 
-export const defaultLang: Lang = 'it';
+export const defaultLang: Lang = 'it'
 
 export const langLabels: Record<Lang, string> = {
     it: 'Italiano',
     en: 'English',
-};
+}
 
 export const eventLinks = {
     gdg: 'https://gdg.community.dev/gdg-lecce/',
@@ -23,7 +23,7 @@ export const eventLinks = {
     linkedin: 'https://www.linkedin.com/company/gdg-lecce',
     instagram: 'https://www.instagram.com/gdg_lecce',
     directions: 'https://www.google.com/maps/dir//Studium+2000,+Via+di+Valesio,+Lecce',
-};
+}
 
 export const content = {
     it: {
@@ -123,19 +123,31 @@ export const content = {
                         name: 'Bronze',
                         contribution: '250 euro',
                         description: 'Supporto semplice e visibilità base.',
-                        perks: ['Logo sul sito ufficiale', 'Logo sui social GDG Lecce', 'Menzione nel post di ringraziamento'],
+                        perks: [
+                            'Logo sul sito ufficiale',
+                            'Logo sui social GDG Lecce',
+                            'Menzione nel post di ringraziamento',
+                        ],
                     },
                     {
                         name: 'Silver',
                         contribution: '500 euro',
                         description: "Visibilità dedicata prima e durante l'evento.",
-                        perks: ['Tutti i benefit Bronze', 'Post social dedicato', 'Materiale promozionale nella welcome bag'],
+                        perks: [
+                            'Tutti i benefit Bronze',
+                            'Post social dedicato',
+                            'Materiale promozionale nella welcome bag',
+                        ],
                     },
                     {
                         name: 'Gold',
                         contribution: '1.000 euro',
                         description: 'Presenza fisica e brand sui materiali ufficiali.',
-                        perks: ['Tutti i benefit Silver', "Stand per tutta la durata dell'evento", 'Accesso a TalentConnect'],
+                        perks: [
+                            'Tutti i benefit Silver',
+                            "Stand per tutta la durata dell'evento",
+                            'Accesso a TalentConnect',
+                        ],
                     },
                     {
                         name: 'Platinum',
@@ -156,8 +168,7 @@ export const content = {
         },
         about: {
             title: 'Chi siamo',
-            intro:
-                "GDG Lecce e DevFest Lecce nascono per far crescere l'ecosistema tecnologico del territorio e connetterlo con il resto d'Italia.",
+            intro: "GDG Lecce e DevFest Lecce nascono per far crescere l'ecosistema tecnologico del territorio e connetterlo con il resto d'Italia.",
             sections: [
                 {
                     title: 'Google Developer Group Lecce',
@@ -178,6 +189,27 @@ export const content = {
                 { label: 'Talk attesi', value: '20+' },
                 { label: 'Partecipanti attesi', value: '500+' },
             ],
+            organizersTitle: 'Organizers',
+            organizersIntro:
+                'Il team GDG Lecce cura programma, community, speaker, sponsor e accoglienza per costruire una DevFest utile, accessibile e ben organizzata.',
+            organizers: [
+                {
+                    id: 'raffaele-grieco',
+                    name: 'Raffaele Grieco',
+                    role: 'GDG Organizer',
+                    title: 'Backend Developer',
+                    company: '',
+                    profileUrl: 'https://gdg.community.dev/u/m4j59y/',
+                },
+                {
+                    id: 'martino-scarcia',
+                    name: 'Martino Scarcia',
+                    role: 'GDG Organizer',
+                    title: 'Backend Developer',
+                    company: 'Hybris Hub',
+                    profileUrl: 'https://gdg.community.dev/u/m2jda5/',
+                },
+            ],
             activitiesTitle: 'Attività previste',
             activities: [
                 { title: 'Talk', text: 'Sessioni frontali con speaker esperti sui temi più attuali del tech.' },
@@ -186,7 +218,10 @@ export const content = {
                 { title: 'Hackathon', text: 'Una sfida a squadre per mettere in pratica le competenze.' },
                 { title: 'Area Networking', text: 'Momenti di scambio tra partecipanti, speaker e aziende.' },
                 { title: 'Area svago', text: "Spazi relax e gaming per staccare tra una sessione e l'altra." },
-                { title: 'After party', text: 'Chiusura in festa per continuare il networking in un contesto informale.' },
+                {
+                    title: 'After party',
+                    text: 'Chiusura in festa per continuare il networking in un contesto informale.',
+                },
             ],
         },
         speakers: {
@@ -235,8 +270,7 @@ export const content = {
                 'Ogni partecipante, speaker, volontario e sponsor è tenuto a rispettare il codice di condotta.',
             ],
             cta: 'Scopri Women Techmakers',
-            subtitle:
-                'DevFest Lecce vuole essere uno spazio aperto, accogliente e rispettoso per tutte le persone.',
+            subtitle: 'DevFest Lecce vuole essere uno spazio aperto, accogliente e rispettoso per tutte le persone.',
             cards: [
                 {
                     title: 'Community aperta',
@@ -265,9 +299,96 @@ export const content = {
             mapCta: 'Apri indicazioni',
             infoTitle: 'Studium 2000',
             info: [
-                'DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 a Studium 2000, Università del Salento.',
-                'La venue ospiterà talk, workshop, networking, area svago e after party per una giornata intera dedicata alla community tech.',
+                "DevFest Lecce 2026 si terrà sabato 17 ottobre 2026 nel complesso Studium 2000 dell'Università del Salento, con punto principale nell'Edificio 3.",
+                'Studium 2000 è un polo urbano vicino al centro storico: ospita biblioteca, spazi museali, aule, sale conferenza e ambienti adatti a sessioni parallele, networking e attività community.',
+                "Una volta arrivati al punto indicato da Google Maps, la segnaletica DevFest guiderà verso check-in, aule, area sponsor e spazi di pausa all'interno del complesso.",
             ],
+            venueHighlights: [
+                {
+                    title: 'Edificio 3',
+                    text: 'Punto di riferimento per check-in, aule e orientamento interno della giornata.',
+                },
+                {
+                    title: 'Spazi conferenza',
+                    text: 'Aule e sale pensate per talk, workshop e sessioni parallele.',
+                },
+                {
+                    title: 'Area community',
+                    text: 'Zone per networking, sponsor, TalentConnect e pause tra una track e l’altra.',
+                },
+            ],
+            indoor: {
+                title: 'Mappa interna - Studium 2000 Edificio 3',
+                subtitle:
+                    'Dopo essere arrivati a Studium 2000, usa questa mappa orientativa per capire dove si trovano check-in, aule e track principali.',
+                note: 'La disposizione e i nomi delle track potranno essere aggiornati con la segnaletica definitiva della venue.',
+                entrance: 'Ingresso da Via di Valesio',
+                corridor: 'Corridoio principale',
+                detailsTitle: 'Dettaglio area',
+                rooms: [
+                    {
+                        id: 'checkin',
+                        label: 'Check-in',
+                        room: 'Atrio Edificio 3',
+                        track: 'Accoglienza e badge',
+                        description:
+                            'Primo punto per registrazione, badge, welcome kit e informazioni di orientamento.',
+                        x: '6%',
+                        y: '64%',
+                        w: '22%',
+                        h: '20%',
+                        accent: '#4285f4',
+                    },
+                    {
+                        id: 'main',
+                        label: 'Main Track',
+                        room: 'Aula ex Mediateca',
+                        track: 'Keynote, AI e Cloud',
+                        description: 'Sala principale per apertura, talk plenari e sessioni con maggiore affluenza.',
+                        x: '34%',
+                        y: '12%',
+                        w: '26%',
+                        h: '28%',
+                        accent: '#ea4335',
+                    },
+                    {
+                        id: 'web-mobile',
+                        label: 'Web & Mobile',
+                        room: 'Aula 3D',
+                        track: 'Web & Mobile Development',
+                        description: 'Track dedicata a frontend, mobile, UX tecnica e sviluppo applicativo.',
+                        x: '64%',
+                        y: '12%',
+                        w: '28%',
+                        h: '28%',
+                        accent: '#34a853',
+                    },
+                    {
+                        id: 'data-security',
+                        label: 'Data & Security',
+                        room: 'Sala studio Edificio 3',
+                        track: 'Cybersecurity e Data Science',
+                        description: 'Spazio per sessioni su sicurezza, dati, analisi e casi pratici.',
+                        x: '34%',
+                        y: '62%',
+                        w: '26%',
+                        h: '26%',
+                        accent: '#fbbc04',
+                    },
+                    {
+                        id: 'networking',
+                        label: 'Sponsor',
+                        room: 'Foyer / area networking',
+                        track: 'Sponsor, TalentConnect e community',
+                        description: 'Area per stand sponsor, recruiting, pausa caffè e incontri tra partecipanti.',
+                        x: '64%',
+                        y: '62%',
+                        w: '28%',
+                        h: '26%',
+                        accent: '#8ab4f8',
+                    },
+                ],
+            },
             findUs: 'Come arrivare',
             directionsTitle: 'Indicazioni',
             trainTitle: 'In treno',
@@ -323,9 +444,7 @@ export const content = {
                 },
                 {
                     title: 'Contatti',
-                    body: [
-                        'Per qualsiasi segnalazione o richiesta puoi contattare il team GDG Lecce.',
-                    ],
+                    body: ['Per qualsiasi segnalazione o richiesta puoi contattare il team GDG Lecce.'],
                 },
             ],
         },
@@ -434,13 +553,21 @@ export const content = {
                         name: 'Bronze',
                         contribution: '250 euro',
                         description: 'Simple support and basic visibility.',
-                        perks: ['Logo on the official website', 'Logo on GDG Lecce social channels', 'Mention in the thank-you post'],
+                        perks: [
+                            'Logo on the official website',
+                            'Logo on GDG Lecce social channels',
+                            'Mention in the thank-you post',
+                        ],
                     },
                     {
                         name: 'Silver',
                         contribution: '500 euro',
                         description: 'Dedicated visibility before and during the event.',
-                        perks: ['All Bronze benefits', 'Dedicated social post', 'Promotional material in the welcome bag'],
+                        perks: [
+                            'All Bronze benefits',
+                            'Dedicated social post',
+                            'Promotional material in the welcome bag',
+                        ],
                     },
                     {
                         name: 'Gold',
@@ -467,8 +594,7 @@ export const content = {
         },
         about: {
             title: 'About',
-            intro:
-                'GDG Lecce and DevFest Lecce exist to grow the local tech ecosystem and connect it with the rest of Italy.',
+            intro: 'GDG Lecce and DevFest Lecce exist to grow the local tech ecosystem and connect it with the rest of Italy.',
             sections: [
                 {
                     title: 'Google Developer Group Lecce',
@@ -476,7 +602,7 @@ export const content = {
                 },
                 {
                     title: 'What DevFest is',
-                    text: "DevFest is the largest tech festival organized by GDG communities around the world. DevFest Lecce is its Salento edition: a day of talks, workshops and hackathons on AI, Web & Mobile, Cloud, Cybersecurity, Data Science and Soft Skills. It is a unique opportunity in Southern Italy to learn from top national and international speakers, network and meet companies in the field.",
+                    text: 'DevFest is the largest tech festival organized by GDG communities around the world. DevFest Lecce is its Salento edition: a day of talks, workshops and hackathons on AI, Web & Mobile, Cloud, Cybersecurity, Data Science and Soft Skills. It is a unique opportunity in Southern Italy to learn from top national and international speakers, network and meet companies in the field.',
                 },
                 {
                     title: 'DevFest Lecce 2026',
@@ -488,6 +614,27 @@ export const content = {
                 { label: 'Where', value: 'Studium 2000, Lecce' },
                 { label: 'Expected talks', value: '20+' },
                 { label: 'Expected attendees', value: '500+' },
+            ],
+            organizersTitle: 'Organizers',
+            organizersIntro:
+                'The GDG Lecce team curates the program, community, speakers, sponsors and attendee experience to build a useful, accessible and well-organized DevFest.',
+            organizers: [
+                {
+                    id: 'raffaele-grieco',
+                    name: 'Raffaele Grieco',
+                    role: 'GDG Organizer',
+                    title: 'Backend Developer',
+                    company: '',
+                    profileUrl: 'https://gdg.community.dev/u/m4j59y/',
+                },
+                {
+                    id: 'martino-scarcia',
+                    name: 'Martino Scarcia',
+                    role: 'GDG Organizer',
+                    title: 'Backend Developer',
+                    company: 'Hybris Hub',
+                    profileUrl: 'https://gdg.community.dev/u/m2jda5/',
+                },
             ],
             activitiesTitle: 'Planned activities',
             activities: [
@@ -546,8 +693,7 @@ export const content = {
                 'Every attendee, speaker, volunteer and sponsor is expected to follow the code of conduct.',
             ],
             cta: 'Discover Women Techmakers',
-            subtitle:
-                'DevFest Lecce aims to be an open, welcoming and respectful space for everyone.',
+            subtitle: 'DevFest Lecce aims to be an open, welcoming and respectful space for everyone.',
             cards: [
                 {
                     title: 'Open community',
@@ -576,9 +722,95 @@ export const content = {
             mapCta: 'Open directions',
             infoTitle: 'Studium 2000',
             info: [
-                'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 at Studium 2000, University of Salento.',
-                'The venue will host talks, workshops, networking, leisure spaces and the after party for a full community tech day.',
+                'DevFest Lecce 2026 will take place on Saturday, October 17, 2026 in the University of Salento Studium 2000 complex, with the main reference point in Building 3.',
+                'Studium 2000 is an urban campus near the historic center: it hosts a library, museum spaces, classrooms, conference rooms and areas suitable for parallel sessions, networking and community activities.',
+                'Once attendees arrive at the Google Maps point, DevFest signage will guide them to check-in, rooms, sponsor area and break spaces inside the complex.',
             ],
+            venueHighlights: [
+                {
+                    title: 'Building 3',
+                    text: 'Reference point for check-in, rooms and indoor orientation throughout the day.',
+                },
+                {
+                    title: 'Conference spaces',
+                    text: 'Classrooms and rooms designed for talks, workshops and parallel sessions.',
+                },
+                {
+                    title: 'Community area',
+                    text: 'Areas for networking, sponsors, TalentConnect and breaks between tracks.',
+                },
+            ],
+            indoor: {
+                title: 'Indoor map - Studium 2000 Building 3',
+                subtitle:
+                    'After arriving at Studium 2000, use this orientation map to understand where check-in, rooms and the main tracks are located.',
+                note: 'The track layout and room names can be updated with the final venue signage.',
+                entrance: 'Entrance from Via di Valesio',
+                corridor: 'Main corridor',
+                detailsTitle: 'Area details',
+                rooms: [
+                    {
+                        id: 'checkin',
+                        label: 'Check-in',
+                        room: 'Building 3 atrium',
+                        track: 'Welcome and badges',
+                        description: 'First stop for registration, badges, welcome kit and orientation information.',
+                        x: '6%',
+                        y: '64%',
+                        w: '22%',
+                        h: '20%',
+                        accent: '#4285f4',
+                    },
+                    {
+                        id: 'main',
+                        label: 'Main Track',
+                        room: 'Former Mediateca room',
+                        track: 'Keynotes, AI and Cloud',
+                        description: 'Main room for opening, plenary talks and sessions with the largest attendance.',
+                        x: '34%',
+                        y: '12%',
+                        w: '26%',
+                        h: '28%',
+                        accent: '#ea4335',
+                    },
+                    {
+                        id: 'web-mobile',
+                        label: 'Web & Mobile',
+                        room: 'Aula 3D',
+                        track: 'Web & Mobile Development',
+                        description: 'Track dedicated to frontend, mobile, technical UX and application development.',
+                        x: '64%',
+                        y: '12%',
+                        w: '28%',
+                        h: '28%',
+                        accent: '#34a853',
+                    },
+                    {
+                        id: 'data-security',
+                        label: 'Data & Security',
+                        room: 'Building 3 study room',
+                        track: 'Cybersecurity and Data Science',
+                        description: 'Space for sessions on security, data, analytics and practical use cases.',
+                        x: '34%',
+                        y: '62%',
+                        w: '26%',
+                        h: '26%',
+                        accent: '#fbbc04',
+                    },
+                    {
+                        id: 'networking',
+                        label: 'Sponsors',
+                        room: 'Foyer / networking area',
+                        track: 'Sponsors, TalentConnect and community',
+                        description: 'Area for sponsor booths, recruiting, coffee breaks and attendee conversations.',
+                        x: '64%',
+                        y: '62%',
+                        w: '28%',
+                        h: '26%',
+                        accent: '#8ab4f8',
+                    },
+                ],
+            },
             findUs: 'How to get there',
             directionsTitle: 'Directions',
             trainTitle: 'By train',
@@ -622,8 +854,7 @@ export const content = {
         },
         coc: {
             title: 'Code of Conduct',
-            description:
-                'All GDG events follow guidelines designed to ensure a respectful and safe environment.',
+            description: 'All GDG events follow guidelines designed to ensure a respectful and safe environment.',
             cta: 'Read the GDG code',
             sections: [
                 {
@@ -634,9 +865,7 @@ export const content = {
                 },
                 {
                     title: 'Contact',
-                    body: [
-                        'For any report or request, you can contact the GDG Lecce team.',
-                    ],
+                    body: ['For any report or request, you can contact the GDG Lecce team.'],
                 },
             ],
         },
@@ -648,37 +877,36 @@ export const content = {
             cta: 'Back to home',
         },
     },
-} as const;
+} as const
 
-export const isLang = (value: string | undefined): value is Lang =>
-    languages.includes(value as Lang);
+export const isLang = (value: string | undefined): value is Lang => languages.includes(value as Lang)
 
 export const withoutLangPrefix = (pathname: string) => {
-    const segments = pathname.split('/').filter(Boolean);
+    const segments = pathname.split('/').filter(Boolean)
     if (segments.length && isLang(segments[0])) {
-        return `/${segments.slice(1).join('/')}`.replace(/\/$/, '') || '/';
+        return `/${segments.slice(1).join('/')}`.replace(/\/$/, '') || '/'
     }
 
-    return pathname || '/';
-};
+    return pathname || '/'
+}
 
 export const routePath = (lang: Lang, path = '/') => {
-    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-    return `/${lang}${normalizedPath === '/' ? '' : normalizedPath}`;
-};
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`
+    return `/${lang}${normalizedPath === '/' ? '' : normalizedPath}`
+}
 
 export const getLangFromUrl = (url: URL): Lang => {
-    const [, lang] = url.pathname.split('/');
-    return isLang(lang) ? lang : defaultLang;
-};
+    const [, lang] = url.pathname.split('/')
+    return isLang(lang) ? lang : defaultLang
+}
 
 export const switchLangPath = (pathname: string, lang: Lang) => {
-    const rest = withoutLangPrefix(pathname);
-    return routePath(lang, rest);
-};
+    const rest = withoutLangPrefix(pathname)
+    return routePath(lang, rest)
+}
 
 export const localizedStaticPaths = () =>
-    languages.map((lang) => ({
+    languages.map(lang => ({
         params: { lang },
         props: { lang },
-    }));
+    }))

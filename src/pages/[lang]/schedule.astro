@@ -7,7 +7,9 @@ import {
     getTalkTrackLabel,
     SESSION_TRACKS,
     TALKS,
+    type SessionTrack,
     type Speaker,
+    type Talk,
 } from '@/lib/astro/sessionize'
 
 export const getStaticPaths = localizedStaticPaths
@@ -16,15 +18,42 @@ const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLa
 const t = content[lang]
 
 const getSpeakerName = (speaker: Speaker) => `${speaker.firstName} ${speaker.lastName}`.trim()
-const getSpeakerInitials = (speaker: Speaker) =>
-    [speaker.firstName, speaker.lastName]
-        .filter(Boolean)
-        .map(part => part[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase()
+type ScheduleSession = {
+    talk: Talk
+    track: SessionTrack
+    trackId: string
+    sessionType: 'talk' | 'workshop'
+    duration: string
+}
+
+type ScheduleCell = {
+    track: SessionTrack
+    trackId: string
+    sessions: ScheduleSession[]
+}
+
+type ScheduleRow = {
+    key: string
+    label: string
+    subLabel: string
+    cells: ScheduleCell[]
+}
+
+const getSessionType = (talk: Talk): ScheduleSession['sessionType'] =>
+    talk.sessionFormat.toLowerCase().includes('workshop') ? 'workshop' : 'talk'
+
 const acceptedTalks = [...TALKS]
-    .map(talk => ({ talk, track: getTalkTrackLabel(talk) }))
+    .map<ScheduleSession>(talk => {
+        const track = getTalkTrackLabel(talk)
+
+        return {
+            talk,
+            track,
+            trackId: getTalkTrackId(track),
+            sessionType: getSessionType(talk),
+            duration: getTalkDurationLabel(talk),
+        }
+    })
     .sort(
         (a, b) =>
             SESSION_TRACKS.indexOf(a.track) - SESSION_TRACKS.indexOf(b.track) ||
@@ -35,25 +64,82 @@ const talksByTrack = SESSION_TRACKS.map(track => ({
     id: getTalkTrackId(track),
     title: track,
     description: t.schedule.trackDescriptions[track],
-    talks: acceptedTalks.filter(item => item.track === track),
+    sessions: acceptedTalks.filter(item => item.track === track),
 }))
 const getSessionCountLabel = (count: number) =>
     count === 1 ? t.schedule.sessionCountSingular : t.schedule.sessionCountPlural
-const getSessionDetailHref = (talk: (typeof TALKS)[number]) => `${routePath(lang, 'sessions')}/${talk.id}`
+const getSessionDetailHref = (talk: Talk) => `${routePath(lang, 'sessions')}/${talk.id}`
 
-const formatScheduledStart = (scheduledStart: string) => {
+const formatScheduleTime = (scheduledStart: string) => {
     const date = new Date(scheduledStart)
     if (Number.isNaN(date.getTime())) {
         return scheduledStart
     }
 
     return new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', {
-        day: '2-digit',
-        month: 'short',
         hour: '2-digit',
         minute: '2-digit',
     }).format(date)
 }
+
+const getScheduleTimeKey = (scheduledStart: string) => {
+    const date = new Date(scheduledStart)
+    if (Number.isNaN(date.getTime())) {
+        return scheduledStart
+    }
+
+    return String(date.getTime())
+}
+
+const buildPlanningRows = (sessions: ScheduleSession[]): ScheduleRow[] => {
+    const sessionsByTrack = SESSION_TRACKS.map(track => ({
+        track,
+        trackId: getTalkTrackId(track),
+        sessions: sessions.filter(session => session.track === track),
+    }))
+    const rowCount = Math.max(0, ...sessionsByTrack.map(group => group.sessions.length))
+
+    return Array.from({ length: rowCount }, (_, index) => ({
+        key: `planning-${index + 1}`,
+        label: t.schedule.slotLabel.replace('{number}', String(index + 1)),
+        subLabel: t.schedule.unscheduledNote,
+        cells: sessionsByTrack.map(group => ({
+            track: group.track,
+            trackId: group.trackId,
+            sessions: group.sessions[index] ? [group.sessions[index]] : [],
+        })),
+    }))
+}
+
+const scheduledSessions = acceptedTalks.filter(session => session.talk.scheduledStart)
+const unscheduledSessions = acceptedTalks.filter(session => !session.talk.scheduledStart)
+const hasTimedAgenda = scheduledSessions.length > 0
+const timedRows: ScheduleRow[] = hasTimedAgenda
+    ? [...new Set(scheduledSessions.map(session => getScheduleTimeKey(session.talk.scheduledStart)))]
+          .sort((a, b) => Number(a) - Number(b))
+          .map(timeKey => {
+              const rowSessions = scheduledSessions.filter(
+                  session => getScheduleTimeKey(session.talk.scheduledStart) === timeKey,
+              )
+              const firstSession = rowSessions[0]
+
+              return {
+                  key: `time-${timeKey}`,
+                  label: firstSession ? formatScheduleTime(firstSession.talk.scheduledStart) : timeKey,
+                  subLabel: t.schedule.timedSlotLabel,
+                  cells: SESSION_TRACKS.map(track => ({
+                      track,
+                      trackId: getTalkTrackId(track),
+                      sessions: rowSessions.filter(session => session.track === track),
+                  })),
+              }
+          })
+    : []
+const scheduleRows = hasTimedAgenda
+    ? [...timedRows, ...buildPlanningRows(unscheduledSessions)]
+    : buildPlanningRows(acceptedTalks)
+const talkCount = acceptedTalks.filter(session => session.sessionType === 'talk').length
+const workshopCount = acceptedTalks.filter(session => session.sessionType === 'workshop').length
 ---
 
 <Base lang={lang} title={t.schedule.title}>
@@ -64,139 +150,183 @@ const formatScheduledStart = (scheduledStart: string) => {
             </div>
             {
                 acceptedTalks.length > 0 ? (
-                    <div class="session-directory" aria-labelledby="session-directory-title" data-schedule-directory>
-                        <div class="section-heading">
+                    <div
+                        class="session-directory schedule-board-directory"
+                        aria-labelledby="session-directory-title"
+                        data-schedule-directory
+                    >
+                        <div class="section-heading schedule-board-heading">
+                            <span class="section-kicker">{t.schedule.dayLabel}</span>
                             <div class="text">
-                                <h2 id="session-directory-title">{t.schedule.acceptedTitle}</h2>
-                                <p>{t.schedule.filterIntro}</p>
+                                <h2 id="session-directory-title">{t.schedule.boardTitle}</h2>
+                                <p>{hasTimedAgenda ? t.schedule.boardIntro : t.schedule.boardPendingIntro}</p>
                             </div>
                         </div>
 
-                        <div class="schedule-filter-panel" aria-label={t.schedule.filters.label}>
-                            <div class="schedule-filter-copy">
-                                <strong>{t.schedule.filters.title}</strong>
-                                <span data-schedule-filter-status aria-live="polite">{t.schedule.filters.allStatus}</span>
-                            </div>
-                            <div class="schedule-filter-buttons" aria-label={t.schedule.filters.label}>
-                                <button
-                                    class="schedule-filter-button is-active"
-                                    type="button"
-                                    data-track-filter="all"
-                                    data-status={t.schedule.filters.allStatus}
-                                    aria-pressed="true"
-                                >
-                                    <span>{t.schedule.filters.all}</span>
-                                    <strong>{acceptedTalks.length}</strong>
-                                </button>
-                                {talksByTrack.map(group => (
+                        <div class="schedule-filter-panel schedule-board-controls" aria-label={t.schedule.filters.label}>
+                            <div class="schedule-filter-group">
+                                <div class="schedule-filter-copy">
+                                    <strong>{t.schedule.filters.title}</strong>
+                                    <span data-schedule-filter-status aria-live="polite">
+                                        {t.schedule.filters.allStatus}
+                                    </span>
+                                </div>
+                                <div class="schedule-filter-buttons" aria-label={t.schedule.filters.label}>
                                     <button
-                                        class={`schedule-filter-button schedule-track-${group.id}`}
+                                        class="schedule-filter-button is-active"
                                         type="button"
-                                        data-track-filter={group.track}
-                                        data-status={t.schedule.filters.trackStatus.replace('{track}', group.title)}
+                                        data-track-filter="all"
+                                        data-status={t.schedule.filters.allStatus}
+                                        aria-pressed="true"
+                                    >
+                                        <span>{t.schedule.filters.all}</span>
+                                        <strong>{acceptedTalks.length}</strong>
+                                    </button>
+                                    {talksByTrack.map(group => (
+                                        <button
+                                            class={`schedule-filter-button schedule-track-${group.id}`}
+                                            type="button"
+                                            data-track-filter={group.track}
+                                            data-status={t.schedule.filters.trackStatus.replace('{track}', group.title)}
+                                            aria-pressed="false"
+                                        >
+                                            <span>{group.title}</span>
+                                            <strong>{group.sessions.length}</strong>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div class="schedule-filter-group">
+                                <div class="schedule-filter-copy">
+                                    <strong>{t.schedule.typeFilters.title}</strong>
+                                    <span>{t.schedule.typeFilters.intro}</span>
+                                </div>
+                                <div class="schedule-filter-buttons schedule-type-buttons" aria-label={t.schedule.typeFilters.label}>
+                                    <button
+                                        class="schedule-filter-button is-active"
+                                        type="button"
+                                        data-type-filter="all"
+                                        data-status={t.schedule.typeFilters.allStatus}
+                                        aria-pressed="true"
+                                    >
+                                        <span>{t.schedule.typeFilters.all}</span>
+                                        <strong>{acceptedTalks.length}</strong>
+                                    </button>
+                                    <button
+                                        class="schedule-filter-button"
+                                        type="button"
+                                        data-type-filter="talk"
+                                        data-status={t.schedule.typeFilters.talkStatus}
                                         aria-pressed="false"
                                     >
-                                        <span>{group.title}</span>
-                                        <strong>{group.talks.length}</strong>
+                                        <span>{t.schedule.typeFilters.talk}</span>
+                                        <strong>{talkCount}</strong>
                                     </button>
-                                ))}
+                                    <button
+                                        class="schedule-filter-button schedule-track-workshop"
+                                        type="button"
+                                        data-type-filter="workshop"
+                                        data-status={t.schedule.typeFilters.workshopStatus}
+                                        aria-pressed="false"
+                                    >
+                                        <span>{t.schedule.typeFilters.workshop}</span>
+                                        <strong>{workshopCount}</strong>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="session-track-groups">
-                            {talksByTrack.map(group => (
-                                <section
-                                    class={`session-track-group schedule-track-${group.id}`}
-                                    data-track-group={group.track}
-                                    aria-labelledby={`schedule-track-${group.id}`}
-                                >
-                                    <div class="session-track-heading">
-                                        <div class="text">
-                                            <span class="section-kicker">
-                                                {group.talks.length} {getSessionCountLabel(group.talks.length)}
-                                            </span>
-                                            <h3 id={`schedule-track-${group.id}`}>{group.title}</h3>
-                                            <p>{group.description}</p>
+                        {!hasTimedAgenda && <p class="schedule-board-note">{t.schedule.timedUnavailableText}</p>}
+
+                        <div class="schedule-board-shell">
+                            <p id="schedule-scroll-hint" class="schedule-scroll-hint">
+                                {t.schedule.scrollHint}
+                            </p>
+                            <div class="schedule-board-scroll" aria-describedby="schedule-scroll-hint">
+                                <div class="schedule-board" role="table" aria-label={t.schedule.boardTitle}>
+                                    <div class="schedule-board-header" role="row">
+                                        <div class="schedule-time-heading" role="columnheader">
+                                            {t.schedule.meta.time}
                                         </div>
-                                    </div>
-
-                                    <div class="session-grid">
-                                        {group.talks.map(({ talk, track }) => (
-                                            <article
-                                                id={`session-${talk.id}`}
-                                                class={`card large program-card session-list-card schedule-track-${getTalkTrackId(track)}`}
-                                                data-session-card
-                                                data-track={track}
+                                        {talksByTrack.map(column => (
+                                            <div
+                                                class={`schedule-board-track schedule-track-${column.id}`}
+                                                role="columnheader"
+                                                data-track-column={column.track}
                                             >
-                                                <div class="program-card-badges">
-                                                    <span class="program-chip track-chip">{track}</span>
-                                                    {talk.language && (
-                                                        <span class="program-chip">{talk.language}</span>
-                                                    )}
-                                                </div>
-
-                                                <div class="program-card-main">
-                                                    {talk.speakers.length > 0 && (
-                                                        <div class="program-card-media session-card-media">
-                                                            {talk.speakers.map(speaker => (
-                                                                <div class="program-avatar">
-                                                                    {speaker.profilePicture ? (
-                                                                        <img
-                                                                            src={speaker.profilePicture}
-                                                                            alt={getSpeakerName(speaker)}
-                                                                            loading="lazy"
-                                                                        />
-                                                                    ) : (
-                                                                        <span
-                                                                            class="session-mini-initials"
-                                                                            aria-hidden="true"
-                                                                        >
-                                                                            {getSpeakerInitials(speaker)}
-                                                                        </span>
-                                                                    )}
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                    <div class="text program-card-copy">
-                                                        <h2>{talk.title}</h2>
-                                                        {talk.speakers.length > 0 && (
-                                                            <p>{talk.speakers.map(getSpeakerName).join(', ')}</p>
-                                                        )}
-                                                    </div>
-                                                </div>
-
-                                                <div class="program-card-meta">
-                                                    {talk.category && (
-                                                        <span class="data-chip">
-                                                            {t.schedule.meta.topic}: {talk.category}
-                                                        </span>
-                                                    )}
-                                                    {getTalkDurationLabel(talk) && (
-                                                        <span class="data-chip">
-                                                            {t.schedule.meta.duration}: {getTalkDurationLabel(talk)}
-                                                        </span>
-                                                    )}
-                                                    {talk.scheduledStart && (
-                                                        <span class="data-chip">
-                                                            {t.schedule.meta.time}: {formatScheduledStart(talk.scheduledStart)}
-                                                        </span>
-                                                    )}
-                                                    {talk.room && (
-                                                        <span class="data-chip">
-                                                            {t.schedule.meta.room}: {talk.room}
-                                                        </span>
-                                                    )}
-                                                </div>
-
-                                                <a class="program-card-action" href={getSessionDetailHref(talk)}>
-                                                    {t.schedule.openSession}
-                                                </a>
-                                            </article>
+                                                <strong>{column.title}</strong>
+                                                <span>
+                                                    {column.sessions.length} {getSessionCountLabel(column.sessions.length)}
+                                                </span>
+                                            </div>
                                         ))}
                                     </div>
-                                </section>
-                            ))}
+
+                                    <div class="schedule-board-body">
+                                        {scheduleRows.map(row => (
+                                            <section class="schedule-row" role="row" data-schedule-row>
+                                                <div class="schedule-row-time" role="rowheader">
+                                                    <strong>{row.label}</strong>
+                                                    <span>{row.subLabel}</span>
+                                                </div>
+
+                                                {row.cells.map(cell => (
+                                            <div
+                                                class:list={[
+                                                    'schedule-slot',
+                                                    `schedule-track-${cell.trackId}`,
+                                                    cell.sessions.length > 0 ? 'has-sessions' : 'is-empty',
+                                                ]}
+                                                role="cell"
+                                                data-track-cell={cell.track}
+                                            >
+                                                {cell.sessions.length > 0 ? (
+                                                    cell.sessions.map(session => (
+                                                        <a
+                                                            id={`session-${session.talk.id}`}
+                                                            class="schedule-session-card"
+                                                            href={getSessionDetailHref(session.talk)}
+                                                            data-session-card
+                                                            data-track={session.track}
+                                                            data-session-type={session.sessionType}
+                                                        >
+                                                            <span class="schedule-session-eyebrow">
+                                                                {session.sessionType === 'workshop'
+                                                                    ? t.schedule.typeFilters.workshop
+                                                                    : t.schedule.typeFilters.talk}
+                                                            </span>
+                                                            <strong class="schedule-session-title">
+                                                                {session.talk.title}
+                                                            </strong>
+                                                            {session.talk.speakers.length > 0 && (
+                                                                <span class="schedule-session-speakers">
+                                                                    {session.talk.speakers.map(getSpeakerName).join(', ')}
+                                                                </span>
+                                                            )}
+                                                            <span class="schedule-session-meta">
+                                                                {session.talk.language && (
+                                                                    <span>{session.talk.language}</span>
+                                                                )}
+                                                                {session.duration && <span>{session.duration}</span>}
+                                                                {session.talk.room && <span>{session.talk.room}</span>}
+                                                            </span>
+                                                        </a>
+                                                    ))
+                                                ) : (
+                                                    <span
+                                                        class="schedule-slot-empty"
+                                                        data-empty-slot
+                                                        aria-label={t.schedule.emptySlot}
+                                                    />
+                                                )}
+                                            </div>
+                                        ))}
+                                            </section>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ) : (
@@ -217,27 +347,71 @@ const formatScheduledStart = (scheduledStart: string) => {
     const scheduleDirectory = document.querySelector('[data-schedule-directory]')
 
     if (scheduleDirectory) {
-        const filterButtons = [...scheduleDirectory.querySelectorAll<HTMLButtonElement>('[data-track-filter]')]
-        const trackGroups = [...scheduleDirectory.querySelectorAll<HTMLElement>('[data-track-group]')]
+        const trackButtons = [...scheduleDirectory.querySelectorAll<HTMLButtonElement>('[data-track-filter]')]
+        const typeButtons = [...scheduleDirectory.querySelectorAll<HTMLButtonElement>('[data-type-filter]')]
+        const trackColumns = [...scheduleDirectory.querySelectorAll<HTMLElement>('[data-track-column]')]
+        const trackCells = [...scheduleDirectory.querySelectorAll<HTMLElement>('[data-track-cell]')]
+        const sessionCards = [...scheduleDirectory.querySelectorAll<HTMLElement>('[data-session-card]')]
+        const scheduleRows = [...scheduleDirectory.querySelectorAll<HTMLElement>('[data-schedule-row]')]
         const status = scheduleDirectory.querySelector<HTMLElement>('[data-schedule-filter-status]')
+        let selectedTrack = 'all'
+        let selectedType = 'all'
 
-        filterButtons.forEach(button => {
+        const updateButtons = (buttons: HTMLButtonElement[], activeValue: string, dataKey: 'trackFilter' | 'typeFilter') => {
+            buttons.forEach(button => {
+                const isActive = button.dataset[dataKey] === activeValue
+                button.classList.toggle('is-active', isActive)
+                button.setAttribute('aria-pressed', String(isActive))
+            })
+        }
+
+        const updateStatus = () => {
+            if (!status) return
+
+            const trackStatus = trackButtons.find(button => button.dataset.trackFilter === selectedTrack)?.dataset.status ?? ''
+            const typeStatus = typeButtons.find(button => button.dataset.typeFilter === selectedType)?.dataset.status ?? ''
+
+            status.textContent = selectedType === 'all' ? trackStatus : `${trackStatus} ${typeStatus}`
+        }
+
+        const applyFilters = () => {
+            trackColumns.forEach(column => {
+                column.hidden = selectedTrack !== 'all' && column.dataset.trackColumn !== selectedTrack
+            })
+
+            trackCells.forEach(cell => {
+                cell.hidden = selectedTrack !== 'all' && cell.dataset.trackCell !== selectedTrack
+            })
+
+            sessionCards.forEach(card => {
+                const matchesType = selectedType === 'all' || card.dataset.sessionType === selectedType
+                card.hidden = !matchesType
+            })
+
+            scheduleRows.forEach(row => {
+                const visibleCards = [...row.querySelectorAll<HTMLElement>('[data-session-card]')].some(card => {
+                    const parentCell = card.closest<HTMLElement>('[data-track-cell]')
+                    return !card.hidden && !parentCell?.hidden
+                })
+                row.hidden = !visibleCards
+            })
+
+            updateButtons(trackButtons, selectedTrack, 'trackFilter')
+            updateButtons(typeButtons, selectedType, 'typeFilter')
+            updateStatus()
+        }
+
+        trackButtons.forEach(button => {
             button.addEventListener('click', () => {
-                const selectedTrack = button.dataset.trackFilter ?? 'all'
+                selectedTrack = button.dataset.trackFilter ?? 'all'
+                applyFilters()
+            })
+        })
 
-                filterButtons.forEach(filterButton => {
-                    const isActive = filterButton === button
-                    filterButton.classList.toggle('is-active', isActive)
-                    filterButton.setAttribute('aria-pressed', String(isActive))
-                })
-
-                trackGroups.forEach(group => {
-                    group.hidden = selectedTrack !== 'all' && group.dataset.trackGroup !== selectedTrack
-                })
-
-                if (status) {
-                    status.textContent = button.dataset.status ?? ''
-                }
+        typeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                selectedType = button.dataset.typeFilter ?? 'all'
+                applyFilters()
             })
         })
     }

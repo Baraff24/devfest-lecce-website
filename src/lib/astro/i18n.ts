@@ -188,16 +188,39 @@ export const content = {
             title: 'Agenda',
             cards: ['Beginner', 'Intermediate', 'Advanced', 'Workshop'],
             acceptedTitle: 'Sessioni accettate',
+            dayLabel: 'Sabato 17 ottobre',
+            boardTitle: 'Programma del giorno',
+            boardIntro:
+                'Sessioni e workshop sono organizzati per orario e track. Usa i filtri per orientarti tra livelli e formati.',
+            boardPendingIntro:
+                'Sessioni e workshop sono già online. La griglia oraria userà questa struttura appena orari e aule saranno definitivi.',
             filterIntro:
                 'Usa le track per scegliere in fretta il livello giusto per te: basi solide, contenuti intermedi, deep dive avanzati o workshop pratici.',
             openSession: 'Dettagli sessione',
             unscheduledNote: 'Orario e aula in definizione',
+            timedSlotLabel: 'Sessioni parallele',
+            slotLabel: 'Slot {number}',
+            timedUnavailableText:
+                "Gli slot qui sotto non sono ancora orari ufficiali: servono a mostrare il programma per track mentre chiudiamo l'assegnazione di aule e timetable.",
+            scrollHint: 'Scorri orizzontalmente per vedere tutte le track.',
+            emptySlot: 'Nessuna sessione in questo slot',
             filters: {
                 title: 'Filtra per track',
                 label: 'Filtri track agenda',
                 all: 'Tutte',
                 allStatus: 'Stai vedendo tutte le sessioni.',
                 trackStatus: 'Filtro attivo: {track}.',
+            },
+            typeFilters: {
+                title: 'Formato',
+                label: 'Filtri formato agenda',
+                intro: 'Mostra tutto oppure separa talk e workshop.',
+                all: 'Tutto',
+                talk: 'Talk',
+                workshop: 'Workshop',
+                allStatus: 'Formato: tutto.',
+                talkStatus: 'Formato: solo talk.',
+                workshopStatus: 'Formato: solo workshop.',
             },
             trackDescriptions: {
                 Beginner: 'Per entrare nel tema con contesto, esempi guidati e concetti fondamentali.',
@@ -592,16 +615,39 @@ export const content = {
             title: 'Schedule',
             cards: ['Beginner', 'Intermediate', 'Advanced', 'Workshop'],
             acceptedTitle: 'Accepted sessions',
+            dayLabel: 'Saturday, October 17',
+            boardTitle: 'Day schedule',
+            boardIntro:
+                'Sessions and workshops are arranged by time and track. Use the filters to move across levels and formats.',
+            boardPendingIntro:
+                'Sessions and workshops are already online. This grid will become the timed schedule as soon as rooms and slots are final.',
             filterIntro:
                 'Use tracks to quickly choose the right level for you: solid foundations, intermediate content, advanced deep dives or practical workshops.',
             openSession: 'Session details',
             unscheduledNote: 'Time and room being defined',
+            timedSlotLabel: 'Parallel sessions',
+            slotLabel: 'Slot {number}',
+            timedUnavailableText:
+                'The slots below are not official times yet: they show the programme by track while rooms and the final timetable are being assigned.',
+            scrollHint: 'Scroll horizontally to see all tracks.',
+            emptySlot: 'No session in this slot',
             filters: {
                 title: 'Filter by track',
                 label: 'Schedule track filters',
                 all: 'All',
                 allStatus: 'Showing all sessions.',
                 trackStatus: 'Active filter: {track}.',
+            },
+            typeFilters: {
+                title: 'Format',
+                label: 'Schedule format filters',
+                intro: 'Show everything or separate talks and workshops.',
+                all: 'All',
+                talk: 'Talk',
+                workshop: 'Workshop',
+                allStatus: 'Format: all.',
+                talkStatus: 'Format: talks only.',
+                workshopStatus: 'Format: workshops only.',
             },
             trackDescriptions: {
                 Beginner: 'For getting into the topic with context, guided examples and core concepts.',

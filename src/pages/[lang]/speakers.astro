@@ -72,14 +72,6 @@ const getSpeakerSessionHref = (talk: Talk) => `${routePath(lang, 'sessions')}/${
                                     >
                                         <div class="program-card-badges">
                                             <span class="program-chip track-chip">{primaryTrack}</span>
-                                            {speakerTalks.length > 0 && (
-                                                <span class="program-chip">
-                                                    {speakerTalks.length}{' '}
-                                                    {speakerTalks.length === 1
-                                                        ? t.speakers.sessionLabel
-                                                        : t.speakers.sessionsLabel}
-                                                </span>
-                                            )}
                                         </div>
 
                                         <div class="program-card-main">

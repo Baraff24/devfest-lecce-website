@@ -1,7 +1,15 @@
 ---
 import Base from '@/layouts/Base.astro'
-import { content, defaultLang, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
-import { SPEAKERS, TALKS, type Speaker } from '@/lib/astro/sessionize'
+import { content, defaultLang, isLang, localizedStaticPaths, routePath, type Lang } from '@/lib/astro/i18n'
+import {
+    getTalkDurationLabel,
+    getTalkTrackId,
+    getTalkTrackLabel,
+    SPEAKERS,
+    TALKS,
+    type Speaker,
+    type Talk,
+} from '@/lib/astro/sessionize'
 
 export const getStaticPaths = localizedStaticPaths
 
@@ -25,6 +33,7 @@ const getSpeakerInitials = (speaker: Speaker) =>
         .join('')
         .slice(0, 2)
         .toUpperCase()
+const getSpeakerSessionHref = (talk: Talk) => `${routePath(lang, 'sessions')}/${talk.id}`
 ---
 
 <Base lang={lang} title={t.speakers.title}>
@@ -54,44 +63,73 @@ const getSpeakerInitials = (speaker: Speaker) =>
                         <div class="speaker-grid">
                             {visibleSpeakers.map(speaker => {
                                 const speakerTalks = talksBySpeaker.get(speaker.id) ?? []
+                                const primaryTalk = speakerTalks[0]
+                                const primaryTrack = primaryTalk ? getTalkTrackLabel(primaryTalk) : 'Intermediate'
 
                                 return (
-                                    <article class="card large speaker-lineup-card">
-                                        <div class="speaker-card-media">
-                                            {speaker.profilePicture ? (
-                                                <img
-                                                    src={speaker.profilePicture}
-                                                    alt={getSpeakerName(speaker)}
-                                                    loading="lazy"
-                                                />
-                                            ) : (
-                                                <div class="speaker-card-initials" aria-hidden="true">
-                                                    {getSpeakerInitials(speaker)}
-                                                </div>
+                                    <article
+                                        class={`card large program-card speaker-lineup-card schedule-track-${getTalkTrackId(primaryTrack)}`}
+                                    >
+                                        <div class="program-card-badges">
+                                            <span class="program-chip track-chip">{primaryTrack}</span>
+                                            {speakerTalks.length > 0 && (
+                                                <span class="program-chip">
+                                                    {speakerTalks.length}{' '}
+                                                    {speakerTalks.length === 1
+                                                        ? t.speakers.sessionLabel
+                                                        : t.speakers.sessionsLabel}
+                                                </span>
                                             )}
                                         </div>
-                                        <div class="speaker-card-content">
-                                            <div class="text">
+
+                                        <div class="program-card-main">
+                                            <div class="program-card-media speaker-card-media">
+                                                <div class="program-avatar">
+                                                    {speaker.profilePicture ? (
+                                                        <img
+                                                            src={speaker.profilePicture}
+                                                            alt={getSpeakerName(speaker)}
+                                                            loading="lazy"
+                                                        />
+                                                    ) : (
+                                                        <div class="speaker-card-initials" aria-hidden="true">
+                                                            {getSpeakerInitials(speaker)}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div class="text program-card-copy">
                                                 <h2>{getSpeakerName(speaker)}</h2>
                                                 {speaker.tagLine && <p class="speaker-tagline">{speaker.tagLine}</p>}
+                                                <p class="speaker-bio-preview">{speaker.bio || t.speakers.bioFallback}</p>
                                             </div>
-                                            <details class="card-details">
-                                                <summary>{t.common.bio}</summary>
-                                                <p class="speaker-bio">{speaker.bio || t.speakers.bioFallback}</p>
-                                            </details>
-                                            {speakerTalks.length > 0 && (
-                                                <div class="speaker-card-sessions">
-                                                    <strong>
-                                                        {speakerTalks.length === 1
-                                                            ? t.speakers.sessionLabel
-                                                            : t.speakers.sessionsLabel}
-                                                    </strong>
-                                                    {speakerTalks.map(talk => (
-                                                        <span>{talk.title}</span>
-                                                    ))}
-                                                </div>
-                                            )}
                                         </div>
+
+                                        {speakerTalks.length > 0 && (
+                                            <div class="program-card-links">
+                                                <strong>
+                                                    {speakerTalks.length === 1
+                                                        ? t.speakers.sessionLabel
+                                                        : t.speakers.sessionsLabel}
+                                                </strong>
+                                                {speakerTalks.map(talk => {
+                                                    const track = getTalkTrackLabel(talk)
+                                                    const duration = getTalkDurationLabel(talk)
+
+                                                    return (
+                                                        <a
+                                                            class={`program-card-action secondary schedule-track-${getTalkTrackId(track)}`}
+                                                            href={getSpeakerSessionHref(talk)}
+                                                            aria-label={`${t.speakers.openSession}: ${talk.title}`}
+                                                        >
+                                                            <span>{track}</span>
+                                                            <strong>{talk.title}</strong>
+                                                            {duration && <em>{duration}</em>}
+                                                        </a>
+                                                    )
+                                                })}
+                                            </div>
+                                        )}
                                     </article>
                                 )
                             })}

@@ -1,13 +1,19 @@
 ---
 import Base from '@/layouts/Base.astro'
-import { content, defaultLang, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
-import { TALKS, type Speaker, type Talk } from '@/lib/astro/sessionize'
+import { content, defaultLang, isLang, localizedStaticPaths, routePath, type Lang } from '@/lib/astro/i18n'
+import {
+    getTalkDurationLabel,
+    getTalkTrackId,
+    getTalkTrackLabel,
+    SESSION_TRACKS,
+    TALKS,
+    type Speaker,
+} from '@/lib/astro/sessionize'
 
 export const getStaticPaths = localizedStaticPaths
 
 const lang = isLang(Astro.params.lang) ? (Astro.params.lang as Lang) : defaultLang
 const t = content[lang]
-const acceptedTalks = [...TALKS].sort((a, b) => a.title.localeCompare(b.title, lang))
 
 const getSpeakerName = (speaker: Speaker) => `${speaker.firstName} ${speaker.lastName}`.trim()
 const getSpeakerInitials = (speaker: Speaker) =>
@@ -17,13 +23,23 @@ const getSpeakerInitials = (speaker: Speaker) =>
         .join('')
         .slice(0, 2)
         .toUpperCase()
-const getSessionTrackLabel = (talk: Talk) => {
-    if (talk.sessionFormat.toLowerCase().includes('workshop')) {
-        return 'Workshop'
-    }
-
-    return talk.level
-}
+const acceptedTalks = [...TALKS]
+    .map(talk => ({ talk, track: getTalkTrackLabel(talk) }))
+    .sort(
+        (a, b) =>
+            SESSION_TRACKS.indexOf(a.track) - SESSION_TRACKS.indexOf(b.track) ||
+            a.talk.title.localeCompare(b.talk.title, lang),
+    )
+const talksByTrack = SESSION_TRACKS.map(track => ({
+    track,
+    id: getTalkTrackId(track),
+    title: track,
+    description: t.schedule.trackDescriptions[track],
+    talks: acceptedTalks.filter(item => item.track === track),
+}))
+const getSessionCountLabel = (count: number) =>
+    count === 1 ? t.schedule.sessionCountSingular : t.schedule.sessionCountPlural
+const getSessionDetailHref = (talk: (typeof TALKS)[number]) => `${routePath(lang, 'sessions')}/${talk.id}`
 
 const formatScheduledStart = (scheduledStart: string) => {
     const date = new Date(scheduledStart)
@@ -48,68 +64,138 @@ const formatScheduledStart = (scheduledStart: string) => {
             </div>
             {
                 acceptedTalks.length > 0 ? (
-                    <div class="session-directory" aria-labelledby="session-directory-title">
+                    <div class="session-directory" aria-labelledby="session-directory-title" data-schedule-directory>
                         <div class="section-heading">
                             <div class="text">
                                 <h2 id="session-directory-title">{t.schedule.acceptedTitle}</h2>
+                                <p>{t.schedule.filterIntro}</p>
                             </div>
                         </div>
 
-                        <div class="session-grid">
-                            {acceptedTalks.map(talk => (
-                                <article class="card large session-list-card">
-                                    <div class="session-card-meta">
-                                        {getSessionTrackLabel(talk) && (
-                                            <span class="data-chip">
-                                                {t.schedule.meta.track}: {getSessionTrackLabel(talk)}
+                        <div class="schedule-filter-panel" aria-label={t.schedule.filters.label}>
+                            <div class="schedule-filter-copy">
+                                <strong>{t.schedule.filters.title}</strong>
+                                <span data-schedule-filter-status aria-live="polite">{t.schedule.filters.allStatus}</span>
+                            </div>
+                            <div class="schedule-filter-buttons" aria-label={t.schedule.filters.label}>
+                                <button
+                                    class="schedule-filter-button is-active"
+                                    type="button"
+                                    data-track-filter="all"
+                                    data-status={t.schedule.filters.allStatus}
+                                    aria-pressed="true"
+                                >
+                                    <span>{t.schedule.filters.all}</span>
+                                    <strong>{acceptedTalks.length}</strong>
+                                </button>
+                                {talksByTrack.map(group => (
+                                    <button
+                                        class={`schedule-filter-button schedule-track-${group.id}`}
+                                        type="button"
+                                        data-track-filter={group.track}
+                                        data-status={t.schedule.filters.trackStatus.replace('{track}', group.title)}
+                                        aria-pressed="false"
+                                    >
+                                        <span>{group.title}</span>
+                                        <strong>{group.talks.length}</strong>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div class="session-track-groups">
+                            {talksByTrack.map(group => (
+                                <section
+                                    class={`session-track-group schedule-track-${group.id}`}
+                                    data-track-group={group.track}
+                                    aria-labelledby={`schedule-track-${group.id}`}
+                                >
+                                    <div class="session-track-heading">
+                                        <div class="text">
+                                            <span class="section-kicker">
+                                                {group.talks.length} {getSessionCountLabel(group.talks.length)}
                                             </span>
-                                        )}
-                                        {talk.language && (
-                                            <span class="data-chip">
-                                                {t.schedule.meta.language}: {talk.language}
-                                            </span>
-                                        )}
-                                        {talk.scheduledStart && (
-                                            <span class="data-chip">
-                                                {t.schedule.meta.time}: {formatScheduledStart(talk.scheduledStart)}
-                                            </span>
-                                        )}
-                                        {talk.room && (
-                                            <span class="data-chip">
-                                                {t.schedule.meta.room}: {talk.room}
-                                            </span>
-                                        )}
+                                            <h3 id={`schedule-track-${group.id}`}>{group.title}</h3>
+                                            <p>{group.description}</p>
+                                        </div>
                                     </div>
 
-                                    <div class="text session-card-copy">
-                                        <h2>{talk.title}</h2>
-                                        <details class="card-details">
-                                            <summary>{t.common.abstract}</summary>
-                                            <p>{talk.description}</p>
-                                        </details>
-                                    </div>
+                                    <div class="session-grid">
+                                        {group.talks.map(({ talk, track }) => (
+                                            <article
+                                                id={`session-${talk.id}`}
+                                                class={`card large program-card session-list-card schedule-track-${getTalkTrackId(track)}`}
+                                                data-session-card
+                                                data-track={track}
+                                            >
+                                                <div class="program-card-badges">
+                                                    <span class="program-chip track-chip">{track}</span>
+                                                    {talk.language && (
+                                                        <span class="program-chip">{talk.language}</span>
+                                                    )}
+                                                </div>
 
-                                    {talk.speakers.length > 0 && (
-                                        <div class="session-card-speakers">
-                                            {talk.speakers.map(speaker => (
-                                                <div class="session-mini-speaker">
-                                                    {speaker.profilePicture ? (
-                                                        <img
-                                                            src={speaker.profilePicture}
-                                                            alt={getSpeakerName(speaker)}
-                                                            loading="lazy"
-                                                        />
-                                                    ) : (
-                                                        <span class="session-mini-initials" aria-hidden="true">
-                                                            {getSpeakerInitials(speaker)}
+                                                <div class="program-card-main">
+                                                    {talk.speakers.length > 0 && (
+                                                        <div class="program-card-media session-card-media">
+                                                            {talk.speakers.map(speaker => (
+                                                                <div class="program-avatar">
+                                                                    {speaker.profilePicture ? (
+                                                                        <img
+                                                                            src={speaker.profilePicture}
+                                                                            alt={getSpeakerName(speaker)}
+                                                                            loading="lazy"
+                                                                        />
+                                                                    ) : (
+                                                                        <span
+                                                                            class="session-mini-initials"
+                                                                            aria-hidden="true"
+                                                                        >
+                                                                            {getSpeakerInitials(speaker)}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                    <div class="text program-card-copy">
+                                                        <h2>{talk.title}</h2>
+                                                        {talk.speakers.length > 0 && (
+                                                            <p>{talk.speakers.map(getSpeakerName).join(', ')}</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                <div class="program-card-meta">
+                                                    {talk.category && (
+                                                        <span class="data-chip">
+                                                            {t.schedule.meta.topic}: {talk.category}
                                                         </span>
                                                     )}
-                                                    <span>{getSpeakerName(speaker)}</span>
+                                                    {getTalkDurationLabel(talk) && (
+                                                        <span class="data-chip">
+                                                            {t.schedule.meta.duration}: {getTalkDurationLabel(talk)}
+                                                        </span>
+                                                    )}
+                                                    {talk.scheduledStart && (
+                                                        <span class="data-chip">
+                                                            {t.schedule.meta.time}: {formatScheduledStart(talk.scheduledStart)}
+                                                        </span>
+                                                    )}
+                                                    {talk.room && (
+                                                        <span class="data-chip">
+                                                            {t.schedule.meta.room}: {talk.room}
+                                                        </span>
+                                                    )}
                                                 </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </article>
+
+                                                <a class="program-card-action" href={getSessionDetailHref(talk)}>
+                                                    {t.schedule.openSession}
+                                                </a>
+                                            </article>
+                                        ))}
+                                    </div>
+                                </section>
                             ))}
                         </div>
                     </div>
@@ -126,3 +212,33 @@ const formatScheduledStart = (scheduledStart: string) => {
         </div>
     </section>
 </Base>
+
+<script>
+    const scheduleDirectory = document.querySelector('[data-schedule-directory]')
+
+    if (scheduleDirectory) {
+        const filterButtons = [...scheduleDirectory.querySelectorAll<HTMLButtonElement>('[data-track-filter]')]
+        const trackGroups = [...scheduleDirectory.querySelectorAll<HTMLElement>('[data-track-group]')]
+        const status = scheduleDirectory.querySelector<HTMLElement>('[data-schedule-filter-status]')
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedTrack = button.dataset.trackFilter ?? 'all'
+
+                filterButtons.forEach(filterButton => {
+                    const isActive = filterButton === button
+                    filterButton.classList.toggle('is-active', isActive)
+                    filterButton.setAttribute('aria-pressed', String(isActive))
+                })
+
+                trackGroups.forEach(group => {
+                    group.hidden = selectedTrack !== 'all' && group.dataset.trackGroup !== selectedTrack
+                })
+
+                if (status) {
+                    status.textContent = button.dataset.status ?? ''
+                }
+            })
+        })
+    }
+</script>

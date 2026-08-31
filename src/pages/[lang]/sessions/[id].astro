@@ -1,0 +1,139 @@
+---
+import Base from '@/layouts/Base.astro'
+import { content, languages, routePath, type Lang } from '@/lib/astro/i18n'
+import {
+    getTalkDurationLabel,
+    getTalkTrackId,
+    getTalkTrackLabel,
+    TALKS,
+    type Speaker,
+    type Talk,
+} from '@/lib/astro/sessionize'
+
+export const getStaticPaths = () =>
+    languages.flatMap(lang =>
+        TALKS.map(talk => ({
+            params: { lang, id: talk.id },
+            props: { lang, talk },
+        })),
+    )
+
+type Props = {
+    lang: Lang
+    talk: Talk
+}
+
+const { lang, talk } = Astro.props as Props
+const t = content[lang]
+const track = getTalkTrackLabel(talk)
+const trackId = getTalkTrackId(track)
+const duration = getTalkDurationLabel(talk)
+const abstractParagraphs = talk.description
+    .split(/\n\s*\n+/)
+    .map(paragraph => paragraph.replace(/\s*\n\s*/g, ' ').trim())
+    .filter(Boolean)
+
+const getSpeakerName = (speaker: Speaker) => `${speaker.firstName} ${speaker.lastName}`.trim()
+const getSpeakerInitials = (speaker: Speaker) =>
+    [speaker.firstName, speaker.lastName]
+        .filter(Boolean)
+        .map(part => part[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+
+const formatScheduledStart = (scheduledStart: string) => {
+    const date = new Date(scheduledStart)
+    if (Number.isNaN(date.getTime())) {
+        return scheduledStart
+    }
+
+    return new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', {
+        day: '2-digit',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+    }).format(date)
+}
+---
+
+<Base lang={lang} title={talk.title}>
+    <section id="session-detail" class={`wide schedule-track-${trackId}`}>
+        <div class="session-detail-layout">
+            <div class="session-detail-nav">
+                <a class="button" href={`${routePath(lang, 'schedule')}/#session-${talk.id}`}>
+                    {t.sessionDetail.backToSchedule}
+                </a>
+                <a class="button" href={routePath(lang, 'speakers')}>{t.sessionDetail.backToSpeakers}</a>
+            </div>
+
+            <article class="card large session-detail-card">
+                <div class="program-card-badges">
+                    <span class="program-chip track-chip">{track}</span>
+                    {talk.language && <span class="program-chip">{talk.language}</span>}
+                    {duration && <span class="program-chip">{duration}</span>}
+                </div>
+
+                <div class="text session-detail-heading">
+                    <h1>{talk.title}</h1>
+                </div>
+
+                <div class="program-card-meta">
+                    {talk.category && (
+                        <span class="data-chip">
+                            {t.schedule.meta.topic}: {talk.category}
+                        </span>
+                    )}
+                    {talk.scheduledStart && (
+                        <span class="data-chip">
+                            {t.schedule.meta.time}: {formatScheduledStart(talk.scheduledStart)}
+                        </span>
+                    )}
+                    {talk.room && (
+                        <span class="data-chip">
+                            {t.schedule.meta.room}: {talk.room}
+                        </span>
+                    )}
+                </div>
+
+                <div class="session-detail-body">
+                    <section class="session-detail-section">
+                        <h2>{t.sessionDetail.abstractTitle}</h2>
+                        <div class="text session-detail-abstract">
+                            {abstractParagraphs.map(paragraph => <p>{paragraph}</p>)}
+                        </div>
+                    </section>
+
+                    {talk.speakers.length > 0 && (
+                        <section class="session-detail-section">
+                            <h2>{t.sessionDetail.speakersTitle}</h2>
+                            <div class="session-detail-speakers">
+                                {talk.speakers.map(speaker => (
+                                    <article class="speaker-detail-card">
+                                        <div class="program-avatar speaker-detail-avatar">
+                                            {speaker.profilePicture ? (
+                                                <img
+                                                    src={speaker.profilePicture}
+                                                    alt={getSpeakerName(speaker)}
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <span class="session-mini-initials" aria-hidden="true">
+                                                    {getSpeakerInitials(speaker)}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div class="text">
+                                            <h3>{getSpeakerName(speaker)}</h3>
+                                            {speaker.tagLine && <p>{speaker.tagLine}</p>}
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </article>
+        </div>
+    </section>
+</Base>

@@ -37,6 +37,36 @@ export type Talk = {
     speakers: Speaker[]
 }
 
+export const SESSION_TRACKS = ['Beginner', 'Intermediate', 'Advanced', 'Workshop'] as const
+export type SessionTrack = (typeof SESSION_TRACKS)[number]
+
+const normalizeTrackLabel = (track: string): SessionTrack => {
+    const normalizedTrack = track.trim().toLowerCase()
+    if (normalizedTrack === 'beginner') return 'Beginner'
+    if (normalizedTrack === 'advanced') return 'Advanced'
+    return 'Intermediate'
+}
+
+export const getTalkTrackLabel = (talk: Pick<Talk, 'level' | 'sessionFormat'>): SessionTrack => {
+    if (talk.sessionFormat.toLowerCase().includes('workshop')) {
+        return 'Workshop'
+    }
+
+    return normalizeTrackLabel(talk.level)
+}
+
+export const getTalkTrackId = (track: SessionTrack) => track.toLowerCase()
+
+const SESSION_DURATION_LABELS: Record<string, string> = {
+    'Talk (45 min)': '45 min',
+    'Workshop (60–90 min)': '60-90 min',
+}
+
+export const getTalkDurationLabel = (talk: Pick<Talk, 'scheduledDuration' | 'sessionFormat'>) => {
+    if (talk.scheduledDuration) return `${talk.scheduledDuration} min`
+    return SESSION_DURATION_LABELS[talk.sessionFormat] ?? ''
+}
+
 const slugify = (str: string) =>
     str
         .normalize('NFD')

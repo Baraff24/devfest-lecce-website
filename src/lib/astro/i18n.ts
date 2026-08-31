@@ -178,6 +178,7 @@ export const content = {
                 'Scopri chi salirà sul palco: ogni card collega la persona alla sessione proposta e raccoglie i dettagli senza appesantire la pagina.',
             sessionLabel: 'Sessione',
             sessionsLabel: 'Sessioni',
+            openSession: 'Vai alla sessione',
             bioFallback: 'Bio in aggiornamento.',
             emptyTitle: 'Speaker in arrivo',
             emptyText:
@@ -187,16 +188,43 @@ export const content = {
             title: 'Agenda',
             cards: ['Beginner', 'Intermediate', 'Advanced', 'Workshop'],
             acceptedTitle: 'Sessioni accettate',
+            filterIntro:
+                'Usa le track per scegliere in fretta il livello giusto per te: basi solide, contenuti intermedi, deep dive avanzati o workshop pratici.',
+            openSession: 'Dettagli sessione',
             unscheduledNote: 'Orario e aula in definizione',
+            filters: {
+                title: 'Filtra per track',
+                label: 'Filtri track agenda',
+                all: 'Tutte',
+                allStatus: 'Stai vedendo tutte le sessioni.',
+                trackStatus: 'Filtro attivo: {track}.',
+            },
+            trackDescriptions: {
+                Beginner: 'Per entrare nel tema con contesto, esempi guidati e concetti fondamentali.',
+                Intermediate: 'Per chi ha già basi operative e vuole portarsi a casa pattern, strumenti e casi reali.',
+                Advanced: 'Approfondimenti tecnici per chi vuole spingersi più a fondo su architetture, dati e sicurezza.',
+                Workshop: 'Sessioni pratiche: porta il laptop e preparati a costruire insieme agli speaker.',
+            },
+            sessionCountSingular: 'sessione',
+            sessionCountPlural: 'sessioni',
             meta: {
                 track: 'Track',
+                topic: 'Tema',
+                duration: 'Durata',
                 language: 'Lingua',
+                speakers: 'Speaker',
                 room: 'Aula',
                 time: 'Orario',
             },
             emptyTitle: 'Agenda in preparazione',
             emptyText:
                 'Aspettati una giornata piena di sessioni tecniche, workshop pratici, networking e momenti community.',
+        },
+        sessionDetail: {
+            backToSchedule: 'Torna all’agenda',
+            backToSpeakers: 'Vai agli speaker',
+            abstractTitle: 'Abstract',
+            speakersTitle: 'Speaker',
         },
         news: {
             title: 'News',
@@ -554,6 +582,7 @@ export const content = {
                 'Meet the people taking the stage: each card connects the speaker with their session and keeps details easy to scan.',
             sessionLabel: 'Session',
             sessionsLabel: 'Sessions',
+            openSession: 'Open session',
             bioFallback: 'Bio being updated.',
             emptyTitle: 'Speakers coming soon',
             emptyText:
@@ -563,16 +592,43 @@ export const content = {
             title: 'Schedule',
             cards: ['Beginner', 'Intermediate', 'Advanced', 'Workshop'],
             acceptedTitle: 'Accepted sessions',
+            filterIntro:
+                'Use tracks to quickly choose the right level for you: solid foundations, intermediate content, advanced deep dives or practical workshops.',
+            openSession: 'Session details',
             unscheduledNote: 'Time and room being defined',
+            filters: {
+                title: 'Filter by track',
+                label: 'Schedule track filters',
+                all: 'All',
+                allStatus: 'Showing all sessions.',
+                trackStatus: 'Active filter: {track}.',
+            },
+            trackDescriptions: {
+                Beginner: 'For getting into the topic with context, guided examples and core concepts.',
+                Intermediate: 'For people with working foundations who want patterns, tools and real cases.',
+                Advanced: 'Technical deep dives for people ready to go deeper into architecture, data and security.',
+                Workshop: 'Hands-on sessions: bring your laptop and get ready to build with the speakers.',
+            },
+            sessionCountSingular: 'session',
+            sessionCountPlural: 'sessions',
             meta: {
                 track: 'Track',
+                topic: 'Topic',
+                duration: 'Duration',
                 language: 'Language',
+                speakers: 'Speakers',
                 room: 'Room',
                 time: 'Time',
             },
             emptyTitle: 'Schedule in progress',
             emptyText:
                 'Expect a full day of technical sessions, practical workshops, networking and community moments.',
+        },
+        sessionDetail: {
+            backToSchedule: 'Back to schedule',
+            backToSpeakers: 'Open speakers',
+            abstractTitle: 'Abstract',
+            speakersTitle: 'Speakers',
         },
         news: {
             title: 'News',

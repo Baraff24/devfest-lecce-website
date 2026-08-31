@@ -185,19 +185,11 @@ export const content = {
         },
         schedule: {
             title: 'Agenda',
-            body: 'Le sessioni accettate sono online. Orari, aule e track interne saranno aggiunti appena chiuderemo la pianificazione logistica.',
-            cards: ['Talk', 'Workshop', 'Lightning Talk', 'Hackathon', 'Networking', 'After party'],
-            subtitle: 'Sessioni confermate e dettagli in aggiornamento.',
+            cards: ['Beginner', 'Intermediate', 'Advanced', 'Workshop'],
             acceptedTitle: 'Sessioni accettate',
-            acceptedIntro:
-                'Questa lista arriva dall’export Sessionize. La griglia con orari e aule verrà pubblicata quando la venue map e le track saranno definitive.',
-            talksCountLabel: 'sessioni accettate',
-            speakersCountLabel: 'speaker confermati',
             unscheduledNote: 'Orario e aula in definizione',
             meta: {
                 track: 'Track',
-                format: 'Formato',
-                level: 'Livello',
                 language: 'Lingua',
                 room: 'Aula',
                 time: 'Orario',
@@ -569,19 +561,11 @@ export const content = {
         },
         schedule: {
             title: 'Schedule',
-            body: 'Accepted sessions are now online. Times, rooms and internal tracks will be added once logistics are finalized.',
-            cards: ['Talks', 'Workshops', 'Lightning Talks', 'Hackathon', 'Networking', 'After party'],
-            subtitle: 'Confirmed sessions and details being updated.',
+            cards: ['Beginner', 'Intermediate', 'Advanced', 'Workshop'],
             acceptedTitle: 'Accepted sessions',
-            acceptedIntro:
-                'This list comes from the Sessionize export. The timed grid with rooms will be published once the venue map and tracks are final.',
-            talksCountLabel: 'accepted sessions',
-            speakersCountLabel: 'confirmed speakers',
             unscheduledNote: 'Time and room being defined',
             meta: {
                 track: 'Track',
-                format: 'Format',
-                level: 'Level',
                 language: 'Language',
                 room: 'Room',
                 time: 'Time',

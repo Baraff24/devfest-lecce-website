@@ -22,7 +22,10 @@ const pageTitle = title === t.site.title ? title : `${title} | ${t.site.title}`
 <html lang={lang}>
     <head>
         <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <meta name="description" content={description} />
@@ -30,7 +33,7 @@ const pageTitle = title === t.site.title ? title : `${title} | ${t.site.title}`
         <meta property="og:title" content={pageTitle} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={Astro.url} />
-        <meta property="og:image" content="/favicon.svg" />
+        <meta property="og:image" content="/favicon-192x192.png" />
         <meta property="og:description" content={description} />
         <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
         <meta name="twitter:card" content="summary" />

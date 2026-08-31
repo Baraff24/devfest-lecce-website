@@ -1,8 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro'
-import { Icon } from 'astro-icon/components'
-import { content, defaultLang, eventLinks, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
-import { SESSION_FORMAT_LABELS, SPEAKERS, TALKS, type Speaker } from '@/lib/astro/sessionize'
+import { content, defaultLang, isLang, localizedStaticPaths, type Lang } from '@/lib/astro/i18n'
+import { TALKS, type Speaker, type Talk } from '@/lib/astro/sessionize'
 
 export const getStaticPaths = localizedStaticPaths
 
@@ -18,7 +17,14 @@ const getSpeakerInitials = (speaker: Speaker) =>
         .join('')
         .slice(0, 2)
         .toUpperCase()
-const getSessionFormatLabel = (sessionFormat: string) => SESSION_FORMAT_LABELS[sessionFormat]?.label ?? sessionFormat
+const getSessionTrackLabel = (talk: Talk) => {
+    if (talk.sessionFormat.toLowerCase().includes('workshop')) {
+        return 'Workshop'
+    }
+
+    return talk.level
+}
+
 const formatScheduledStart = (scheduledStart: string) => {
     const date = new Date(scheduledStart)
     if (Number.isNaN(date.getTime())) {
@@ -40,33 +46,12 @@ const formatScheduledStart = (scheduledStart: string) => {
             <div class="wide">
                 <h1>{t.schedule.title}</h1>
             </div>
-            <div class="card large announcement-card">
-                <div class="text">
-                    <p>{t.schedule.body}</p>
-                </div>
-                <a class="large" href={eventLinks.gdg} target="_blank" rel="noopener noreferrer" role="button">
-                    <Icon name="mdi:calendar-star" />
-                    {t.common.newsletter}
-                </a>
-            </div>
             {
                 acceptedTalks.length > 0 ? (
                     <div class="session-directory" aria-labelledby="session-directory-title">
                         <div class="section-heading">
-                            <span class="section-kicker">
-                                {acceptedTalks.length} {t.schedule.talksCountLabel}
-                            </span>
                             <div class="text">
                                 <h2 id="session-directory-title">{t.schedule.acceptedTitle}</h2>
-                                <p>{t.schedule.acceptedIntro}</p>
-                            </div>
-                            <div class="session-summary">
-                                <span>
-                                    <strong>{acceptedTalks.length}</strong> {t.schedule.talksCountLabel}
-                                </span>
-                                <span>
-                                    <strong>{SPEAKERS.length}</strong> {t.schedule.speakersCountLabel}
-                                </span>
                             </div>
                         </div>
 
@@ -74,19 +59,9 @@ const formatScheduledStart = (scheduledStart: string) => {
                             {acceptedTalks.map(talk => (
                                 <article class="card large session-list-card">
                                     <div class="session-card-meta">
-                                        {talk.category && (
+                                        {getSessionTrackLabel(talk) && (
                                             <span class="data-chip">
-                                                {t.schedule.meta.track}: {talk.category}
-                                            </span>
-                                        )}
-                                        {talk.sessionFormat && (
-                                            <span class="data-chip">
-                                                {t.schedule.meta.format}: {getSessionFormatLabel(talk.sessionFormat)}
-                                            </span>
-                                        )}
-                                        {talk.level && (
-                                            <span class="data-chip">
-                                                {t.schedule.meta.level}: {talk.level}
+                                                {t.schedule.meta.track}: {getSessionTrackLabel(talk)}
                                             </span>
                                         )}
                                         {talk.language && (
@@ -99,12 +74,10 @@ const formatScheduledStart = (scheduledStart: string) => {
                                                 {t.schedule.meta.time}: {formatScheduledStart(talk.scheduledStart)}
                                             </span>
                                         )}
-                                        {talk.room ? (
+                                        {talk.room && (
                                             <span class="data-chip">
                                                 {t.schedule.meta.room}: {talk.room}
                                             </span>
-                                        ) : (
-                                            <span class="data-chip is-muted">{t.schedule.unscheduledNote}</span>
                                         )}
                                     </div>
 
